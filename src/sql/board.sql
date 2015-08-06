@@ -1,11 +1,11 @@
-Ä«Æä board_cafe
-¼±¼úÁı board_bar
-ÇĞ±³ board_school
-¿ÁÅ¾¹æ board_penthouse
-±º´ë board_military
-À¯¹èÁö board_exile
-³ë·¡¹æ board_music
-¹æ¼Û±¹ board_broadcast
+ì¹´í˜ board_cafe
+ì„ ìˆ ì§‘ board_bar
+í•™êµ board_school
+ì˜¥íƒ‘ë°© board_penthouse
+êµ°ëŒ€ board_military
+ìœ ë°°ì§€ board_exile
+ë…¸ë˜ë°© board_music
+ë°©ì†¡êµ­ board_broadcast
 
 create table board_cafe(
 pk number(7) primary key,
