@@ -1,29 +1,55 @@
 package com.board;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.board.model.BoardBean;
 
 
 @Controller
 public class BoardController {
 	
-	//사용자
-	//내가 쓴 글
-	@RequestMapping("BoardMystory")
-	public ModelAndView boardMystory(){
-		return null;
-	}
-
+	private BoardDAO boardDao = new BoardDAO();
+	
 	//글쓰기
 	@RequestMapping("BoardWrite")
 	public String boardWrite(){
 		return "board/board_write";
+	}
+	
+	//글쓰기 액션
+	@RequestMapping("BoardWriteAction")
+	public String boardWriteAction(MultipartHttpServletRequest request) throws IOException{
+		MultipartFile multipartFile = request.getFile("image");
+		if(!multipartFile.isEmpty()){
+			File file = new File("C:\\Users\\kimkoonho\\Desktop\\uploadtest", multipartFile.getOriginalFilename());
+			multipartFile.transferTo(file);
+		}
+		
+		BoardBean bean = new BoardBean();
+		bean.setTitle(request.getParameter("title"));
+		bean.setTag(request.getParameter("tag"));
+		bean.setEmail(request.getParameter("email"));
+		bean.setImage(multipartFile.getOriginalFilename());
+		bean.setDescription(request.getParameter("description"));
+
+		boardDao.boardInsert(bean);
+		
+		return "redirect:BoardList";
+	}
+	//내가 쓴 글
+	@RequestMapping("BoardMystory")
+	public ModelAndView boardMystory(){
+		return null;
 	}
 	 
 	//글 목록 보기

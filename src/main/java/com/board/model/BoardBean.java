@@ -7,9 +7,9 @@ public class BoardBean {
 	private String title;
 	private String description;
 	private String image;
-	private int like;
-	private int hate;
-	private int count; 
+	private int good;
+	private int bad;
+	private int hit; 
 	private String tag; 	
 	private Date create_date;
 	private String email;
@@ -38,23 +38,23 @@ public class BoardBean {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public int getLike() {
-		return like;
+	public int getGood() {
+		return good;
 	}
-	public void setLike(int like) {
-		this.like = like;
+	public void setGood(int good) {
+		this.good = good;
 	}
-	public int getHate() {
-		return hate;
+	public int getBad() {
+		return bad;
 	}
-	public void setHate(int hate) {
-		this.hate = hate;
+	public void setBad(int bad) {
+		this.bad = bad;
 	}
-	public int getCount() {
-		return count;
+	public int getHit() {
+		return hit;
 	}
-	public void setCount(int count) {
-		this.count = count;
+	public void setHit(int hit) {
+		this.hit = hit;
 	}
 	public String getTag() {
 		return tag;

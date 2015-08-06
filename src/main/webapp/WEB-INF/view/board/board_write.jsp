@@ -60,7 +60,7 @@ function validity_check(){
 </style>
 </head>
 <body>
-<form action="BoardAddAction" enctype="multipart/form-data" method="post" id="form">
+<form action="BoardWriteAction" enctype="multipart/form-data" method="post" id="form">
 ${param.category}
 <input type="hidden" value="${param.category}" name="category">
 <input type="hidden" id="tag" name="tag">
@@ -68,7 +68,7 @@ ${param.category}
 <table>
 	<tr>
 		<td>글쓴이</td>
-		<td><input type="text" name="email" id="email" readonly="readonly" value="${sessionScope.email}"></td>
+		<td><input type="text" name="email" id="email"  value="${sessionScope.email}"></td>
 	</tr>
 	<tr>
 		<td>제목</td>
