@@ -1,13 +1,13 @@
 package com.member.model;
 
 public class MemberBean {
-	String email;  
-	String pw;   
-	String nickname; 
-	String description;  
-	String gender;
-	int point;
-	String create;
+	private String email;  
+	private String pw;   
+	private String nickname; 
+	private String description;  
+	private String gender;
+	private int point;
+	private String create;
 	
 	public String getEmail() {
 		return email;

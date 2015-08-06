@@ -1,15 +1,15 @@
 package com.board.model;
 
 public class BoardBean {
-	int pk;
-	String title;
-	String description;
-	String image;
-	int like;
-	int hate;
-	int count; 
-	String tag; 	
-	String create_date;
+	private int pk;
+	private String title;
+	private String description;
+	private String image;
+	private int like;
+	private int hate;
+	private int count; 
+	private String tag; 	
+	private String create_date;
 	
 	public int getPk() {
 		return pk;
