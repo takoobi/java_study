@@ -22,8 +22,8 @@ public class BoardController {
 
 	//글쓰기
 	@RequestMapping("BoardWrite")
-	public ModelAndView boardWrite(){
-		return null;
+	public String boardWrite(){
+		return "board/board_write";
 	}
 	 
 	//글 목록 보기

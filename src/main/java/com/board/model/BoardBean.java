@@ -1,5 +1,7 @@
 package com.board.model;
 
+import java.sql.Date;
+
 public class BoardBean {
 	private int pk;
 	private String title;
@@ -9,7 +11,8 @@ public class BoardBean {
 	private int hate;
 	private int count; 
 	private String tag; 	
-	private String create_date;
+	private Date create_date;
+	private String email;
 	
 	public int getPk() {
 		return pk;
@@ -59,10 +62,17 @@ public class BoardBean {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	public String getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(String create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	} 
+	
 }
