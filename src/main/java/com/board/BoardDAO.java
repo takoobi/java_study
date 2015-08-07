@@ -1,14 +1,17 @@
 package com.board;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.session.SqlSession;
 
-@Repository
+import com.config.MybatisInit;
+
+
 public class BoardDAO {
 
-	@Autowired
-	private SqlSessionTemplate session;
+	private SqlSession session;
+	
+	public BoardDAO(MybatisInit mybatis) {
+		this.session = mybatis.getSession();
+	}
 	
 	public void boardInsert(){
 		System.out.println("확인");
