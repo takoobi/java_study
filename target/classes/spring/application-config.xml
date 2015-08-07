@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.board"/>
+	<context:component-scan base-package="com"/>
 	
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
@@ -19,11 +19,7 @@
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations">
-        	<list>
-        		<value>classpath*:mybatis/boardSQL.xml</value>
-        	</list>
-        </property>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
     </bean>
      
     <bean class="org.mybatis.spring.SqlSessionTemplate">
