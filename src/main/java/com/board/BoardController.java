@@ -3,9 +3,6 @@ package com.board;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,8 +14,7 @@ import com.board.model.BoardBean;
 
 @Controller
 public class BoardController {
-	
-	private BoardDAO boardDao = new BoardDAO();
+
 	
 	//글쓰기
 	@RequestMapping("BoardWrite")
@@ -42,7 +38,6 @@ public class BoardController {
 		bean.setImage(multipartFile.getOriginalFilename());
 		bean.setDescription(request.getParameter("description"));
 
-		boardDao.boardInsert(bean);
 		
 		return "redirect:BoardList";
 	}
