@@ -9,6 +9,8 @@ create table member (
   create_date date default sysdate
 );
 
+insert into member values('1234','1234','1234','1234','1234','M',0,sysdate)
+
 select * from member;
 
 select id from member where email='1234'
