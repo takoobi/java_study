@@ -5,7 +5,7 @@
 
 <mapper namespace="Board">
 	
-	<resultMap type="Board" id="boardMap">
+	<resultMap type="board" id="boardMap">
 		<result column="pk" property="pk"/>
 		<result column="title" property="title"/>
 		<result column="description" property="description"/>
@@ -18,7 +18,65 @@
 		<result column="email" property="email"/>
 	</resultMap>
 	
-	<insert id="insert">
-		insert into board_cafe values(board_seq.nextval,'abc','abc','abc',0,0,0,'abc','1234',sysdate)	
+	<insert id="insert" parameterType="board">
+		insert into 
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>
+		 values(board_seq.nextval,#{title},#{description},#{image},0,0,0,#{tag},#{email},sysdate)	
 	</insert>
+	
+	<select id="list" parameterType="HashMap" resultType="board">
+		select * from 
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>
+		order by create_date desc
+	</select>
 </mapper>

@@ -6,7 +6,8 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="com.model.BoardBean" alias="Board"/>
+		<typeAlias type="com.model.BoardBean" alias="board"/>
+		<typeAlias type="com.model.MemberBean" alias="member"/>
 	</typeAliases>
 	
 	<mappers>
