@@ -7,6 +7,10 @@
 <title>로그인 화면</title>
 </head>
 <body>
+<<<<<<< HEAD:src/main/webapp/WEB-INF/view/login.jsp
 	<h1>로그인 화면</h1>
+=======
+
+>>>>>>> 8ffbc75cd4f7d88e8aa2410cd65c8cf77426a8c3:src/main/webapp/WEB-INF/view/board/board_list.jsp
 </body>
 </html>
