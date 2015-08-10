@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>		<!-- ibatis 의 파일을 복사해와서 MyBaitis 의 홈페이지에서 제공하는 설정파일을 전체 적용한다. -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="dbinfo/dbconnection.properties" />
+	
+	<typeAliases>				<!-- 별칭을 부여해주는 설정. 이전 아이바티스와 다르니 유의할 것 -->
+		<typeAlias alias="Member" type="com.member.Member" />			
+	</typeAliases>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="dbinfo/Member.xml" />
+	</mappers>
+</configuration>

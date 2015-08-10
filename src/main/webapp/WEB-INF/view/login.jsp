@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>로그인 화면</title>
 </head>
 <body>
-	<h1>AAAAAA</h1>
+	<h1>로그인 화면</h1>
 </body>
 </html>
