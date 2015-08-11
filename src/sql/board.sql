@@ -7,7 +7,7 @@
 노래방 board_music
 방송국 board_broadcast
 
-create table board_cafe(
+create table board_broadcast(
 pk number(7) primary key,
 title varchar2(50) not null,
 description varchar2(1000) not null,
@@ -22,7 +22,24 @@ foreign key(email) references member(email)
 );
 
 select * from board_cafe;
+select * from board_bar;
+select * from board_school;
+select * from board_penthouse;
+select * from board_military;
+select * from board_exile;
+select * from board_music;
+select * from board_broadcast;
+
 
 drop table board_cafe;
 
 create sequence board_seq start with 1 increment by 1 ;
+
+delete from board_cafe;
+delete from board_bar;
+delete from board_school;
+delete from board_penthouse;
+delete from board_military;
+delete from board_exile;
+delete from board_music;
+delete from board_broadcast;

@@ -30,3 +30,5 @@ drop sequence member_seq;
 select * from member where email='sbv200@hanmail.net'
 
 delete from member;
+
+update member set pw='1234', nickname='1234', image='1234', description='1234', gender='F'  where email='sbv200@hanmail.net'

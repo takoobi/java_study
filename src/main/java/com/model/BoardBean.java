@@ -13,6 +13,7 @@ public class BoardBean {
 	private String tag; 	
 	private Date create_date;
 	private String email;
+	private String category;
 	
 	public int getPk() {
 		return pk;
@@ -73,6 +74,12 @@ public class BoardBean {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	} 
 	
 }
