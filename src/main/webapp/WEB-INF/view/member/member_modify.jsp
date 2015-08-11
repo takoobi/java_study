@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-	request.setAttribute("member", request.getAttribute("OneMemberData"));
+	request.setAttribute("member", request.getAttribute("OneData"));
 %>
 <!DOCTYPE html>
 <html>
@@ -12,11 +12,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="MemberModifyAction.me" enctype="multipart/form-data" method="post">
+<form action="modifyAction" enctype="multipart/form-data" method="post">
 <table>
 	<tr>
 		<td>아이디</td>
-		<td><input type="text" name="email" value="${member.email}" disabled="disabled"></td>
+		<td><input type="text" name="email" value="${member.email}"></td>
 	</tr>
 	<tr>
 		<td>비밀번호</td>

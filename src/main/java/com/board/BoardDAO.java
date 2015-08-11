@@ -15,16 +15,18 @@ public class BoardDAO {
 	@Autowired
 	private SqlSessionTemplate session;
 	
-	public void boardInsert(BoardBean bean){
+	//글 추가하기
+	public void insert(BoardBean bean){
 		
-		session.insert("insert", bean);
+		session.insert("board.insert", bean);
 	}
 
-	public List<BoardBean> boardList(String category) {
+	//전체글 불러오기
+	public List<BoardBean> list(String category) {
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		hashMap.put("category", category);
 		
-		List<BoardBean> list = session.selectList("list", hashMap);
+		List<BoardBean> list = session.selectList("board.list", hashMap);
 		return list;
 	}
 }

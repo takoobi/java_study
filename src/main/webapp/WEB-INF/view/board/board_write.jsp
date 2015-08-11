@@ -60,7 +60,7 @@ function validity_check(){
 </style>
 </head>
 <body>
-<form action="BoardWriteAction" enctype="multipart/form-data" method="post" id="form">
+<form action="writeAction" enctype="multipart/form-data" method="post" id="form">
 ${param.category}
 <input type="hidden" value="${param.category}" name="category">
 <input type="hidden" id="tag" name="tag">

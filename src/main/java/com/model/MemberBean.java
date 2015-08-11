@@ -12,6 +12,10 @@ public class MemberBean {
 	private int point;
 	private Date create_date;
 	
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 2a3ab83e111b9e53295edbddfdf4d799da0bd3c2
 	public String getEmail() {
 		return email;
 	}
@@ -60,6 +64,9 @@ public class MemberBean {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> 2a3ab83e111b9e53295edbddfdf4d799da0bd3c2
 }

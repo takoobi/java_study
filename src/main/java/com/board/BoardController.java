@@ -30,7 +30,7 @@ public class BoardController {
 	}
 	
 	//글쓰기 액션
-	@RequestMapping("/writeaction")
+	@RequestMapping("/writeAction")
 	public String boardWriteAction(MultipartHttpServletRequest request) throws IOException{
 		
 		MultipartFile multipartFile = request.getFile("image");
@@ -47,7 +47,7 @@ public class BoardController {
 		bean.setDescription(request.getParameter("description"));
 		bean.setCategory(request.getParameter("category"));
 		
-		boardDao.boardInsert(bean);
+		boardDao.insert(bean);
 		
 		return "redirect:list?category="+request.getParameter("category");
 	}
@@ -57,7 +57,7 @@ public class BoardController {
 	public ModelAndView boardList(HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("board/board_list");
 		
-		List<BoardBean> list = boardDao.boardList(request.getParameter("category"));
+		List<BoardBean> list = boardDao.list(request.getParameter("category"));
 		mav.addObject("list", list);
 
 		return mav;
@@ -82,7 +82,7 @@ public class BoardController {
 	}
 	 
 	//글 상세보기
-	@RequestMapping("/detailview")
+	@RequestMapping("/detailView")
 	public ModelAndView boardView(){
 		return null;
 	}

@@ -21,7 +21,7 @@ $(function(){
 		}
 		$.ajax({
 			type:"post",
-			url:"MemberEmailCheckAction.me",
+			url:"emailCheckAction",
 			data : {
 				'email' : $('#email').val()  
 			},
@@ -47,7 +47,7 @@ $(function(){
 		alert("조금만 기다려주세요~");
 		$.ajax({
 			type:"post",
-			url:"MemberEmailCertificationAction.me",
+			url:"emailCertificationAction",
 			data:{
 				"email" : $("#email").val()
 			},
@@ -90,7 +90,7 @@ $(function(){
 		}
 		$.ajax({
 			type:"post",
-			url:"MemberNicknameCheckAction.me",
+			url:"nicknameCheckAction",
 			data : {
 				'nickname' : $('#nickname').val()  
 			},
@@ -161,7 +161,7 @@ function validity_check(){
 </script>
 </head>
 <body>
-<form action="MemberAddAction.me" enctype="multipart/form-data" method="post" onsubmit="return validity_check();">
+<form action="addAction" enctype="multipart/form-data" method="post" onsubmit="return validity_check();">
 <table>
 	<tr>
 		<td>아이디(이메일)*</td>
