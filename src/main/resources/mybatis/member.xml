@@ -3,7 +3,37 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Member">
+<mapper namespace="Member">		<!-- 대문자 질문하자 -->
+	
+	<resultMap type="member" id="memberMap">
+		<result column="email" property="email"/>
+		<result column="pw" property="pw"/>
+		<result column="nickname" property="nickname"/>
+		<result column="image" property="image"/>
+		<result column="description" property="description"/>
+		<result column="gender" property="gender"/>
+		<result column="point" property="point"/>
+		<result column="create_date" property="create_date"/>	
+	</resultMap>
+	
+	<!-- <select id="selectAllMember" resultMap="memberMap" resultType="Member">
+		select*from member
+	</select> -->
+	
+	<insert id="insertMember" parameterType="Member">
+		insert into member(email, pw, nickname, image, description, gender) 
+		values(#{email}, #{pw}, #{nickname}, #{image}, #{description}, #{gender})
+	</insert>
 
 
 </mapper>
+
+
+
+
+
+
+
+
+
+
