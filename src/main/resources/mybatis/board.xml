@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<resultMap type="board" id="boardMap">
+		<result column="pk" property="pk"/>
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="image" property="image"/>
+		<result column="good" property="good"/>
+		<result column="bad" property="bad"/>
+		<result column="hit" property="hit"/>
+		<result column="tag" property="tag"/>
+		<result column="create_date" property="create_date"/>
+		<result column="email" property="email"/>
+	</resultMap>
+	
+	<!-- 글쓰기 -->
+	<insert id="insert" parameterType="board">
+		insert into 
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>
+		 values(board_seq.nextval,#{title},#{description},#{image},0,0,0,#{tag},#{email},sysdate)	
+	</insert>
+	
+	<!-- 전체게시글 갯수 -->
+	<select id="totalCount" parameterType="HashMap" resultType="int">
+        select count(*) from 
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>
+		<choose>
+			<when test="tagCount==1">
+				where tag like '%' || #{0} || '%'
+			</when>
+			<when test="tagCount==2">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%'
+			</when>
+			<when test="tagCount==3">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%'
+			</when>
+			<when test="tagCount==4">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%'
+			</when>
+			<when test="tagCount==5">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%'
+			</when>
+			<when test="tagCount==6">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%'
+			</when>
+			<when test="tagCount==7">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%' or tag like '%' || #{6} || '%'
+			</when>
+		</choose>
+    </select>
+ 
+    <!-- 페이징 처리한 게시글 -->
+    <select id="pagingList" parameterType="HashMap" resultType="board">
+        select a.* from (select rownum as rnum, b.* from (select * from	
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>
+				<choose>
+			<when test="tagCount==1">
+				where tag like '%' || #{0} || '%'
+			</when>
+			<when test="tagCount==2">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%'
+			</when>
+			<when test="tagCount==3">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%'
+			</when>
+			<when test="tagCount==4">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%'
+			</when>
+			<when test="tagCount==5">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%'
+			</when>
+			<when test="tagCount==6">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%' 
+			</when>
+			<when test="tagCount==7">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%' or tag like '%' || #{6} || '%' 
+			</when>
+		</choose>
+		order by create_date desc)b)a where a.rnum<![CDATA[>=]]>#{start} and a.rnum<![CDATA[<=]]>#{end}
+    </select>
+</mapper>
