@@ -11,6 +11,8 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 		
 	<bean id="mybatisInit" class="com.config.MybatisInit"/>
-  <bean id="boardDAO" class="com.board.BoardDAO"
-  	c:mybatis-ref="mybatisInit"/>
+  	<bean id="boardDAO" class="com.board.BoardDAO"
+  		c:mybatis-ref="mybatisInit"/>
+  	<bean id="memberDAO" class="com.member.MemberDAO"
+  		c:mybatis-ref="mybatisInit"/>
 </beans>

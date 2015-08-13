@@ -115,7 +115,7 @@
 		this.ctrls = createElement( 'div', { cName : 'fs-controls', appendTo : this.el } );
 
 		// continue button (jump to next field)
-		this.ctrlContinue = createElement( 'button', { cName : 'fs-continue', inner : 'Continue', appendTo : this.ctrls } );
+		this.ctrlContinue = createElement( 'button', { cName : 'fs-continue', inner : '계속하기', appendTo : this.ctrls } );
 		this._showCtrl( this.ctrlContinue );
 
 		// navigation dots
@@ -168,6 +168,15 @@
 
 		// show next field
 		this.ctrlContinue.addEventListener( 'click', function() {
+			var nickname = $('#nickname').val();
+			var email = $('#email').val();
+			
+			if(self.current == 0){	//nickname 필드일 경우				
+				$.post('nicknameCheckAction', {nickname:nickname},function(data){
+					console.log(data);
+				});
+				return false;
+			}
 			self._nextField(); 
 		} );
 

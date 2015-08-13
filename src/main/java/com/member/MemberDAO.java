@@ -3,17 +3,17 @@ package com.member;
 
 import java.util.HashMap;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
+import org.apache.ibatis.session.SqlSession;
+import com.config.MybatisInit;
 import com.model.MemberBean;
 
-@Repository
 public class MemberDAO {
 
-	@Autowired
-	private SqlSessionTemplate session;
+	private SqlSession session;
+	
+	public MemberDAO(MybatisInit mybatis) {
+		this.session = mybatis.getSession();
+	}
 
 	//이메일중복확인
 	public boolean emailCheck(String email) {

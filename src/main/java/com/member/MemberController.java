@@ -35,9 +35,9 @@ public class MemberController {
 	private MemberDAO memberDao;
 	
 	//회원가입화면
-	@RequestMapping(value="/add")
+	@RequestMapping(value="/signupPage")
 	public String add(){
-		return "member/member_add";
+		return "member/register";
 	}
 
 	//이메일중복확인
@@ -64,6 +64,8 @@ public class MemberController {
 	public void nicknameCheckAction(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String nickname = request.getParameter("nickname");
 		
+		System.out.println(nickname);
+		
 		boolean result = memberDao.nicknameCheck(nickname);
 		PrintWriter out=response.getWriter();
 		
@@ -82,7 +84,7 @@ public class MemberController {
 		bean.setEmail(request.getParameter("email"));
 		bean.setPw(request.getParameter("pw"));
 		bean.setNickname(request.getParameter("nickname"));
-		bean.setDescription(request.getParameter("description"));
+		bean.setDescription(request.getParameter("title"));
 		
 		memberDao.insert(bean);
 		

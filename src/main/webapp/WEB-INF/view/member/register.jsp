@@ -13,9 +13,10 @@
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<link rel="stylesheet" type="text/css" href="css/register-component.css" />
 		<link rel="stylesheet" type="text/css" href="css/cs-select.css" />
 		<link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css" />
+		<script src="js/jquery.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 		<style>
 			h1 {
@@ -35,19 +36,19 @@
 						<!--<a class="codrops-icon codrops-icon-info" href="#"><span>This is a demo for a fullscreen form</span></a>-->
 					</div>
 				</div>
-				<form id="myform" class="fs-form fs-form-full" autocomplete="off" action="test.html">
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off" method="post" action="member/addAction">
 					<ol class="fs-fields">
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q1">닉네임을 적어주세요.</label>
-							<input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="또 다른 자신입니다." required />
+							<label class="fs-field-label fs-anim-upper" for="nickname">닉네임을 적어주세요.</label>
+							<input class="fs-anim-lower" id="nickname" name="nickname" type="text" placeholder="또 다른 자신입니다." required />
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't send you spam, we promise...">이메일 주소를 적어주세요.</label>
-							<input class="fs-anim-lower" id="q2" name="q2" type="email" required autofocus/>
+							<label class="fs-field-label fs-anim-upper" for="email" data-info="We won't send you spam, we promise...">이메일 주소를 적어주세요.</label>
+							<input class="fs-anim-lower" id="email" name="email" type="email" required autofocus/>
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q5" data-info="We won't send you spam, we promise...">비밀번호를 입력하세요.</label>
-							<input class="fs-anim-lower" id="q5" name="q5" type="password" required autofocus/>
+							<label class="fs-field-label fs-anim-upper" for="pw" data-info="We won't send you spam, we promise...">비밀번호를 입력하세요.</label>
+							<input class="fs-anim-lower" id="pw" name="pw" type="password" required autofocus/>
 						</li>
 						<!--<li data-input-trigger>-->
 							<!--<label class="fs-field-label fs-anim-upper" for="q3" data-info="This will help us know what kind of service you need">이야기를 나눌 때 선호하는 장소는 어디인가요?</label>-->
@@ -58,8 +59,8 @@
 							<!--</div>-->
 						<!--</li>-->
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="q4">자기 소개를 해주세요.</label>
-							<textarea class="fs-anim-lower" id="q4" name="q4" placeholder="Describe here" autofocus></textarea>
+							<label class="fs-field-label fs-anim-upper" for="title">한 줄 자기 소개</label>
+							<input class="fs-anim-lower" id="title" name="title" type="text" placeholder="자기를 표현해주세요." required />
 						</li>
 					</ol><!-- /fs-fields -->
 					<button class="fs-submit" type="submit">가입하기</button>
