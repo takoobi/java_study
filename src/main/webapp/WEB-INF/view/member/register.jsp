@@ -12,7 +12,7 @@
 		<meta name="author" content="Codrops" />
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/register-demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/register-component.css" />
 		<link rel="stylesheet" type="text/css" href="css/cs-select.css" />
 		<link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css" />
@@ -36,18 +36,18 @@
 						<!--<a class="codrops-icon codrops-icon-info" href="#"><span>This is a demo for a fullscreen form</span></a>-->
 					</div>
 				</div>
-				<form id="myform" class="fs-form fs-form-full" autocomplete="off" method="post" action="member/addAction">
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off" method="post" action="addAction">
 					<ol class="fs-fields">
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="nickname">닉네임을 적어주세요.</label>
 							<input class="fs-anim-lower" id="nickname" name="nickname" type="text" placeholder="또 다른 자신입니다." required />
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="email" data-info="We won't send you spam, we promise...">이메일 주소를 적어주세요.</label>
+							<label class="fs-field-label fs-anim-upper" for="email" data-info="스팸을 보내지 않습니다.">이메일 주소를 적어주세요.</label>
 							<input class="fs-anim-lower" id="email" name="email" type="email" required autofocus/>
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="pw" data-info="We won't send you spam, we promise...">비밀번호를 입력하세요.</label>
+							<label class="fs-field-label fs-anim-upper" for="pw" data-info="안전하게 설정해주세요.">비밀번호를 입력하세요.</label>
 							<input class="fs-anim-lower" id="pw" name="pw" type="password" required autofocus/>
 						</li>
 						<!--<li data-input-trigger>-->
@@ -74,6 +74,7 @@
 		<script src="js/fullscreenForm.js"></script>
 		<script>
 			(function() {
+				
 				var formWrap = document.getElementById( 'fs-form-wrap' );
 
 				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	

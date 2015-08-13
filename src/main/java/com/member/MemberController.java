@@ -44,7 +44,7 @@ public class MemberController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/emailCheckAction")
 	public void emailCheckAction(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String email = request.getParameter("email");
+		String email = request.getParameter("email");		
 		
 		boolean result = memberDao.emailCheck(email);
 		PrintWriter out=response.getWriter();
@@ -63,8 +63,6 @@ public class MemberController {
 	@RequestMapping(value="/nicknameCheckAction")
 	public void nicknameCheckAction(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String nickname = request.getParameter("nickname");
-		
-		System.out.println(nickname);
 		
 		boolean result = memberDao.nicknameCheck(nickname);
 		PrintWriter out=response.getWriter();
@@ -88,7 +86,7 @@ public class MemberController {
 		
 		memberDao.insert(bean);
 		
-		return "redirect:/url.jsp";
+		return "redirect:/";
 	}
 	
 	//회원정보수정화면

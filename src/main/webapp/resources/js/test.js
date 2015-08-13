@@ -11,7 +11,6 @@
 ;( function( window ) {
 	
 	'use strict';
-
 	var support = { animations : Modernizr.cssanimations },
 		animEndEventNames = { 'WebkitAnimation' : 'webkitAnimationEnd', 'OAnimation' : 'oAnimationEnd', 'msAnimation' : 'MSAnimationEnd', 'animation' : 'animationend' },
 		// animation end event name
@@ -115,7 +114,7 @@
 		this.ctrls = createElement( 'div', { cName : 'fs-controls', appendTo : this.el } );
 
 		// continue button (jump to next field)
-		this.ctrlContinue = createElement( 'button', { cName : 'fs-continue', inner : 'Continue', appendTo : this.ctrls } );
+		this.ctrlContinue = createElement( 'button', { cName : 'fs-continue', inner : '계속하기', appendTo : this.ctrls } );
 		this._showCtrl( this.ctrlContinue );
 
 		// navigation dots
@@ -167,7 +166,7 @@
 		var self = this;
 
 		// show next field
-		this.ctrlContinue.addEventListener( 'click', function() {
+		this.ctrlContinue.addEventListener( 'click', function() {				
 			self._nextField(); 
 		} );
 
@@ -403,9 +402,7 @@
 		var fld = this.fields[ this.current ],
 			input = fld.querySelector( 'input[required]' ) || fld.querySelector( 'textarea[required]' ) || fld.querySelector( 'select[required]' ),
 			error;
-
 		if( !input ) return true;
-
 		switch( input.tagName.toLowerCase() ) {
 			case 'input' : 
 				if( input.type === 'radio' || input.type === 'checkbox' ) {
@@ -421,7 +418,7 @@
 				}
 				else if( input.value === '' ) {
 					error = 'NOVAL';
-				}
+				} 
 				else if ( input.value !== '' && input.id === 'nickname') {
 					$.ajax({
 						  type: "get",
@@ -471,7 +468,8 @@
 		if( error != undefined ) {
 			this._showError( error );
 			return false;
-		}
+		}	
+				
 
 		return true;
 	}
