@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="MemberDeleteAction.me" method="post">
+<form action="deleteAction" method="post">
 	<input type="hidden" name="email" value="${sessionScope.email}">
 	사용자 아이디 : ${sessionScope.email}<br>
 	비밀번호 : <input type="password" name="pw">
