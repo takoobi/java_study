@@ -9,7 +9,7 @@ create table member (
   create_date date default sysdate
 );
 
-insert into member values('1234','1234','1234','1234','1234','M',0,sysdate)
+insert into member values('aa@aa','1234','aa','1234','1234','M',0,sysdate)
 
 select * from member;
 

@@ -73,6 +73,12 @@ public class BoardBean {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	@Override
+	public String toString() {
+		return "BoardBean [pk=" + pk + ", title=" + title + ", description=" + description + ", image=" + image
+				+ ", good=" + good + ", bad=" + bad + ", hit=" + hit + ", tag=" + tag + ", create_date=" + create_date
+				+ ", email=" + email + "]";
 	} 
 	
 }
