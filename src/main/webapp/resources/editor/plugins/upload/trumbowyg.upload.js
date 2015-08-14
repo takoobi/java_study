@@ -82,7 +82,7 @@
                                     );
 
                                 $.ajax({
-                                    url:            "image",
+                                    url:            "ajaxImage",
                                     type:           'POST',
                                     data:           data,
                                     cache:          false,

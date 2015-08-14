@@ -9,7 +9,9 @@
      <context:component-scan base-package="com"/>
 
     <mvc:annotation-driven />
-    <mvc:resources mapping="/resources/**" location="/resources/" />
+    
+    <mvc:resources mapping="resources/**" location="/resources/" />
+    
     <mvc:resources mapping="/css/**" location="/resources/css/" />
 	<mvc:resources mapping="/js/**" location="/resources/js/" />
 	<mvc:resources mapping="/img/**" location="/resources/img/" />
@@ -23,6 +25,7 @@
 	<mvc:resources mapping="board/js/**" location="/resources/js/" />
 	<mvc:resources mapping="board/img/**" location="/resources/img/" />
 	<mvc:resources mapping="board/fonts/**" location="/resources/fonts/" />
+	<mvc:resources mapping="board/resources/**" location="/resources/" />
     
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

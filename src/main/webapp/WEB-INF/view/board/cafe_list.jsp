@@ -19,6 +19,7 @@
 	<script src="js/jquery.js"></script>
 	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
 	<script src="js/modernizr.custom.25376.js"></script>
+	
 	<style>
 		#theSidebar {
 			display: none;
@@ -37,7 +38,7 @@
 		margin: 0 10px;
 		float: left;
 		line-height: 25px;
-		text-align: center;
+		text-align:s center;
 		font-size: 10px;
 	}
 	.select{
@@ -49,7 +50,8 @@
   <script>
   $(function(){
 		var data =[];
-
+		getList();
+		
 	    $(".box").click(function(){    	
 	        if($(this).hasClass("select")){
 	            $(this).removeClass("select");
@@ -68,7 +70,15 @@
 	        	
 	        });
 	        data=[];
-	    });       
+	    });  
+	    
+	    function getList(){
+	    	$.post("doList", { tags : data.toString()}, function(data){        	
+	        	console.log("success");
+	        	console.log(data);
+	        	
+	        });
+	    }
 		    
 	});
   </script>
@@ -120,6 +130,7 @@
 								<span class="meta__reading-time"><i class="fa fa-clock-o"></i> 2 min read</span>
 							</div>
 						</a>
+						
 						<footer class="page-meta">
 							<span>Load more...</span>
 						</footer>
@@ -158,12 +169,10 @@
 		</div><!-- /container -->
 		</div>
 		
-		<script src="js/classie.js"></script>
-		<script src="js/main.js"></script>
-		<script src="js/menu.js"></script>
-
-	
-
+		
+	<script src="js/classie.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/menu.js"></script>
 </body>
 
 </html>

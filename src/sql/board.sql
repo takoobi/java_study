@@ -22,11 +22,14 @@ create table board_cafe(
 );
 
 
-select * from board_cafe where regexp_like(tag, '%,man%');
+select * from
+		(select rownum rnum,pk,title,description,image,good,bad,hit,tag,create_date from
+		(select * from board_cafe order by create_date desc))
+		where rnum >= ((1-1)*10+1) and rnum <= (1*10)
 
-select * from board_cafe where tag in (like '%man');
 
-drop table board_cafe;
+insert into board_cafe (pk, title, description, tag, email, create_date) values(board_seq.nextval, 'zxcvzxcv',
+		'asdasdxczc', 'woman', 'aa@aa', sysdate);	
 
 create sequence board_seq start with 1 increment by 1 ;
  

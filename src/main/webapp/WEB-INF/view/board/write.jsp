@@ -43,7 +43,7 @@
     <section class="section wrapper" id="demonstration">
         <h2 class="section-title">Demonstration</h2>
         <h3 class="section-subtitle">See for yourself</h3>
-			<form action="BoardWriteAction" enctype="multipart/form-data" method="post" id="form">
+			<form action="doWrite" enctype="multipart/form-data" method="post" id="form">
 				${param.category}
 				<input type="hidden" value="${param.category}" name="category">
 				<input type="hidden" id="tag" name="tag">

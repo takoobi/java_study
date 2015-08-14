@@ -18,6 +18,7 @@ public class BoardDAO {
 	
 	public void boardInsert(BoardBean bean){
 		System.out.println("확인");
+		System.out.println(bean);
 		session.insert("insert", bean);
 		session.commit();
 	}
@@ -26,7 +27,15 @@ public class BoardDAO {
 		return session.selectList("selectAll");
 	}
 	
+	public List<BoardBean> boardList(int page){		
+		return session.selectList("boardList", page);
+	}
+	
 	public List selectTag(){
 		return (List) session.selectList("selectTag");
+	}
+	
+	public int listCount(){
+		return session.selectOne("selectCount");
 	}
 }
