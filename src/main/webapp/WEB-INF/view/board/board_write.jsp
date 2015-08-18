@@ -22,7 +22,7 @@ $(function(){
     $("#form").submit(function(){
         $(".box").each(function(){
             if($(this).is(".select")){
-            	data.push($(this).attr("value"));
+            	data.push($(this).attr("id"));
             }
         });
         

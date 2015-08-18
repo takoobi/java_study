@@ -63,7 +63,7 @@ drop table reply;
 노래방 board_music
 방송국 board_broadcast
 
-create table board_broadcast(
+create table board_cafe(
 pk number(7) primary key,
 title varchar2(50) not null,
 description varchar2(1000) not null,
@@ -73,9 +73,9 @@ bad number(5) DEFAULT 0,
 hit number(10) DEFAULT 0,
 tag varchar2(60) not null,
 email varchar2(20) not null,
-create_date date default sysdate,
-foreign key(email) references member(email)
+create_date date default sysdate
 );
+foreign key(email) references member(email)
 
 select * from board_cafe;
 select * from board_bar;

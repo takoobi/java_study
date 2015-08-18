@@ -29,7 +29,6 @@ public class BoardController {
 	private BoardDAO boardDao;
 	
 	String category="";
-	int currentBlock = 1;
 	
 	//글쓰기
 	@RequestMapping("/write")
@@ -50,7 +49,7 @@ public class BoardController {
 		BoardBean bean = new BoardBean();
 		bean.setTitle(request.getParameter("title"));
 		bean.setTag(request.getParameter("tag"));
-		bean.setEmail("sbv200@hanmail.net");
+		bean.setEmail("1234");
 		bean.setImage(multipartFile.getOriginalFilename());
 		bean.setDescription(request.getParameter("description"));
 		bean.setCategory(request.getParameter("category"));
@@ -72,46 +71,12 @@ public class BoardController {
 	public void doList(HttpServletRequest request, HttpServletResponse response){
 		String result = request.getParameter("result");
 		category = request.getParameter("category");
-		String blockNum = request.getParameter("blockNum"); 
-		String pageNum = request.getParameter("pageNum");
-		
+		int num = Integer.parseInt(request.getParameter("num"));
+		int startNum = (num-1)*6+1;
+		int endNum = startNum+5;
 		List<BoardBean> list = new ArrayList<BoardBean>();
-		
-        if(blockNum!=null)
-        {
-            currentBlock = Integer.parseInt(blockNum);
-        }
         
-		int pageSize = 5; //보여줄 게시글 갯수
-		int blockSize = 5; //보여줄 블록 갯수
-        int totalSize = boardDao.totalCount(category, result); //전체게시글 갯수
-        int totalPage = (int)(Math.ceil((double)totalSize/pageSize)); //전체페이지 갯수
-        int totalBlock = (int)(Math.ceil((double)totalPage/blockSize)); //전체블록 갯수
-        int startPage = (currentBlock-1)*blockSize+1; //시작페이지
-        int endPage = startPage + blockSize - 1; //끝페이지
-        int startNum;
-        int endNum;
-        int currentPage;
-        
-        if(endPage>totalPage) endPage=totalPage;
-        if(pageNum==null) pageNum="1";
-        currentPage = Integer.parseInt(pageNum);
-        
-        startNum = (currentPage-1)*pageSize+1;
-        endNum = startNum+pageSize-1;
-        
-        if(endNum>totalSize) endNum=totalSize;
-        
-        if(totalSize>0)
-        {
-        	list = boardDao.pagingList(category, result, startNum, endNum);
-            if(list.isEmpty())
-            {
-                currentPage -= 1;
-                //return "redirect:list?pageNum="+currentPage;
-            }
-        }
-        int number= totalSize-startNum+1;
+        list = boardDao.pagingList(category, result, startNum, endNum);
 		
 		JSONObject jsonObject = new JSONObject();
 		String json="[";
@@ -133,22 +98,10 @@ public class BoardController {
 		}
 		json += "]";
 		jsonObject.put("list", json);
-		jsonObject.put("pageSize", pageSize);
-		jsonObject.put("blockSize", blockSize);
-		jsonObject.put("number", number);
-		jsonObject.put("totalPage", totalPage);
-		jsonObject.put("totalSize", totalSize);
-		jsonObject.put("totalBlock", totalBlock);
-		jsonObject.put("startPage", startPage);
-		jsonObject.put("endPage", endPage);
-		jsonObject.put("startNum", startNum);
-		jsonObject.put("endNum", endNum);
-		jsonObject.put("currentPage", currentPage);
-		jsonObject.put("currentBlock", currentBlock);
 		//System.out.println(jsonObject);
 
 		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out;
+		PrintWriter out; 
 		try{
 			out = response.getWriter();
 			out.print(jsonObject.toJSONString());
