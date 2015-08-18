@@ -55,7 +55,7 @@ public class MemberDAO {
 
 	//회원확인
 	public int loginCheck(String email, String pw) {
-		String password = session.selectOne("member.loginCheck", email);
+		String password = session.selectOne("member.pwCheck", email);
 		int number=0;
 		
 		if(password==null) number=-1;
