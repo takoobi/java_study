@@ -19,7 +19,7 @@ public class BoardDAO {
 	public void boardInsert(BoardBean bean){
 		System.out.println("확인");
 		System.out.println(bean);
-		session.insert("insert", bean);
+		session.insert("insertBoard", bean);
 		session.commit();
 	}
 	

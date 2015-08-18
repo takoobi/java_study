@@ -43,7 +43,7 @@
 			container = perspectiveWrapper.querySelector( '.container' ),
 			contentWrapper = container.querySelector( '.wrapper' );
 
-		showMenu.addEventListener( clickevent, function( ev ) {
+			showMenu.addEventListener( clickevent, function( ev ) {
 			ev.stopPropagation();
 			ev.preventDefault();
 			docscroll = scrollY();

@@ -71,9 +71,7 @@ html, body, .perspective {
 	backface-visibility: hidden;
 }
 
-.modalview .wrapper {
-	-webkit-transform: translateZ(-1px); /* solves a rendering bug in Chrome on Windows */
-}
+
 
 .animate .container::after {
 	opacity: 1;

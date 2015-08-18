@@ -16,7 +16,9 @@ import com.model.BoardBean;
 import com.model.BoardFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -65,53 +67,37 @@ public class BoardMapper {
 	
 	@RequestMapping("doList")
 	@ResponseBody
-	public List<BoardBean> doList(HttpServletRequest request){		
+	public Map doList(HttpServletRequest request){		
 		List<BoardBean> boardlist;		
-		String tags = request.getParameter("tags");
+		String tags = request.getParameter("tags");		
+		Map<String, Object> obj;
 		
 		if(tags == ""){
-			System.out.println("null 이당    " + tags );
-			boardlist=new ArrayList<BoardBean>();
-//			BoardDAOImpl bd=new BoardDAOImpl();
-			
+			boardlist=new ArrayList<BoardBean>();	
+			obj = new HashMap<String, Object>();
 		  	int page=1;  // 현재 페이지 번호
-			int limit=10;  // 한 화면에 출력할 레코드수
 			
 			if(request.getParameter("page") != null){
 				page=Integer.parseInt(request.getParameter("page"));
-			}
-			
+			}	
 
-			/*int listcount=this.boardService.getListCount();*/ //총 리스트 수를 받아옴.
-			int listcount=boardDao.listCount();
-
-			
 			// 페이지 번호(page)를 DAO클래스에게 전달한다.
-			boardlist = boardDao.boardList(page); //리스트를 받아옴.
+			boardlist = boardDao.boardList(page); //리스트를 받아옴.			
 			
-			//총 페이지 수.
-	   		int maxpage=(int)((double)listcount/limit+0.95); //0.95를 더해서 올림 처리.
-	   		//현재 페이지에 보여줄 시작 페이지 수(1, 11, 21 등...)
-	   		int startpage = (((int) ((double)page / 10 + 0.9)) - 1) * 10 + 1;
-	   		//현재 페이지에 보여줄 마지막 페이지 수.(10, 20, 30 등...)
-	   		int endpage = maxpage;
+	   		obj.put("boardlist", boardlist);
+	   		obj.put("page", page);
 	   		
-	   		if (endpage>startpage+10-1) endpage=startpage+10-1;
-	   		
-	   		request.setAttribute("page", page);		  //현재 페이지 수.
-	   		request.setAttribute("maxpage", maxpage); //최대 페이지 수.
-	   		request.setAttribute("startpage", startpage); //현재 페이지에 표시할 첫 페이지 수.
-	   		request.setAttribute("endpage", endpage);     //현재 페이지에 표시할 끝 페이지 수.
-			request.setAttribute("listcount",listcount); //글 수.
-			request.setAttribute("boardlist", boardlist);
-			
-			return boardlist;
+			return obj;
 		} else {
 			String[] tagBox = tags.split(",");
 			boardlist = tagBoardList(tagBox);
+			
+			obj = new HashMap<String, Object>();
+			
+			obj.put("boardlist", boardlist);
+			return obj;
 		}
 		
-		return null;
 	}		
 	
 		

@@ -11,7 +11,7 @@
 
 jQuery.trumbowyg = {
     langs: {
-        ko: {
+        en: {
             viewHTML:       "View HTML",
 
             formatting:     "Formatting",

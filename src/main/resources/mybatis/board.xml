@@ -18,7 +18,7 @@
 		<result column="create_date" property="create_date"/>		
 	</resultMap>
 	
-	<insert id="insert" parameterType="Board">
+	<insert id="insertBoard" parameterType="Board">
 		insert into board_cafe (pk, title, description, tag, email, create_date) values(board_seq.nextval, #{title},
 		#{description}, #{tag}, 'aa@aa', sysdate)	
 	</insert>

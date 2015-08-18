@@ -68,11 +68,13 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
-<script src="resources/editor/trumbowyg.min.js"></script>
+<script src="resources/editor/trumbowyg.js"></script>
 <script src="resources/editor/plugins/colors/trumbowyg.colors.min.js"></script>
 <script src="resources/editor/plugins/upload/trumbowyg.upload.js"></script>
+<script src="resources/editor/langs/ko.min.js"></script>
 <script type="text/javascript">
     $('#trumbowyg-demo').trumbowyg({
+    	lang: 'ko',
         btnsDef: {
             // Customizables dropdowns
             image: {
