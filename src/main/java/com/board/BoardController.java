@@ -8,11 +8,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -91,7 +91,8 @@ public class BoardController {
 					+ "\"good\":\""+boardBean.getGood()+"\","
 					+ "\"bad\":\""+boardBean.getGood()+"\","
 					+ "\"hit\":\""+boardBean.getHit()+"\","
-					+ "\"create_date\":\""+boardBean.getCreate_date()+"\"}";
+					+ "\"create_date\":\""+boardBean.getCreate_date()+"\","
+					+ "\"category\":\""+category+"\"}";
 		    if( i != list.size() -1){
 		        json += ",";
 		    }
@@ -109,6 +110,31 @@ public class BoardController {
 			e.printStackTrace();
 		}
 	}
+
+	//글 상세보기
+	@RequestMapping("/board_view")
+	public ModelAndView board_view(HttpServletRequest request){
+		int pk = Integer.parseInt(request.getParameter("pk"));
+		String category = request.getParameter("category");
+		ModelAndView mav= new ModelAndView();
+		mav.setViewName("board/board_view");
+		
+		BoardBean boardBean = boardDao.one_board(category, pk);
+		mav.addObject("boardBean", boardBean);
+		return mav;
+	}
+
+	//공감, 공감취소, 비공감, 비공감취소
+	@RequestMapping("/emotion")
+	public void emotion(HttpServletRequest request, HttpSession session){
+		int number = Integer.parseInt(request.getParameter("number"));
+		int pk = Integer.parseInt(request.getParameter("pk"));
+		category=request.getParameter("category");
+		String id=(String) session.getAttribute("email");
+
+		//1-공감,2-공감취소,3-비공감,4-비공감취소		
+		boardDao.emotion(category, number, pk, id);
+	}
 	
 	//내가 쓴 글
 	@RequestMapping("/mystory")
@@ -121,10 +147,6 @@ public class BoardController {
 	public ModelAndView boardDelete(){
 		return null;
 	}
-	 
-	//글 상세보기
-	@RequestMapping("/detailView")
-	public ModelAndView boardView(){
-		return null;
-	}
+	
+
 }

@@ -63,4 +63,32 @@ public class BoardDAO {
 			hashMap.put("tagCount", String.valueOf(tag.length));
 		}        		
 	}
+	
+	//하나의 게시글 가져오기
+	public BoardBean one_board(String category, int pk){
+		hashMap.put("category", category);
+		hashMap.put("pk", String.valueOf(pk));
+		
+		session.update("board.hit_add",hashMap);
+		return session.selectOne("board.one_board",hashMap);
+	}
+	
+	//공감, 공감취소, 비공감, 비공감취소
+	public void emotion(String category, int number, int pk, String id){
+		hashMap.put("category", category);
+		hashMap.put("number", String.valueOf(number));
+		hashMap.put("pk", String.valueOf(pk));
+		session.update("board.emotion", hashMap);
+		if(number==1 || number==3){
+			String good_id = session.selectOne("board.emotion_id_get", hashMap);
+			if(good_id==null)good_id=id;
+			else good_id+=","+id;
+			hashMap.put("good_id", good_id);
+			session.update("board.emotion_id_add", hashMap);			
+		}
+		if(number==2 || number==4){
+			String good_id = session.selectOne("board.emotion_id_get", hashMap);
+		}
+	}
+
 }

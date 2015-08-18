@@ -51,7 +51,7 @@ foreign key(board_key) references board(pk),
 foreign key(email) references member(email)
 );
 
-drop table reply;
+drop table reply purge;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 카페 board_cafe
@@ -69,7 +69,9 @@ title varchar2(50) not null,
 description varchar2(1000) not null,
 image varchar2(80),
 good number(5) DEFAULT 0,
+good_id varchar2(4000),
 bad number(5) DEFAULT 0,
+bad_id varchar2(4000),
 hit number(10) DEFAULT 0,
 tag varchar2(60) not null,
 email varchar2(20) not null,
@@ -86,15 +88,16 @@ select * from board_exile;
 select * from board_music;
 select * from board_broadcast;
 
+delete from board_cafe where pk=84
 
-drop table board_cafe;
-drop table board_bar;
-drop table board_school;
-drop table board_penthouse;
-drop table board_military;
-drop table board_exile;
-drop table board_music;
-drop table board_broadcast;
+drop table board_cafe purge;
+drop table board_bar purge;
+drop table board_school purge;
+drop table board_penthouse purge;
+drop table board_military purge;
+drop table board_exile purge;
+drop table board_music purge;
+drop table board_broadcast purge;
 
 create sequence board_seq start with 1 increment by 1 ;
 
@@ -120,5 +123,5 @@ select a.* from (select rownum as rnum, b.* from (select * from board_cafe order
 모든 테이블 확인하기
 select * from tab;
 
-쓰레기통 비우기
+쓰레기통 비우기, 휴지통 비우기
 purge recyclebin;
