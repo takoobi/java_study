@@ -41,7 +41,7 @@
 	
 	<!-- 회원 등록 -->
 	<insert id="insert" parameterType="member">
-		insert into member (email,pw,nickname,image,description,gender) values(#{email},#{pw},#{nickname},#{image},#{description},#{gender})
+		insert into member (email,pw,nickname,title) values(#{email},#{pw},#{nickname},#{title})
 	</insert>
 	
 	<!-- 회원 삭제 -->
@@ -52,5 +52,10 @@
 	<!-- 회원정보수정하기 -->
 	<update id="update2" parameterType="member">
 		update member set pw=#{pw}, nickname=#{nickname}, image=#{image}, description=#{description}, gender=#{gender}  where email=#{email}
+	</update>
+	
+	<!-- 임시비밀번호 설정 -->
+	<update id="temporaryPassword" parameterType="HashMap">
+		update member set pw=#{temporaryPassword} where email=#{email}
 	</update>
 </mapper>

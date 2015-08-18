@@ -14,15 +14,20 @@ $(function(){
     $(".box").click(function(){
         if($(this).hasClass("select")){
             $(this).removeClass("select");
-            data.pop($(this).attr("value"));
         } else{
             $(this).addClass("select");
-            data.push($(this).attr("value"));
         }
     });
-    
+   
     $("#form").submit(function(){
-    	$("#tag").attr("value",data);
+        $(".box").each(function(){
+            if($(this).is(".select")){
+            	data.push($(this).attr("id"));
+            }
+        });
+        
+        $("#tag").attr("value",data);
+
     	return validity_check();
     });
 });
@@ -79,47 +84,47 @@ ${param.category}
 		<td>
 			<c:choose>
 	            <c:when test="${param.category=='cafe'}">
-		            <div class="box" value="worry">고민</div>
-					<div class="box" value="man">남자</div>
-					<div class="box" value="woman">여자</div>
-					<div class="box" value="fun">꿀잼</div>
-					<div class="box" value="emp">직장인</div>
+		            <div class="box" id="worry">고민</div>
+					<div class="box" id="boy">남자</div>
+					<div class="box" id="girl">여자</div>
+					<div class="box" id="fun">꿀잼</div>
+					<div class="box" id="emp">직장인</div>
 	            </c:when>
 	            <c:when test="${param.category=='bar'}">
-	            	<div class="box" value="worry">고민</div>
-					<div class="box" value="father">아버지</div>
-					<div class="box" value="emp">직장인</div>
+	            	<div class="box" id="worry">고민</div>
+					<div class="box" id="father">아버지</div>
+					<div class="box" id="emp">직장인</div>
 	            </c:when>
 	            <c:when test="${param.category=='school'}">
-	            	<div class="box" value="worry">고민</div>
-					<div class="box" value="middle">중딩</div>
-					<div class="box" value="high">고딩</div>
-					<div class="box" value="university">대딩</div>
-					<div class="box" value="man">남</div>
-					<div class="box" value="woman">여</div>
-					<div class="box" value="fun">꿀잼</div>
+	            	<div class="box" id="worry">고민</div>
+					<div class="box" id="middle">중딩</div>
+					<div class="box" id="high">고딩</div>
+					<div class="box" id="university">대딩</div>
+					<div class="box" id="boy">남</div>
+					<div class="box" id="girl">여</div>
+					<div class="box" id="fun">꿀잼</div>
 	            </c:when>
 	            <c:when test="${param.category=='penthouse'}">
-	            	<div class="box" value="oneroom">자취</div>
-					<div class="box" value="singles">독신</div>
-					<div class="box" value="boast">뽐내기</div>
-					<div class="box" value="recipe">레시피</div>
+	            	<div class="box" id="oneroom">자취</div>
+					<div class="box" id="singles">독신</div>
+					<div class="box" id="boast">뽐내기</div>
+					<div class="box" id="recipe">레시피</div>
 	            </c:when>
 	            <c:when test="${param.category=='military'}">
-	            	<div class="box" value="man">남자</div>
+	            	<div class="box" id="boy">남자</div>
 	            </c:when>
 	            <c:when test="${param.category=='exile'}">
-	            	<div class="box" value="arrest">구속</div>
+	            	<div class="box" id="arrest">구속</div>
 	            </c:when>
 	            <c:when test="${param.category=='music'}">
-					<div class="box" value="genre">장르</div>
-					<div class="box" value="feeling">희노애락</div>
+					<div class="box" id="genre">장르</div>
+					<div class="box" id="feeling">희노애락</div>
 	            </c:when>
 	            <c:when test="${param.category=='broadcast'}">
-	            	<div class="box" value="news">좋은 뉴스</div>
-					<div class="box" value="recommendation">추천 정보</div>
-					<div class="box" value="gain">득템 정보</div>
-					<div class="box" value="story">좋은 글</div>
+	            	<div class="box" id="news">좋은 뉴스</div>
+					<div class="box" id="recommendation">추천 정보</div>
+					<div class="box" id="gain">득템 정보</div>
+					<div class="box" id="story">좋은 글</div>
 	            </c:when>
 	        </c:choose>
 		</td>

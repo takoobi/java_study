@@ -1,5 +1,6 @@
 package com.member;
 
+
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -78,6 +79,14 @@ public class MemberDAO {
 	//회원정보수정하기
 	public void update(MemberBean bean) {
 		session.update("member.update2",bean);
+	}
+
+	//임시비밀번호 설정
+	public void temporaryPassword(String email, int temporaryPassword) {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("email", email);
+		hashMap.put("temporaryPassword", String.valueOf(temporaryPassword));
+		session.update("member.temporaryPassword", hashMap);
 	}
 	
 }

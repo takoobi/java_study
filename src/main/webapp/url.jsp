@@ -33,14 +33,14 @@
 &emsp;<a href="board/write?category=music">노래방 글쓰기</a>&emsp;board/write&emsp;O<br>
 &emsp;<a href="board/write?category=broadcast">방송국 글쓰기</a>&emsp;board/write&emsp;O<br>
 &emsp;<a href="board/list?category=square">광장</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=cafe">카페</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=bar">선술집</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=school">학교</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=penthouse">옥탑방</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=military">군대</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=exile">유배지</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=music">노래방</a>&emsp;board/list&emsp;X<br>
-&emsp;<a href="board/list?category=broadcast">방송국</a>&emsp;board/list&emsp;X<br>
+&emsp;<a href="board/list?category=cafe">카페</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=bar">선술집</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=school">학교</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=penthouse">옥탑방</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=military">군대</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=exile">유배지</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=music">노래방</a>&emsp;board/list&emsp;O<br>
+&emsp;<a href="board/list?category=broadcast">방송국</a>&emsp;board/list&emsp;O<br>
 &emsp;<a href="board/delete">글삭제</a>&emsp;board/delete&emsp;X<br>
 &emsp;<a href="board/view">글상세보기</a>&emsp;board/view&emsp;X<br>
 </body>

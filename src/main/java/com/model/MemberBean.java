@@ -7,12 +7,19 @@ public class MemberBean {
 	private String pw;
 	private String nickname;
 	private String image;
+	private String title;
 	private String description;
 	private String gender;
 	private int point;
 	private Date create_date;
 	
 	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getEmail() {
 		return email;
 	}
