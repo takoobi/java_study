@@ -1,15 +1,17 @@
 create table member (
-  email  VARCHAR2(20) PRIMARY KEY,
+  pk number(10) primary key,
+  email  VARCHAR2(20) not null,
   pw     VARCHAR2(20) not null,  
   nickname VARCHAR2(20) unique not null,
-  image  VARCHAR2(30),
+  image  VARCHAR2(30) default 'profile.jpg',
   description   VARCHAR2(100),
   gender VARCHAR2(1) CHECK (gender IN ('M', 'F')),
   point number(5) DEFAULT 0,
   create_date date default sysdate
 );
 
-insert into member values('aa@aa','1234','aa','1234','1234','M',0,sysdate)
+insert into member (pk,email,pw,nickname,create_date) 
+	values(member_seq.nextval,'aa@aa','aa','족발',sysdate);
 
 select * from member;
 

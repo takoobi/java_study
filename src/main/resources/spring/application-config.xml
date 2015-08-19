@@ -15,4 +15,6 @@
   		c:mybatis-ref="mybatisInit"/>
   	<bean id="memberDAO" class="com.member.MemberDAO"
   		c:mybatis-ref="mybatisInit"/>
+
+  		
 </beans>

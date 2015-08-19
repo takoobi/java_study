@@ -19,15 +19,24 @@
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="Board">
-		insert into board_cafe (pk, title, description, tag, email, create_date) values(board_seq.nextval, #{title},
-		#{description}, #{tag}, 'aa@aa', sysdate)	
+		insert into board(pk, title, description, create_date) values(board_seq.nextval, #{title},
+		#{description}, sysdate)	
 	</insert>
+	
+	<insert id="tagInsert" parameterType="com.model.Tag">
+		insert into tags values (#{board_pk}, #{member_pk}, #{name})
+	</insert>
+	
 	<select id="selectAll" resultMap="boardMap">
-		select * from board_cafe
+		select * from board
 	</select>
 	
 	<select id="selectCount" resultType="Integer">
 		select count(*) from board_cafe
+	</select>
+	
+	<select id="getBoardPk" resultType="Integer">
+		select board_seq.currval from dual
 	</select>
 	
 	<select id="boardList"  parameterType="int"  resultMap="boardMap">
@@ -39,5 +48,8 @@
 		]]>		
 	</select>
 	
+	<select id="getBoard" resultMap="boardMap" parameterType="int">
+		select * from board_cafe where pk=#{id}
+	</select>	
 	
 </mapper>

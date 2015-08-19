@@ -7,26 +7,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>게시판</title>
-    <meta name="description" content="Trumbowyg is a very small jQuery plugin for creating a powerful WYSIWYG editor">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/flat-ui.css" />
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
+	
+	<script src="js/jquery.js"></script>
+	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
+	<script src="js/modernizr.custom.25376.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/flat-ui.js"></script>
 
-    <meta name="google-site-verification" content="ECeSHLIckOv9unlORi9lLtDUy7rk_CI5-AF9AU3upJE">
-
-    <link rel="stylesheet" href="resources/editor/ui/trumbowyg.min.css">
-    <link rel="stylesheet" href="resources/editor/plugins/colors/ui/trumbowyg.colors.min.css">
-    <link rel="stylesheet" href="resources/editor/main.css" />
 	
 	<style>
-		.box{
-		width: 70px;
-		height: 30px;
-		background-color: #9cff2f;
-		margin: 0 10px;
-		float: left;
-		line-height: 25px;
-		text-align: center;
-		font-size: 10px;
-	}
 	.select{
 		background-color: #fff616;
 	}
@@ -35,80 +28,43 @@
 		width:50px;
 		height:50px;
 	}
+	
 	</style>
 </head>
 <body>
 
-<main class="main">
-    <section class="section wrapper" id="demonstration">
-        <h2 class="section-title">Demonstration</h2>
-        <h3 class="section-subtitle">See for yourself</h3>
-			<form action="doWrite" enctype="multipart/form-data" method="post" id="form">
-				${param.category}
-				<input type="hidden" value="${param.category}" name="category">
-				<input type="hidden" id="tag" name="tag">
-				
-				<input type="text" id="title" name="title"/>제목
-				<input type="text" id="email" name="email"/>이메일
-		            <div class="box" value="worry">고민</div>
-					<div class="box" value="man">남자</div>
-					<div class="box" value="woman">여자</div>
-					<div class="box" value="fun">꿀잼</div>
-					<div class="box" value="emp">직장인</div>
+<div class="container">
+    <section class="row">
+		<form action="doWrite" enctype="multipart/form-data" method="post" id="form" class="col-md-8">
+			${param.category}
+			<input type="hidden" value="${param.category}" name="category">
+			<input type="hidden" id="tag" name="tag">
+			
+			<input type="text" id="title" name="title" class="form-control"/>제목
 	            
-				<textarea id="trumbowyg-demo" name="description">
-                </textarea>
-                
-                <input type="submit" />
-			</form>                
+				<!-- <div class="box" value="emp">직장인</div> -->
+			<div class="tagsinput-primary">
+            	<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 남자, 여자, 꿀잼, 직장인" />
+          	</div>
+            
+			<textarea  id="description" name="description" class="form-control">
+            </textarea>
+               
+            <input type="submit" class="form-control"/>
+		</form>                
     </section>
 
-</main>
+</div>
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
-<script src="resources/editor/trumbowyg.js"></script>
-<script src="resources/editor/plugins/colors/trumbowyg.colors.min.js"></script>
-<script src="resources/editor/plugins/upload/trumbowyg.upload.js"></script>
-<script src="resources/editor/langs/ko.min.js"></script>
-<script type="text/javascript">
-    $('#trumbowyg-demo').trumbowyg({
-    	lang: 'ko',
-        btnsDef: {
-            // Customizables dropdowns
-            image: {
-                dropdown: ['insertImage', 'upload'],
-                ico: 'insertImage'
-            }
-        },
-        btns: ['viewHTML',
-            '|', 'formatting',
-            '|', 'btnGrp-design',
-            '|', 'link',
-            '|', 'image',
-            '|', 'btnGrp-justify',
-            '|', 'btnGrp-lists',
-            '|', 'foreColor', 'backColor',
-            '|', 'horizontalRule']
-    });
+<script type="text/javascript">    
     
     $(function(){
     	var data =[];
-
-        $(".box").click(function(){    	
-            if($(this).hasClass("select")){
-                $(this).removeClass("select");
-            } else{
-                $(this).addClass("select");
-            }
-        });
         
         $("#form").submit(function(){
-        	$(".box").each(function(){
-        		if($(this).is('.select')){
-            		data.push($(this).attr("value"));
-        		}
+        	$(".tag").each(function(){
+        		data.push($(this).text());
         	});
         	$('#tag').attr("value",data);
         	return validity_check();

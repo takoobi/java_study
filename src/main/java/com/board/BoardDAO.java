@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.config.MybatisInit;
 import com.model.BoardBean;
+import com.model.Tag;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class BoardDAO {
 		session.insert("insertBoard", bean);
 		session.commit();
 	}
+	public int getBoardPk(){
+		return session.selectOne("getBoardPk");
+	}
 	
 	public List<BoardBean> selectAll(){		
 		return session.selectList("selectAll");
@@ -37,5 +41,14 @@ public class BoardDAO {
 	
 	public int listCount(){
 		return session.selectOne("selectCount");
+	}
+
+	public BoardBean getBoard(int id) {
+		// TODO Auto-generated method stub
+		return session.selectOne("getBoard", id);
+	}
+	public void tagInsert(Tag tag){
+		session.insert("tagInsert", tag);
+		session.commit();
 	}
 }

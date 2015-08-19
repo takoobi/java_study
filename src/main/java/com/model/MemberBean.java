@@ -10,6 +10,13 @@ public class MemberBean {
 	private String description;
 	private String gender;
 	private int point;
+	private int pk;
+	public int getPk() {
+		return pk;
+	}
+	public void setPk(int pk) {
+		this.pk = pk;
+	}
 	private Date create_date;
 	
 	

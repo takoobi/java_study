@@ -5,7 +5,10 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model.BoardBean;
 import com.model.BoardFile;
+import com.model.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,31 +30,47 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("board/")
 public class BoardMapper {
-	private BoardFile fileBean = null;
+	private String category;
+	private BoardBean boardBean;
+	private Tag tag;
 
 	@Autowired
 	private BoardDAO boardDao;
 	
-	//글쓰기
+	//글쓰기 페이지
 	@RequestMapping("writePage")
 	public String writePage(){
 		return "board/write";
 	}
 	
+	//게시판 페이지
+	@RequestMapping(value="{category}",method=RequestMethod.GET)
+	public String view(@PathVariable("category") String category, Model model){
+		this.category = category;
+		return "board/"+category;
+	}
+	
+	
 	//글쓰기 액션
 	@RequestMapping("doWrite")
-	public String doWrite(MultipartHttpServletRequest request) throws IOException{
+	public String doWrite(MultipartHttpServletRequest request) throws IOException{		
+		String[] tags = request.getParameter("tag").replaceAll("\\s", "").split(",");
+		BoardBean bean = new BoardBean();	
+		Tag tag = new Tag();
 		
-		BoardBean bean = new BoardBean();
 		bean.setTitle(request.getParameter("title"));
-		bean.setTag(request.getParameter("tag"));
 		bean.setDescription(request.getParameter("description"));
-		
-		System.out.println(request.getParameter("description"));
-
 		boardDao.boardInsert(bean);
+
 		
-		return "redirect:BoardList";
+		for(String item : tags){
+			tag.setBoard_pk(boardDao.getBoardPk());
+			tag.setName(item);
+			tag.setMember_pk(1);
+			boardDao.tagInsert(tag);
+		}
+			
+		return "redirect:board/"+category;
 	}
 	//내가 쓴 글
 	@RequestMapping("BoardMystory")
@@ -58,16 +78,21 @@ public class BoardMapper {
 		return null;
 	}
 	 
-	//글 목록 보기
-	@RequestMapping("listPage")
-	public String listPage(){
-		return "board/cafe_list";
+
+	//글 상세보기
+	@RequestMapping(value="detail/{id}", method=RequestMethod.GET)
+	public String boardView(@PathVariable("id") int id, Model model){
+		BoardBean board = boardDao.getBoard(id);
 		
+		model.addAttribute("board",board);
+		
+		return "board/detail";
 	}
 	
 	@RequestMapping("doList")
 	@ResponseBody
 	public Map doList(HttpServletRequest request){		
+		
 		List<BoardBean> boardlist;		
 		String tags = request.getParameter("tags");		
 		Map<String, Object> obj;
@@ -152,9 +177,5 @@ public class BoardMapper {
 		return null;
 	}
 	 
-	//글 상세보기
-	@RequestMapping("BoardView")
-	public ModelAndView boardView(){
-		return null;
-	}
+	
 }

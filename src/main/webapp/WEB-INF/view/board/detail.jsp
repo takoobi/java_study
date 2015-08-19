@@ -5,84 +5,110 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Creative - Start Bootstrap Theme</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="resources/intro/css/bootstrap.min.css" type="text/css">
-    <link href="resources/intro/css/flat-ui.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/flat-ui.min.js"></script>
-
+    <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>카페 - 소통의 공간</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/flat-ui.css" />
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/menu-component.css" />
+	
+	<script src="js/jquery.js"></script>
+	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
+	<script src="${pageContext.request.contextPath}/js/modernizr.custom.25376.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
+	
+	<style>
+		#theSidebar {
+			display: none;
+		}
+		#showMenu > span {
+			font-size: 16px;
+		}
+	
+	.box{
+		width: 70px;
+		height: 30px;
+		background-color: #9cff2f;
+		margin: 0 10px;
+		float: left;
+		line-height: 25px;
+		text-align:s center;
+		font-size: 10px;
+	}
+	.select{
+		background-color: #fff616;
+	}
+	  
+	.post {
+		border: 1px solid black;
+		height: 300px;
+		margin-bottom: 30px;
+	}
+	.post-dummy{
+		display: none;
+	}
+	
+	.effect-moveleft{
+		background-image: url('${pageContext.request.contextPath}/img/wallpaper.jpg');
+		background-size: cover;
+	}
+	.effect-moveleft:after { /* add the transparent pattern overlay */ 
+	background: gray;
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	opacity: 0.5;
+	z-index: -1;
+	}
+	.container {
+		width: 100%;
+		background-color: gray;
+		background-size: cover;
+		opacity: 0.7;
+	}
+	.effect-moveleft .outer-nav a  {
+		font-size: 30px;
+		color: #f05f40;
+	}
+	section {
+		color: black;
+	}
+	</style>
     
-  <script>
-    
-  </script>
-  <style>
   
-  </style>
 </head>
 
-<body id="page-top">
-
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="../FullscreenForm/index.html">회원가입</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-
-
+<body>
+		  
+	<div id="perspective" class="perspective effect-moveleft">
+		<div class="container">
+			<div class="wrapper"><!-- wrapper needed for scroll -->
+				
+				<section id="content">
+					<h1>${ board.title }</h1>
+					<div>${board.description }</div>
+				</section>				
+					
+			</div><!-- wrapper -->
+		</div><!-- /container -->
+		<nav class="outer-nav right vertical">
+			<a href="#" class="icon-home">홈</a>
+			<a href="#" class="icon-news">광장</a>
+			<a href="#" class="icon-image">카페</a>
+			<a href="#" class="icon-upload">선술집</a>
+			<a href="#" class="icon-star">학교</a>
+			<a href="#" class="icon-mail">옥탑방</a>
+			<a href="#" class="icon-lock">군대</a>
+		</nav>
+	</div><!-- /perspective -->
+	<script src="${pageContext.request.contextPath}/js/classie.js"></script>
+	<script src="${pageContext.request.contextPath}/js/menu.js"></script>
 </body>
 
 </html>

@@ -10,10 +10,15 @@ public class BoardBean {
 	private int good;
 	private int bad;
 	private int hit; 
-	private String tag; 	
 	private Date create_date;
-	private String email;
+	private String member_pk;
 	
+	public String getMember_pk() {
+		return member_pk;
+	}
+	public void setMember_pk(String member_pk) {
+		this.member_pk = member_pk;
+	}
 	public int getPk() {
 		return pk;
 	}
@@ -56,29 +61,13 @@ public class BoardBean {
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
-	public String getTag() {
-		return tag;
-	}
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+
 	public Date getCreate_date() {
 		return create_date;
 	}
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	@Override
-	public String toString() {
-		return "BoardBean [pk=" + pk + ", title=" + title + ", description=" + description + ", image=" + image
-				+ ", good=" + good + ", bad=" + bad + ", hit=" + hit + ", tag=" + tag + ", create_date=" + create_date
-				+ ", email=" + email + "]";
-	} 
+
 	
 }

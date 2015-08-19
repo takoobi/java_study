@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>카페 - 소통의 공간</title>
+	<title>광장 - 모두의 공간</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/flat-ui.css" />
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
@@ -64,7 +64,6 @@
 	right: 0;
 	top: 0;
 	opacity: 0.5;
-	z-index: -1;
 	}
 	.container {
 		width: 100%;
@@ -180,13 +179,13 @@
 			</div><!-- wrapper -->
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
-			<a href="#" class="icon-home">Home</a>
-			<a href="#" class="icon-news">News</a>
-			<a href="#" class="icon-image">Images</a>
-			<a href="#" class="icon-upload">Uploads</a>
-			<a href="#" class="icon-star">Favorites</a>
-			<a href="#" class="icon-mail">Messages</a>
-			<a href="#" class="icon-lock">Security</a>
+			<a href="#" class="icon-home">홈</a>
+			<a href="#" class="icon-news">광장</a>
+			<a href="#" class="icon-image">카페</a>
+			<a href="#" class="icon-upload">선술집</a>
+			<a href="#" class="icon-star">학교</a>
+			<a href="#" class="icon-mail">옥탑방</a>
+			<a href="#" class="icon-lock">군대</a>
 		</nav>
 	</div><!-- /perspective -->
 	<script src="js/classie.js"></script>

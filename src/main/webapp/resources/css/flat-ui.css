@@ -2300,7 +2300,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .bootstrap-tagsinput .tag > span:after {
   font-family: "Flat-UI-Icons";
   line-height: 27px;
-  content: "\e609";
+  content: "X";
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
