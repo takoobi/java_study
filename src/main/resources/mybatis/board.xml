@@ -13,43 +13,61 @@
 		<result column="good" property="good"/>
 		<result column="bad" property="bad"/>
 		<result column="hit" property="hit"/>
-		<result column="tag" property="tag"/>
-		<result column="email" property="email"/>
+		<result column="member_pk" property="member_pk"/>
 		<result column="create_date" property="create_date"/>		
 	</resultMap>
 	
+	
 	<insert id="insertBoard" parameterType="Board">
-		insert into board(pk, title, description, create_date) values(board_seq.nextval, #{title},
-		#{description}, sysdate)	
-	</insert>
+		insert into 
+		board_${category}
+		(pk, title, description, create_date, category) 
+		 values(board_seq.nextval, #{title}, #{description}, sysdate, #{category})	
+	</insert>	
 	
 	<insert id="tagInsert" parameterType="com.model.Tag">
-		insert into tags values (#{board_pk}, #{member_pk}, #{name})
+		insert into tags values (#{board_pk}, #{member_pk}, #{name}, #{category})
 	</insert>
 	
-	<select id="selectAll" resultMap="boardMap">
-		select * from board
-	</select>
+	<select  id="BoardPkOfTag" parameterType="map" resultMap="boardMap">		
+		<![CDATA[
+		select * from
+		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date from
+		(select * from board_cafe where pk in 
+		(select board_pk from tags where name in]]> 
+		<foreach item="item" index="index" collection="tags"
+      		open="(" separator="," close=")">
+       			#{item}
+  		</foreach>
+  		<![CDATA[
+  		) order by create_date desc))
+		where rnum >= ((#{page}-1)*10+1) and rnum <= (#{page}*10)
+		]]>	 
+	</select>	
 	
-	<select id="selectCount" resultType="Integer">
-		select count(*) from board_cafe
-	</select>
+	
 	
 	<select id="getBoardPk" resultType="Integer">
 		select board_seq.currval from dual
 	</select>
 	
-	<select id="boardList"  parameterType="int"  resultMap="boardMap">
+	<select id="boardList"  parameterType="map"  resultMap="boardMap">
 	    <![CDATA[
 		select * from
-		(select rownum rnum,pk,title,description,image,good,bad,hit,tag,create_date from
-		(select * from board_cafe order by create_date desc))
+		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date from
+		(select * from board_${category} order by create_date desc))
 		where rnum >= ((#{page}-1)*10+1) and rnum <= (#{page}*10)
-		]]>		
+		]]>	 	
 	</select>
 	
-	<select id="getBoard" resultMap="boardMap" parameterType="int">
-		select * from board_cafe where pk=#{id}
+	<select id="getTagList" resultType="string">
+	 	select distinct name from tags where category=#{category}
+	</select>
+	
+	<select id="getBoard" resultMap="boardMap" parameterType="map">
+		select * from board_${category} where pk=#{id}
 	</select>	
+	
+	
 	
 </mapper>

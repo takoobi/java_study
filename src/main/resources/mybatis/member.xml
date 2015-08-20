@@ -41,7 +41,7 @@
 	
 	<!-- 회원 등록 -->
 	<insert id="insert" parameterType="member">
-		insert into member (email,pw,nickname,description) values(#{email},#{pw},#{nickname},#{description})
+		insert into member (pk,email,pw,nickname,title) values(member_seq.nextval,#{email},#{pw},#{nickname},#{title})
 	</insert>
 	
 	<!-- 회원 삭제 -->
@@ -58,4 +58,9 @@
 	<update id="temporaryPassword" parameterType="HashMap">
 		update member set pw=#{temporaryPassword} where email=#{email}
 	</update>
+	
+	<!-- 닉네임 검색 -->
+	<select id="nicknameSearch" resultType="string">
+		select pk from member where nickname like '%'+#{nickname}+'%'
+	</select>
 </mapper>

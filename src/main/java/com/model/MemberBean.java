@@ -9,6 +9,13 @@ public class MemberBean {
 	private String image;
 	private String description;
 	private String gender;
+	private String title;
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	private int point;
 	private int pk;
 	public int getPk() {

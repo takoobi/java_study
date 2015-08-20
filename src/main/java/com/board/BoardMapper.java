@@ -3,6 +3,7 @@ package com.board;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,47 +31,52 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("board/")
 public class BoardMapper {
-	private String category;
 	private BoardBean boardBean;
 	private Tag tag;
+	private String category;
 
 	@Autowired
 	private BoardDAO boardDao;
 	
 	//글쓰기 페이지
-	@RequestMapping("writePage")
+	@RequestMapping("write")
 	public String writePage(){
 		return "board/write";
 	}
 	
 	//게시판 페이지
-	@RequestMapping(value="{category}",method=RequestMethod.GET)
+	@RequestMapping(value="list/{category}",method=RequestMethod.GET)
 	public String view(@PathVariable("category") String category, Model model){
 		this.category = category;
+		List<String> list = boardDao.getTagList(category);		
+		model.addAttribute("taglist",list);
 		return "board/"+category;
 	}
 	
 	
 	//글쓰기 액션
 	@RequestMapping("doWrite")
-	public String doWrite(MultipartHttpServletRequest request) throws IOException{		
+	public String doWrite(MultipartHttpServletRequest request) throws IOException{				
 		String[] tags = request.getParameter("tag").replaceAll("\\s", "").split(",");
-		BoardBean bean = new BoardBean();	
-		Tag tag = new Tag();
+		//String category = (String)session.getAttribute("category");
+		boardBean = new BoardBean();	
+		tag = new Tag();
+		System.out.println(category);
+		boardBean.setTitle(request.getParameter("title"));
+		boardBean.setDescription(request.getParameter("description"));
+		boardBean.setCategory(category);
 		
-		bean.setTitle(request.getParameter("title"));
-		bean.setDescription(request.getParameter("description"));
-		boardDao.boardInsert(bean);
+		boardDao.boardInsert(boardBean);
 
-		
 		for(String item : tags){
 			tag.setBoard_pk(boardDao.getBoardPk());
 			tag.setName(item);
 			tag.setMember_pk(1);
+			tag.setCategory(category);			
 			boardDao.tagInsert(tag);
 		}
 			
-		return "redirect:board/"+category;
+		return "redirect:list/"+category;		
 	}
 	//내가 쓴 글
 	@RequestMapping("BoardMystory")
@@ -80,79 +86,55 @@ public class BoardMapper {
 	 
 
 	//글 상세보기
-	@RequestMapping(value="detail/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
 	public String boardView(@PathVariable("id") int id, Model model){
-		BoardBean board = boardDao.getBoard(id);
+		Map map = new HashMap<String, Object>();
+		map.put("category", category);
+		map.put("id", id);
+		BoardBean board = boardDao.getBoard(map);
 		
 		model.addAttribute("board",board);
 		
 		return "board/detail";
 	}
 	
-	@RequestMapping("doList")
+	@RequestMapping(value="doList/{page}",method=RequestMethod.GET)
 	@ResponseBody
-	public Map doList(HttpServletRequest request){		
-		
+	public Map doList(@PathVariable("page") int page, @RequestParam String tags){		
 		List<BoardBean> boardlist;		
-		String tags = request.getParameter("tags");		
 		Map<String, Object> obj;
 		
-		if(tags == ""){
+		//String category = (String)session.getAttribute("category");
+		
+		if(tags == ""){	//태그가 없을경우 전체 글을 읽어옴
 			boardlist=new ArrayList<BoardBean>();	
 			obj = new HashMap<String, Object>();
-		  	int page=1;  // 현재 페이지 번호
 			
-			if(request.getParameter("page") != null){
-				page=Integer.parseInt(request.getParameter("page"));
-			}	
-
+			obj.put("category", category);
+			obj.put("page", page);	
 			// 페이지 번호(page)를 DAO클래스에게 전달한다.
-			boardlist = boardDao.boardList(page); //리스트를 받아옴.			
-			
-	   		obj.put("boardlist", boardlist);
-	   		obj.put("page", page);
+			boardlist = boardDao.boardList(obj); 
+	   		obj.put("boardlist", boardlist);	   		
 	   		
 			return obj;
-		} else {
-			String[] tagBox = tags.split(",");
-			boardlist = tagBoardList(tagBox);
+		} else {	// 태그가 있을 경우 태그에 해당하는 글을 읽어옴
+			boardlist=new ArrayList<BoardBean>();	
+			obj = new HashMap<String, Object>();	
+			String[] tagBox = tags.split(",");			
 			
-			obj = new HashMap<String, Object>();
+			obj.put("tags", tagBox);
+			obj.put("category", category);
+			obj.put("page", page);	
+			
+			boardlist = boardDao.BoardPkOfTag(obj);
 			
 			obj.put("boardlist", boardlist);
 			return obj;
 		}
 		
-	}		
+	}	
 	
-		
-		
-	public List<BoardBean> tagBoardList(String[] tagBox){
-		List<BoardBean> list = boardDao.selectAll();
-		List<BoardBean> result = new ArrayList<BoardBean>();
-		for(BoardBean bean : list){
-			String[] tmp = bean.getTag().split(",");
-			for(String tag : tmp){
-				if(tagDiff(tagBox, tag)){
-					result.add(bean);
-					break;
-				};
-			}			
-		}	
-		return result;
-	}
-		
-		
-	public boolean tagDiff(String[] tagBox, String tag){
-		for(String item : tagBox){
-			if(item.equals(tag)){
-				return true;
-			}			
-		}
-		return false;
-	}
-	
-	@RequestMapping("ajaxImage")
+	/*@RequestMapping("ajaxImage")
 	@ResponseBody
 	public Object ajaxImage(MultipartHttpServletRequest request, HttpSession session) throws IOException{
 		fileBean = new BoardFile();
@@ -170,7 +152,7 @@ public class BoardMapper {
 		}	
 		
 		return fileBean;
-	}
+	}*/
 	//글 삭제하기
 	@RequestMapping("BoardDelete")
 	public ModelAndView boardDelete(){

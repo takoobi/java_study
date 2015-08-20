@@ -4,7 +4,14 @@ public class Tag {
 	private int board_pk;
 	private int member_pk;
 	private String name;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	public int getBoard_pk() {
 		return board_pk;
 	}
@@ -23,4 +30,6 @@ public class Tag {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
 }

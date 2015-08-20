@@ -9,16 +9,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>카페 - 소통의 공간</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="css/flat-ui.css" />
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
-	<link rel="stylesheet" type="text/css" href="css/menu-component.css" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/flat-ui.css" />
+	<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
+	<link rel="stylesheet" type="text/css" href="../css/menu-component.css" />
 	
-	<script src="js/jquery.js"></script>
+	<script src="../js/jquery.js"></script>
 	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
-	<script src="js/modernizr.custom.25376.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/flat-ui.js"></script>
+	<script src="../js/modernizr.custom.25376.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/flat-ui.js"></script>
 	
 	<style>
 		#theSidebar {
@@ -47,7 +47,7 @@
 		height: 300px;
 		margin-bottom: 30px;
 	}
-	.post-dummy{
+	.post-dummy, .outer-nav{
 		display: none;
 	}
 	
@@ -77,15 +77,21 @@
 		font-size: 30px;
 		color: #f05f40;
 	}
+	.outer-nav {
+		z-index: 100;
+	}
 	</style>
 
     
   <script>
   $(function(){
 		var data =[];
-		getList();
 		var nowpage;
-
+		
+		getList();		
+		$('#showMenu').click(function(){
+			$('.outer-nav').show();
+		});
 	    $(".box").click(function(){    	
 	        if($(this).hasClass("select")){
 	            $(this).removeClass("select");
@@ -95,20 +101,16 @@
 	    	
 	        $(".box").each(function(){
 	        	if($(this).is(".select")){
-	        		data.push($(this).attr("value"));
+	        		data.push($(this).text());
 	        	}
 	        });
-	        $.post("doList", { tags : data.toString()}, function(data){        	
-		    	$('.grid__item').remove();
-	        	console.log("success");
-	        	console.log(data);	        	
-	        });
+	        $('#list').html('');
+	        getList();
 	        data=[];
 	    });  
 	    
 	    function getList(){
-	    	$.get("doList", { tags : data.toString()}, function(data){  
-	    		console.log(data);
+	    	$.get("../doList/1", { tags : data.toString()}, function(data){  
 	    		nowpage = data.page;
                 $.each(data.boardlist, function(index, item){
                   bbsAppend(item);
@@ -117,9 +119,9 @@
 	    }
 	    
 	    var bbsAppend = function(data) {
-            var node = $('#list .post-dummy').clone();
+            var node = $('.post-dummy').clone();
             $('.title',node).append(data.title);
-            node.attr('href', 'detail/' + data.pk)
+            node.attr('href', '../detail/' + data.pk)
             node.removeClass('post-dummy');
             $('#list').append(node);
         };   
@@ -128,7 +130,7 @@
     	    if($(window).scrollTop() == $(document).height() - $(window).height()){
     	    	$('div#loadmoreajaxloader').show();
     			if(nowpage > 0){
-    				$.get("doList?page="+(nowpage+1)*1 , { tags : data.toString()}, function(data){
+    				$.get("../doList/"+(nowpage+1)*1 , { tags : data.toString()}, function(data){
     					if(data.boardlist.length > 0){
     						nowpage=data.page;
     						$.each(data.boardlist, function(index, item){
@@ -160,36 +162,39 @@
 					<a href="#" class="fa fa-car fa-2x" id="showMenu">
 						<span>다른 장소로</span>
 					</a>
-					<div class="box" value="worry">고민</div>
-					<div class="box" value="man">남자</div>
-					<div class="box" value="woman">여자</div>
-					<div class="box" value="fun">꿀잼</div>
-					<div class="box" value="emp">직장인</div>
+					<a href="/LOVE/board/write" class="btn">글쓰기</a>
+					<div class="box" >고민</div>
+					<div class="box" >남자</div>
+					<div class="box" >여자</div>
+					<div class="box" >꿀잼</div>
+					<div class="box" >직장인</div>
 					
 				</header>
+				
 				<div class="row" id="list">
-					<a class="col-md-3 post-dummy" href="#">
-						<div class="post" >
-							<h2 class="title"></h2>
-						</div>
-					</a>
-				</div>				
 					
-				<div id="loadmoreajaxloader" style="display:none;"><center><img src="img/ajax-loader.gif" /></center></div>
+				</div>
+				<a class="col-md-3 post-dummy" href="#">
+					<div class="post" >
+						<h2 class="title"></h2>
+					</div>
+				</a>				
+					
+				<div id="loadmoreajaxloader" style="display:none;"><center><img src="../img/ajax-loader.gif" /></center></div>
 			</div><!-- wrapper -->
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
-			<a href="#" class="icon-home">홈</a>
-			<a href="#" class="icon-news">광장</a>
-			<a href="#" class="icon-image">카페</a>
-			<a href="#" class="icon-upload">선술집</a>
-			<a href="#" class="icon-star">학교</a>
-			<a href="#" class="icon-mail">옥탑방</a>
-			<a href="#" class="icon-lock">군대</a>
+			<a href="/LOVE" class="icon-home">홈</a>
+			<a href="square" class="icon-news">광장</a>
+			<a href="cafe" class="icon-image">카페</a>
+			<a href="bar" class="icon-upload">선술집</a>
+			<a href="school" class="icon-star">학교</a>
+			<a href="penthouse" class="icon-mail">옥탑방</a>
+			<a href="military" class="icon-lock">군대</a>
 		</nav>
 	</div><!-- /perspective -->
-	<script src="js/classie.js"></script>
-	<script src="js/menu.js"></script>
+	<script src="../js/classie.js"></script>
+	<script src="../js/menu.js"></script>
 </body>
 
 </html>

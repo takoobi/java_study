@@ -82,7 +82,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -130,21 +129,19 @@
                 <h4 class="modal-title" id="myModalLabel">로그인</h4>
               </div>
               <div class="modal-body">               
-                <div class="login-form  text-center">
+                <form class="login-form  text-center">
                   <div class="form-group">
-                    <input type="text" class="form-control login-field" value="" placeholder="Enter your name" id="login-name" />
-                    <label class="login-field-icon fui-user" for="login-name"></label>
+                    <input type="text" class="form-control login-field" name="email" placeholder="이메일을 입력하세요." id="email" />
                   </div>
 
                   <div class="form-group">
-                    <input type="password" class="form-control login-field" value="" placeholder="Password" id="login-pass" />
-                    <label class="login-field-icon fui-lock" for="login-pass"></label>
+                    <input type="password" class="form-control login-field" name="password" placeholder="비밀번호" id="password" />
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" >링크 온</button>
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="링크온" />
                     <a class="login-link" href="#">암호가 기억 안나는겐가...</a>
                   </div>                                    
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -199,7 +196,7 @@
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/cafe" class="portfolio-box">
+                    <a href="board/list/cafe" class="portfolio-box">
                         <img src="img/portfolio/1.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -211,7 +208,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/bar" class="portfolio-box">
+                    <a href="board/list/bar" class="portfolio-box">
                         <img src="img/portfolio/2.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -223,7 +220,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/school" class="portfolio-box">
+                    <a href="board/list/school" class="portfolio-box">
                         <img src="img/portfolio/3.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -235,7 +232,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/square" class="portfolio-box">
+                    <a href="board/list/square" class="portfolio-box">
                         <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -247,7 +244,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/penthouse" class="portfolio-box">
+                    <a href="board/list/penthouse" class="portfolio-box">
                         <img src="img/portfolio/5.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -259,7 +256,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/military" class="portfolio-box">
+                    <a href="board/list/military" class="portfolio-box">
                         <img src="img/portfolio/6.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">

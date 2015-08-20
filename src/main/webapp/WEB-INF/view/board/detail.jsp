@@ -80,7 +80,20 @@
 		color: black;
 	}
 	</style>
-    
+    <script>
+    $(function () {
+
+        $("#reply").keypress(function (key) {
+            if (key.keyCode == 64) {
+           		
+                console.log($("#txtInput").val());
+                
+            }
+        }); 
+        
+
+    });
+    </script>
   
 </head>
 
@@ -93,7 +106,10 @@
 				<section id="content">
 					<h1>${ board.title }</h1>
 					<div>${board.description }</div>
-				</section>				
+				</section>		
+				<section >
+					<textarea name="reply" id="reply" cols="30" rows="10"></textarea>
+				</section>		
 					
 			</div><!-- wrapper -->
 		</div><!-- /container -->

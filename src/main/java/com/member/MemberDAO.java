@@ -2,6 +2,7 @@ package com.member;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import com.config.MybatisInit;
@@ -30,6 +31,12 @@ public class MemberDAO {
 	//회원추가하기
 	public void insert(MemberBean bean) {
 		session.insert("member.insert", bean);
+		session.commit();
+	}
+	
+	//닉네임 검색
+	public List<String> nicknameSearch(String nickname){
+		return session.selectOne("member.nicknameSearch", nickname);
 	}
 
 	//이메일찾기

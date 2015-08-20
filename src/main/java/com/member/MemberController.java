@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -22,6 +23,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -73,6 +76,13 @@ public class MemberController {
 		
 		out.print(ob);
 	}
+	
+	//닉네임 검색
+	@RequestMapping(value="/nicknameSearch")
+	@ResponseBody
+	public List<String> nicknameSearch(@RequestParam("nickname") String nickname){				
+		return memberDao.nicknameSearch(nickname);
+	}
 
 	//회원추가하기
 	@RequestMapping(value="/addAction")
@@ -82,7 +92,7 @@ public class MemberController {
 		bean.setEmail(request.getParameter("email"));
 		bean.setPw(request.getParameter("pw"));
 		bean.setNickname(request.getParameter("nickname"));
-		bean.setDescription(request.getParameter("title"));
+		bean.setTitle(request.getParameter("title"));
 		
 		memberDao.insert(bean);
 		

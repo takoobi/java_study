@@ -12,7 +12,14 @@ public class BoardBean {
 	private int hit; 
 	private Date create_date;
 	private String member_pk;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	public String getMember_pk() {
 		return member_pk;
 	}
@@ -68,6 +75,6 @@ public class BoardBean {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-
+	
 	
 }
