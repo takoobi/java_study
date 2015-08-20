@@ -13,7 +13,6 @@ public class MemberBean {
 	private int point;
 	private Date create_date;
 	
-	
 	public String getTitle() {
 		return title;
 	}

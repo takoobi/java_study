@@ -131,7 +131,16 @@
     
     <!-- 공감을 누르면 id가져오기 -->
     <select id="emotion_id_get" parameterType="HashMap" resultType="String">
-    	select good_id from
+    	select 
+		<choose>
+			<when test="number==1 or number==2">
+				good_id
+			</when>
+			<when test="number==3 or number==4">
+				bad_id
+			</when>
+		</choose>
+		from
     	<include refid="table_find"/>
     	where pk=#{pk}
     </select>
@@ -140,6 +149,37 @@
     <update id="emotion_id_add" parameterType="HashMap">
     	update
     	<include refid="table_find"/>
-    	set good_id=#{good_id} where pk=#{pk}
+    	<choose>
+    		<when test="number==1 or number==2">
+    			set good_id=#{id_add} where pk=#{pk}
+    		</when>
+    		<when test="number==3 or number==4">
+    			set bad_id=#{id_add} where pk=#{pk}
+    		</when>
+    	</choose>
     </update>
+    
+	<!--  공감, 비공감 개수, id 가져오기 -->
+	<select id="emotion_count_get" parameterType="HashMap" resultType="HashMap">
+		select good "good", bad "bad", good_id "good_id", bad_id "bad_id" from
+		<include refid="table_find"/>
+		where pk=#{pk}
+	</select>
+    
+    <!-- 댓글 추가하기 -->
+    <insert id="reply_insert" parameterType="HashMap">
+    	insert into reply(pk,email,description,board_key) values(reply_seq.nextval,#{email},#{description},#{pk})	
+    </insert>
+    
+    <!-- 댓글 가져오기 -->
+    <select id="reply_getData" parameterType="String" resultType="reply">
+    	select * from reply where board_key=#{board_key} order by create_date desc
+    </select>
+    
+    <!-- 지정한 수의 게시글 가져오기 -->
+    <select id="get_setCount_board" parameterType="HashMap" resultType="board">
+        select a.* from (select rownum as rnum, b.* from (select * from	
+		<include refid="table_find" />
+		order by create_date desc)b)a where a.rnum<![CDATA[<=]]>6
+    </select>
 </mapper>

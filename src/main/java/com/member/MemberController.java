@@ -34,6 +34,11 @@ public class MemberController {
 	private MemberDAO memberDao;
 	
 	//회원가입화면
+	@RequestMapping(value="/signupPage")
+	public String signupPage(){
+		return "member/register";
+	}
+	//회원가입화면
 	@RequestMapping(value="/add")
 	public String add(){
 		return "member/member_add";
@@ -85,7 +90,7 @@ public class MemberController {
 		
 		memberDao.insert(bean);
 		
-		return "redirect:/url.jsp";
+		return "redirect:/index.jsp";
 	}
 	
 	//회원정보수정화면
@@ -183,7 +188,7 @@ public class MemberController {
 			String nickname = memberDao.getNickname(email);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:/url.jsp";
+			return "redirect:/index.jsp";
 		}else if(check==0){
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();
@@ -209,7 +214,7 @@ public class MemberController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:/url.jsp";
+		return "redirect:/index.jsp";
 	}
 	
 	//비밀번호찾기화면

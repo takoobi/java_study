@@ -2,12 +2,14 @@ package com.board;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.model.BoardBean;
+import com.model.ReplyBean;
 
 @Repository
 public class BoardDAO {
@@ -79,16 +81,44 @@ public class BoardDAO {
 		hashMap.put("number", String.valueOf(number));
 		hashMap.put("pk", String.valueOf(pk));
 		session.update("board.emotion", hashMap);
+
+		String id_add = session.selectOne("board.emotion_id_get", hashMap);
+
 		if(number==1 || number==3){
-			String good_id = session.selectOne("board.emotion_id_get", hashMap);
-			if(good_id==null)good_id=id;
-			else good_id+=","+id;
-			hashMap.put("good_id", good_id);
-			session.update("board.emotion_id_add", hashMap);			
+			if(id_add==null) id_add=","+id;
+			else id_add+=","+id;		
 		}
 		if(number==2 || number==4){
-			String good_id = session.selectOne("board.emotion_id_get", hashMap);
+			id_add=id_add.replace(","+id,"");
 		}
+		hashMap.put("id_add", id_add);
+		session.update("board.emotion_id_add", hashMap);	
+	}
+	
+	//공감, 비공감 개수, id 가져오기
+	public Map<String, Object> emotion_count_get(String category, int pk) {
+		hashMap.put("category", category);
+		hashMap.put("pk", String.valueOf(pk));
+		return session.selectOne("board.emotion_count_get", hashMap);
 	}
 
+	//댓글 추가하기
+	public void reply_insert(String description, String board_key, String email) {
+		hashMap.put("description", description);
+		hashMap.put("board_key", board_key);
+		hashMap.put("email", email);
+		
+		session.insert("board.reply_insert",hashMap);
+	}
+
+	//댓글 가져오기
+	public List<ReplyBean> reply_getData(String board_key) {
+		return session.selectList("board.reply_getData", board_key);
+	}
+
+	//지정한 개수의 게시글 가져오기
+	public List<BoardBean> get_setCount_board(String category){
+		hashMap.put("category", category);
+		return session.selectList("board.get_setCount_board", hashMap);
+	}
 }

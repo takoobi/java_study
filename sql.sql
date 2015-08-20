@@ -39,17 +39,18 @@ drop table member;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 create table reply
 (
-pk number(7) primary key,
-image varchar2(80),
-email varchar2(20) not null,
-nickname varchar2(30) not null,
-create_date date default sysdate,
-empathy number(5) default 0,
-notempathy number(5) default 0,
-board_key number(7) not null,
+	pk number(7) primary key,
+	email varchar2(20) not null,
+	description varchar2(500),
+	create_date date default sysdate,
+	board_key number(7) not null
+);
 foreign key(board_key) references board(pk),
 foreign key(email) references member(email)
-);
+
+create sequence reply_seq start with 1 increment by 1;
+
+select * from reply;
 
 drop table reply purge;
 
@@ -63,7 +64,7 @@ drop table reply purge;
 노래방 board_music
 방송국 board_broadcast
 
-create table board_cafe(
+create table board_broadcast(
 pk number(7) primary key,
 title varchar2(50) not null,
 description varchar2(1000) not null,
@@ -88,7 +89,7 @@ select * from board_exile;
 select * from board_music;
 select * from board_broadcast;
 
-delete from board_cafe where pk=84
+delete from board_cafe where pk=121
 
 drop table board_cafe purge;
 drop table board_bar purge;
@@ -117,6 +118,17 @@ select * from board_cafe where tag='fun';
 select * from board_cafe where tag='emp';
 
 select a.* from (select rownum as rnum, b.* from (select * from board_cafe order by create_date desc)b)a where a.rnum>=1 and a.rnum<=6
+
+    	select * from 
+(select * from board_cafe Union 
+	select * from board_bar Union
+	select * from board_school Union 
+	select * from board_penthouse Union 
+	select * from board_military Union 
+	select * from board_exile Union 
+	select * from board_music Union 
+	select * from board_broadcast)
+		where pk=112
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 

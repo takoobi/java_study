@@ -14,6 +14,8 @@ public class BoardBean {
 	private Date create_date;
 	private String email;
 	private String category;
+	private String good_id;
+	private String bad_id;
 	
 	public int getPk() {
 		return pk;
@@ -80,6 +82,17 @@ public class BoardBean {
 	}
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getGood_id() {
+		return good_id;
+	}
+	public void setGood_id(String good_id) {
+		this.good_id = good_id;
+	}
+	public String getBad_id() {
+		return bad_id;
+	}
+	public void setBad_id(String bad_id) {
+		this.bad_id = bad_id;
 	} 
-	
 }
