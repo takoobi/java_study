@@ -80,8 +80,14 @@ public class MemberController {
 	//닉네임 검색
 	@RequestMapping(value="/nicknameSearch")
 	@ResponseBody
-	public List<String> nicknameSearch(@RequestParam("nickname") String nickname){				
-		return memberDao.nicknameSearch(nickname);
+	public List<String> nicknameSearch(@RequestParam("nickname") String nickname){		
+		System.out.println(nickname);
+		if(nickname.equals("")){
+			return null;
+		}else {
+			return memberDao.nicknameSearch(nickname);
+		}
+		
 	}
 
 	//회원추가하기

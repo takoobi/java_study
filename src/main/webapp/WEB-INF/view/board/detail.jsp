@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/menu-component.css" />
 	
-	<script src="js/jquery.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
 	<script src="${pageContext.request.contextPath}/js/modernizr.custom.25376.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
@@ -79,16 +79,40 @@
 	section {
 		color: black;
 	}
+	#nicknameSearch{
+		width: 200px;
+		border: 1px solid black;
+	}
+	.nickname {
+		background-color: yellow;
+	}
+	#reply{
+		width: 300px;
+		height: 200px;
+		border: 1px solid black;
+	}
 	</style>
     <script>
     $(function () {
-
+    	$('#reply').each(function(){
+    	    this.contentEditable = true;
+    	});
         $("#reply").keypress(function (key) {
-            if (key.keyCode == 64) {
-           		
-                console.log($("#txtInput").val());
-                
-            }
+            if (key.keyCode == 64) { //64 = '@' 입력시 닉네임 검색
+           		$(this).keyup(function(key){
+           			var tmp = $(this).text().split('@'); //'@' 를 기준으로 앞의 문자열 제거 
+           			$.get('/LOVE/member/nicknameSearch',{nickname:tmp[tmp.length-1]}, function(data){
+           				$('#nicknameSearch').html('');
+       					$.each(data, function(index, item){
+   							$('#nicknameSearch').append('<span class="nickname">'+item+'</span>');
+   		                });
+           			}, 'json');
+           			if(key.keyCode == 13){	//13 = '엔터' 입력시 이벤트 연결 해체
+           				console.log($(this).val());
+           				$(this).unbind('keyup');           				
+           			}
+           		});             
+            } 
         }); 
         
 
@@ -108,7 +132,10 @@
 					<div>${board.description }</div>
 				</section>		
 				<section >
-					<textarea name="reply" id="reply" cols="30" rows="10"></textarea>
+					<div name="reply" id="reply" ></div>
+					<div id="nicknameSearch">
+						<span class="nickname">가미가재</span>
+					</div>
 				</section>		
 					
 			</div><!-- wrapper -->

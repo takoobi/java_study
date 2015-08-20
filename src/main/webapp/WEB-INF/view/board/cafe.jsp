@@ -88,7 +88,7 @@
 		var data =[];
 		var nowpage;
 		
-		getList();		
+		getList();	//해당 카테고리 처음엔 모든 글의 리스트 읽어옴
 		$('#showMenu').click(function(){
 			$('.outer-nav').show();
 		});

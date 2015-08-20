@@ -61,6 +61,6 @@
 	
 	<!-- 닉네임 검색 -->
 	<select id="nicknameSearch" resultType="string">
-		select pk from member where nickname like '%'+#{nickname}+'%'
+		select nickname from member where nickname like '%'||#{nickname}||'%'
 	</select>
 </mapper>

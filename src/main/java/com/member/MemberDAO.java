@@ -36,7 +36,7 @@ public class MemberDAO {
 	
 	//닉네임 검색
 	public List<String> nicknameSearch(String nickname){
-		return session.selectOne("member.nicknameSearch", nickname);
+		return session.selectList("member.nicknameSearch", nickname);
 	}
 
 	//이메일찾기
