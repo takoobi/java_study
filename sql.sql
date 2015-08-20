@@ -10,7 +10,15 @@ create table member (
   create_date date default sysdate
 );
 
+select nickname from member where email='aa@aa'
+
 insert into member values('1234','1234','1234','1234','1234','M',0,sysdate)
+
+insert into member values('bbc@bbc.com','1111','닉넴되나?','1234','1234','M',0,sysdate)
+
+insert into member(email, pw, nickname, description) values('qq@qq.com', '1111', 'q란 남자', 'qqq')
+
+delete from member where email = 'gagbear98@nate.com';
 
 select * from member;
 

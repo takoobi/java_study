@@ -75,16 +75,14 @@ public class MemberController {
 
 	//회원추가하기
 	@RequestMapping(value="/addAction")
-	public String addAction(HttpServletRequest request) throws IllegalStateException, IOException{
+	public String addAction(HttpServletRequest request) throws IllegalStateException, IOException{		
 		
 		MemberBean bean = new MemberBean();
 		bean.setEmail(request.getParameter("email"));
 		bean.setPw(request.getParameter("pw"));
 		bean.setNickname(request.getParameter("nickname"));
-		bean.setTitle(request.getParameter("title"));
-		
-		memberDao.insert(bean);
-		
+		bean.setDescription(request.getParameter("description"));		
+		memberDao.insert(bean);		
 		return "redirect:/url.jsp";
 	}
 	
@@ -150,7 +148,16 @@ public class MemberController {
 			int check=memberDao.delete(email,pw);
 			
 			if(check==1){
-				session.invalidate();
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('삭제되었습니다. "
+						+ "언제든 다시 돌아오세요~~ ㅠㅠ');");	
+				out.println("history.go(-2);");
+				out.println("location.reload(true);");				
+				out.println("</script>");
+				out.close();				
+				session.invalidate();				
 			}else{
 				response.setContentType("text/html; charset=euc-kr");
 				PrintWriter out = response.getWriter();
@@ -162,9 +169,8 @@ public class MemberController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-				
-		return "redirect:/url.jsp";
+		}		
+		return "redirect:/url.jsp";		
 	}
 	
 	//로그인화면
@@ -172,6 +178,15 @@ public class MemberController {
 	public String login(){
 		return "member/member_login";
 	}
+	
+	//취소 후 메인 화면
+	@RequestMapping(value="/urlviewAction")
+	public String indexview(){
+		
+		return "redirect:/url.jsp";
+	}
+	
+	
 	//로그인하기
 	@RequestMapping(value="/loginAction")
 	public String loginAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
@@ -261,16 +276,36 @@ public class MemberController {
 	        transport.connect(host, username, password);
 	        transport.sendMessage(msg, msg.getAllRecipients());
 	        transport.close();
-			return "redirect:/url.jsp";
+	        
+	        // 발송 확인 팝업창
+	        response.setContentType("text/html; charset=utf-8");
+	        String[] str = email.split("@");			
+			String emailResult = str[1];
+	        PrintWriter out=response.getWriter();
+	        
+	        
+	        System.out.println("값 : " +emailResult);
+			out.println("<script>");
+			out.println("alert('입력하신 이메일 주소로 임시비밀 번호가 발송되었습니다.');");
+			out.println("history.go(-2)");
+			out.println("window.open('http://www."+ emailResult +"', 'child', 'width=1000, height=500', true);");
+			out.println("</script>");
+			out.close();			
+			
+			System.out.println("리턴 바로 전");
+
+			
 		} else{
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();
 			out.println("<script>");
-			out.println("alert('등록된 이메일이 없습니다');");
+			out.println("alert('등록된 이메일이 없습니다');");			
 			out.println("history.go(-1)");
 			out.println("</script>");
 			out.close();
 		}
 		return null;
 	}
+	
 }
+

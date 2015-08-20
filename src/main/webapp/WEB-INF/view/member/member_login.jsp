@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="../url.jsp">홈으로</a><br><body>
 <form action="loginAction" method="post">
 <table>
 	<tr>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원 가입 화면</title>
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 var check = [false, false,false,false];
@@ -14,7 +14,7 @@ $(function(){
 	//이메일 중복확인
 	$("#email_check").click(function(){
 		if($("#email").val()==""){
-			alert("아이디를 입력하세요.");
+			alert("이메일을 입력하세요.");
 			return false;
 		}
 		$.ajax({
@@ -119,13 +119,14 @@ function validity_check(){
 
 </script>
 </head>
-<body>
+<a href="../url.jsp">홈으로</a><br><body>
+
 <form action="addAction" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return validity_check();">
 <table>
 	<tr>
 		<td>아이디(이메일)*</td>
 		<td>
-			<input type="text" name="email" id="email" placeholder="email">
+			<input type="email" name="email" id="email" placeholder="email">
 			<input type="button" id="email_check" value="아이디 중복확인">
 		</td>
 	</tr>
@@ -146,7 +147,7 @@ function validity_check(){
 	</tr>
 	<tr>
 		<td>자기소개</td>
-		<td><textarea rows="10" cols="10" name="title"></textarea></td>	
+		<td><textarea rows="10" cols="30" name="description" id="description"></textarea></td>	
 	</tr>
 	<tr>
 		<td colspan="2"><input type="submit" value="가입하기"></td>

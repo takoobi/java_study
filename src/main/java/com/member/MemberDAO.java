@@ -29,7 +29,7 @@ public class MemberDAO {
 
 	//회원추가하기
 	public void insert(MemberBean bean) {
-		session.insert("member.insert", bean);
+		session.insert("member.insert", bean);		
 	}
 
 	//이메일찾기
@@ -45,7 +45,7 @@ public class MemberDAO {
 		int number=0;
 		
 		if(password.equals(pw)){
-			session.delete("member.delete", email);
+			session.delete("member.delete", email);			
 			number=1;
 		} else{
 			number=0;
@@ -68,7 +68,8 @@ public class MemberDAO {
 
 	//닉네임 가져오기
 	public String getNickname(String email) {
-		return null;
+		String nickname = session.selectOne("member.getNickname", email);
+		return nickname;
 	}
 
 	//한 명의 데이터 가져오기

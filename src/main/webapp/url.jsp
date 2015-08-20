@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page session="true" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +10,9 @@
 </head>
 <body>
 세션 관리<br>
-&emsp;로그인 아이디 : ${sessionScope.email}<br>
-&emsp;닉네임 : ${sessionScope.nickname}<br>
+&emsp;로그인 아이디 : 이메일 주소 - ${sessionScope.email} -로 접속하셨습니다.<br>
+&emsp;닉네임 : 환영합니다. - ${sessionScope.nickname} - 님<br>
+
 <br>
 관리자-회원<br>
 &emsp;<a href="member/list">회원목록보기</a>&emsp;member/list&emsp;X<br>

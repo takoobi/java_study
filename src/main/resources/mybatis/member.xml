@@ -35,13 +35,13 @@
 	</select>
 	
 	<!-- 닉네임 가져오기 -->
-	<select id="getNickname">
+	<select id="getNickname" parameterType="String" resultType="String">
 		select nickname from member where email=#{email}
 	</select>
 	
 	<!-- 회원 등록 -->
 	<insert id="insert" parameterType="member">
-		insert into member (email,pw,nickname,title) values(#{email},#{pw},#{nickname},#{title})
+		insert into member(email, pw, nickname, description) values(#{email},#{pw},#{nickname},#{description})
 	</insert>
 	
 	<!-- 회원 삭제 -->

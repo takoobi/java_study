@@ -10,8 +10,8 @@
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 var check = [true];
-//0-닉네임중복확인
 
+//0-닉네임중복확인
 $(document).ready(function(){
 	if("${OneData.image}"!="original_image.jpg"){
 		$('#img2').attr('src', "resources/image/profile/${OneData.image}");
@@ -29,6 +29,13 @@ $(document).ready(function(){
     $('#image').on('change', function() {
         readURL(this);
     });
+    
+    // 수정 취소 후 메인 화면
+    $('#cancel').click(function(){
+    	alert('취소하였습니다.');
+    	return 	    	
+    });
+    
     
     //닉네임 중복확인
 	$("#nickname_check").click(function(){
@@ -79,6 +86,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<a href="../url.jsp">홈으로</a><br><body>
 <form action="modifyAction" enctype="multipart/form-data" method="post" onsubmit="return validity_check();">
 <input type="hidden" id="email" name="email" value="${OneData.email}">
 ${pageContext.request.contextPath}
@@ -130,6 +138,7 @@ ${pageContext.request.contextPath}
 	</tr>
 	<tr>
 		<td colspan="2"><input type="submit" value="수정하기"></td>
+		<td colspan="2"><a href="urlviewAction"><input type="button" id="cancel" value="취소하기"></td>
 	</tr>
 </table>
 <br><br><br>
