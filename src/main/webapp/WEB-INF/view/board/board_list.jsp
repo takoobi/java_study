@@ -216,6 +216,7 @@ $(window).scroll(function(){
 </head>
 <body>
 <input type="hidden" id="category" name="category" value="${category}">
+<a href="write?category=${category}">${category} 글쓰기</a>
 <c:if test="${category!='square'}">
 	<h1>${category} 게시판</h1>
 	<div id="tags">

@@ -149,7 +149,7 @@ public class MemberController {
 		String pw=request.getParameter("pw");
 		
 		if(email==null){
-			return "redirect:/url.jsp";
+			return "redirect:/index.jsp";
 		}
 		try{
 			int check=memberDao.delete(email,pw);
@@ -169,7 +169,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 				
-		return "redirect:/url.jsp";
+		return "redirect:/index.jsp";
 	}
 	
 	//로그인화면
@@ -188,7 +188,7 @@ public class MemberController {
 			String nickname = memberDao.getNickname(email);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:/index.jsp";
+			return "redirect:/board/square";
 		}else if(check==0){
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();

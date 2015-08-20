@@ -102,7 +102,7 @@ ${pageContext.request.contextPath}
 		<td>이미지-이미지가 없을 시에 기본이미지 지정</td>
 		<td>
 			<input type="file" name="image" id="image"><br>
-			<img alt="" src="resources/image/profile/${OneData.image}" id="img" name="img">
+			<img alt="" src="${pageContext.request.contextPath}/resources/image/profile/${OneData.image}" id="img" name="img">
 		</td>
 	</tr>
 	<tr>
@@ -129,7 +129,8 @@ ${pageContext.request.contextPath}
 		<td><textarea rows="10" cols="10" name="description"></textarea></td>	
 	</tr>
 	<tr>
-		<td colspan="2"><input type="submit" value="수정하기"></td>
+		<td><input type="submit" value="수정하기"></td>
+		<td><a href="delete">탈퇴하기</a></td>
 	</tr>
 </table>
 <br><br><br>

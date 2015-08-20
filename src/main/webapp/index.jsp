@@ -94,12 +94,17 @@
                 			<a class="page-scroll">ID = ${sessionScope.email}</a>
                 		</li>
                 		<li>
+                			<a class="page-scroll" href="member/modify">회원정보수정</a>
+                		</li>
+                		<li>
                 			<a class="page-scroll" href="member/logout">로그아웃</a>
                 		</li>
+                	</c:if>
+                	<c:if test="${empty sessionScope.email}">
+	                	<li>
+	                        <a class="page-scroll" href="member/signupPage">회원가입</a>
+	                    </li>
                 	</c:if>                	
-                    <li>
-                        <a class="page-scroll" href="member/signupPage">회원가입</a>
-                    </li>
 <!--                     <li>
                         <a class="page-scroll" href="#services">Services</a>
                     </li>
@@ -154,7 +159,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" >링크 온</button>
-                    <a class="login-link" href="#">암호가 기억 안나는겐가...</a>
+                    <a class="login-link" href="member/find">암호가 기억 안나는겐가...</a>
                   </div>       
                   </form>                             
                 </div>
@@ -169,7 +174,7 @@
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/cafe" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/cafe/cafe0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -181,7 +186,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/bar" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/bar/bar0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -193,7 +198,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/school" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/school/school0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -205,7 +210,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/square" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/square/square0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -217,7 +222,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/penthouse" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/penthouse/penthouse0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -229,7 +234,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/military" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/military/military0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -241,7 +246,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/exile" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/exile/exile0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -253,7 +258,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/music" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/music/music0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -265,7 +270,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#" class="portfolio-box">
+                    <a href="board/broadcast" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/broadcast/broadcast0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
