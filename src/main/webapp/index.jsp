@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>우글우글</title>
+    <title>따글따글</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/bootstrap.min.css" type="text/css">
@@ -51,10 +51,17 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/main/js/creative.js"></script>
-  <script>
     
-  </script>
-  <style>
+    <!-- JQuery -->
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+
+	<script type="text/javascript">
+	$(function(){
+		
+	});
+	</script>	
+<style>
     .modal-content {
       background-color: #edeff1;
       margin-top: 100px;
@@ -169,7 +176,7 @@
         </div>
         
     </header>
-
+	<br><br>
     <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter">

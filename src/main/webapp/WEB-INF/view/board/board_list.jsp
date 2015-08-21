@@ -138,11 +138,13 @@ function ajax(){
 			var list="";
 
 		    $.each(result, function(index, item){
-		    	list+="<div>";
-		    	list+= item['pk']+"      "+item['title'];
-		    	list+="<a href='board_view?pk="+item['pk']+"&category="+item['category']+"'>"+item['title']+"</a>";
+		    	list+="<a href='board_view?pk="+item['pk']+"&category="+item['category']+"'>";
+		    	list+="<div class='content'>";
+		    	list+="<p class='opacity'>";
+		    	list+= item['title'];
+		    	list+="</p>";
 		    	list+="</div>";
-		    	list+="<br><br><br>";
+		    	list+="</a>";
 		    });	
 		    $("#list").append(list);
 		}
@@ -168,14 +170,16 @@ function infinite_ajax_scroll(){
 
 			if(result!=""){
 			    $.each(result, function(index, item){
-			    	list+="<div>";
-			    	list+= item['pk']+"      "+item['title'];
-			    	list+="<a href='board_view?pk="+item['pk']+"&category="+item['category']+"'>"+item['title']+"</a>";
+			    	list+="<a href='board_view?pk="+item['pk']+"&category="+item['category']+"'>";
+			    	list+="<div class='content'>";
+			    	list+="<p class='opacity'>";
+			    	list+= item['title'];
+			    	list+="</p>";
 			    	list+="</div>";
-			    	list+="<br><br><br>";
+			    	list+="</a>";
 			    });			    
 			}else{
-				list="더 이상 볼게 없네요~ㅠㅠ";
+				list="<div class='content'>더 이상 볼게 없네요~ㅠㅠ</div>";
 				end=0;
 			}
 			$("#list").append(list);
@@ -191,35 +195,171 @@ $(window).scroll(function(){
 });
 
 </script>
+<c:choose>
+	<c:when test="${category=='cafe'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/cafe/cafe00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='bar'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/bar/bar00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='school'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/school/school00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='penthouse'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/penthouse/penthouse00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='military'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/military/military00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='exile'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/exile/exile00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='music'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/music/music00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+	<c:when test="${category=='broadcast'}">
+		<style type="text/css">
+			.content{
+				background-image: url("${pageContext.request.contextPath}/resources/image/broadcast/broadcast00.jpg");
+				background-size:340px 300px;
+				opacity:0.3;
+			}
+		</style>	
+	</c:when>
+</c:choose>
 <style type="text/css">
 	#tags{
 		height: 100px;
-		border: 1px solid red;
+		width: 900px;
+		margin: 0 auto;
 	}
 	#list{
-		border: 1px solid black;
+		width: 1090px; 
+		margin:0 auto;
 	}
 	.box{
-		width: 70px;
-		height: 30px;
-		background-color: #9cff2f;
-		margin: 0 10px;
-		float: left;
-		line-height: 25px;
-		text-align: center;
-		font-size: 10px;
+	    height: 70px;
+	    width: 70px;
+	    border-radius: 100%;
+	    margin: 20px auto;
+	    background: #fff;
+	    text-align: center;
+	    box-shadow: inset 0px 0px 15px rgba(0,0,0,0.3);
+	    border: 2px solid #fff;
+	    float: left;
+	    line-height: 65px;
 	}
 	.select{
 		background-color: #fff616;
+	}
+	.write {
+   	 	height: 70px;
+	    width: 70px;
+	    border-radius: 100%;
+	    margin: 20px auto;
+	    margin-right:30px;
+	    background: #fff;
+	    text-align: center;
+	    box-shadow: inset 0px 0px 15px rgba(0,0,0,0.3);
+	    border: 2px solid #fff;
+	    float: left;
+	    line-height: 65px;
+	}
+	.write a{
+		color: #a52a2a !important;
+   	 	font-weight: bold;
+   	 	text-decoration: none;
+	}
+	.content{
+		width: 340px;
+		height: 300px;
+		border: 1px solid black;
+		float: left;
+		margin:10px;
+	}
+	a:link,a:visited,a:hover{
+		text-decoration: none;
+		color: black;
+	}
+	.center{
+		position: absolute;
+		left: 50px;
 	}
 </style>
 </head>
 <body>
 <input type="hidden" id="category" name="category" value="${category}">
-<a href="write?category=${category}">${category} 글쓰기</a>
 <c:if test="${category!='square'}">
-	<h1>${category} 게시판</h1>
+	<c:choose>
+		<c:when test="${category=='cafe'}">
+			<h1 class="center">카페</h1>
+		</c:when>
+		<c:when test="${category=='bar'}">
+			<h1 class="center">선술집</h1>
+		</c:when>
+		<c:when test="${category=='school'}">
+			<h1 class="center">학교</h1>
+		</c:when>
+		<c:when test="${category=='penthouse'}">
+			<h1 class="center">옥탑방</h1>
+		</c:when>
+		<c:when test="${category=='military'}">
+			<h1 class="center">군대</h1>
+		</c:when>
+		<c:when test="${category=='exile'}">
+			<h1 class="center">유배지</h1>
+		</c:when>
+		<c:when test="${category=='music'}">
+			<h1 class="center">노래방</h1>
+		</c:when>
+		<c:when test="${category=='broadcast'}">
+			<h1 class="center">방송국</h1>
+		</c:when>
+	</c:choose>
 	<div id="tags">
+		<div class="write"><a href="write?category=${category}">글쓰기</a></div>
 		<c:choose>
 	        <c:when test="${category=='cafe'}">
 		        <div class="box" id="worry">고민</div>
@@ -266,11 +406,12 @@ $(window).scroll(function(){
 	    	</c:when>
 		</c:choose>
 	</div>
+	<br>
 	<div id="list">
 	</div>
 </c:if>
 <c:if test="${category=='square'}">
-	<h1>${category} 게시판</h1>
+	<h1>광장</h1>
 	<div id="cafe">카페</div>
 	<div id="bar">선술집</div>
 	<div id="school">학교</div>

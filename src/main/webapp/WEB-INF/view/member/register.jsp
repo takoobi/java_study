@@ -31,7 +31,7 @@
 				<div class="fs-title">
 					<h1>오늘 참 좋은 당신을 만났습니다.</h1>
 					<div class="codrops-top">
-						<a class="codrops-icon codrops-icon-prev back-btn" href="/"><span>뒤로가기</span></a>
+						<a class="codrops-icon codrops-icon-prev back-btn" href="javascript:history.back()"><span>뒤로가기</span></a>
 						<!--<a class="codrops-icon codrops-icon-drop" href="http://tympanus.net/codrops/?p=19520"><span>Back to the Codrops Article</span></a>-->
 						<!--<a class="codrops-icon codrops-icon-info" href="#"><span>This is a demo for a fullscreen form</span></a>-->
 					</div>
