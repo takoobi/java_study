@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<resultMap type="board" id="boardMap">
+		<result column="pk" property="pk"/>
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="image" property="image"/>
+		<result column="good" property="good"/>
+		<result column="bad" property="bad"/>
+		<result column="hit" property="hit"/>
+		<result column="tag" property="tag"/>
+		<result column="create_date" property="create_date"/>
+		<result column="email" property="email"/>
+	</resultMap>
+	
+	<sql id="table_find">
+		<choose>
+			<when test="category=='cafe'">
+				board_cafe 
+			</when>
+			<when test="category=='bar'">
+				board_bar 
+			</when>
+			<when test="category=='school'">
+				board_school 
+			</when>
+			<when test="category=='penthouse'">
+				board_penthouse 
+			</when>
+			<when test="category=='military'">
+				board_military 
+			</when>
+			<when test="category=='exile'">
+				board_exile 
+			</when>
+			<when test="category=='music'">
+				board_music 
+			</when>
+			<when test="category=='broadcast'">
+				board_broadcast 
+			</when>
+		</choose>	
+	</sql>
+	
+	<sql id="tag_find">
+		<choose>
+			<when test="tagCount==1">
+				where tag like '%' || #{0} || '%'
+			</when>
+			<when test="tagCount==2">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%'
+			</when>
+			<when test="tagCount==3">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%'
+			</when>
+			<when test="tagCount==4">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%'
+			</when>
+			<when test="tagCount==5">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%'
+			</when>
+			<when test="tagCount==6">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%'
+			</when>
+			<when test="tagCount==7">
+				where tag like '%' || #{0} || '%' or tag like '%' || #{1} || '%' or tag like '%' || #{2} || '%' or tag like '%' || #{3} || '%' or tag like '%' || #{4} || '%' or tag like '%' || #{5} || '%' or tag like '%' || #{6} || '%'
+			</when>
+		</choose>	
+	</sql>
+	
+	<!-- 글쓰기 -->
+	<insert id="insert" parameterType="board">
+		insert into 
+		<include refid="table_find" />
+		 values(board_seq.nextval,#{title},#{description},#{image},0,'',0,'',0,#{tag},#{email},sysdate)	
+	</insert>
+	
+	<!-- 전체게시글 갯수 -->
+	<select id="totalCount" parameterType="HashMap" resultType="int">
+        select count(*) from 
+		<include refid="table_find" />
+		<include refid="tag_find"/>
+    </select>
+ 
+    <!-- 페이징 처리한 게시글 -->
+    <select id="pagingList" parameterType="HashMap" resultType="board">
+        select a.* from (select rownum as rnum, b.* from (select * from	
+		<include refid="table_find" />
+		<include refid="tag_find"/>
+		order by create_date desc)b)a where a.rnum<![CDATA[>=]]>#{start} and a.rnum<![CDATA[<=]]>#{end}
+    </select>
+    
+    <!-- 하나의 게시글 가져오기 -->
+    <select id="one_board" parameterType="HashMap" resultType="board">
+    	select * from 
+		<include refid="table_find" />
+		where pk=#{pk}
+    </select>
+    
+    <!-- 조회수 +1 -->
+    <update id="hit_add" parameterType="HashMap">
+    	update 
+		<include refid="table_find" />
+		set hit=hit+1 where pk=#{pk}
+    </update>
+    
+    <!-- 공감 -->
+    <update id="emotion" parameterType="HashMap"	>
+    	update
+    	<include refid="table_find"/>
+    	<choose>
+    		<when test="number==1">
+    			set good=good+1 where pk=#{pk}
+    		</when>
+    		<when test="number==2">
+    			set good=good-1 where pk=#{pk}
+    		</when>
+    		<when test="number==3">
+    			set bad=bad+1 where pk=#{pk}
+    		</when>
+    		<when test="number==4">
+    			set bad=bad-1 where pk=#{pk}
+    		</when>
+    	</choose>
+    </update>
+    
+    <!-- 공감을 누르면 id가져오기 -->
+    <select id="emotion_id_get" parameterType="HashMap" resultType="String">
+    	select 
+		<choose>
+			<when test="number==1 or number==2">
+				good_id
+			</when>
+			<when test="number==3 or number==4">
+				bad_id
+			</when>
+		</choose>
+		from
+    	<include refid="table_find"/>
+    	where pk=#{pk}
+    </select>
+    
+    <!-- 공감을 누르면 id값 넣기 -->
+    <update id="emotion_id_add" parameterType="HashMap">
+    	update
+    	<include refid="table_find"/>
+    	<choose>
+    		<when test="number==1 or number==2">
+    			set good_id=#{id_add} where pk=#{pk}
+    		</when>
+    		<when test="number==3 or number==4">
+    			set bad_id=#{id_add} where pk=#{pk}
+    		</when>
+    	</choose>
+    </update>
+    
+	<!--  공감, 비공감 개수, id 가져오기 -->
+	<select id="emotion_count_get" parameterType="HashMap" resultType="HashMap">
+		select good "good", bad "bad", good_id "good_id", bad_id "bad_id" from
+		<include refid="table_find"/>
+		where pk=#{pk}
+	</select>
+    
+    <!-- 댓글 추가하기 -->
+    <insert id="reply_insert" parameterType="HashMap">
+    	insert into reply(pk,email,description,board_key) values(reply_seq.nextval,#{email},#{description},#{pk})	
+    </insert>
+    
+    <!-- 댓글 가져오기 -->
+    <select id="reply_getData" parameterType="String" resultType="reply">
+    	select * from reply where board_key=#{board_key} order by create_date desc
+    </select>
+    
+    <!-- 지정한 수의 게시글 가져오기 -->
+    <select id="get_setCount_board" parameterType="HashMap" resultType="board">
+        select a.* from (select rownum as rnum, b.* from (select * from	
+		<include refid="table_find" />
+		order by create_date desc)b)a where a.rnum<![CDATA[<=]]>6
+    </select>
+</mapper>
