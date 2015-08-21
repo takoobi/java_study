@@ -10,6 +10,7 @@ create table member (
   create_date date default sysdate
 );
 
+<<<<<<< HEAD
 select nickname from member where email='aa@aa'
 
 insert into member values('1234','1234','1234','1234','1234','M',0,sysdate)
@@ -20,6 +21,10 @@ insert into member(email, pw, nickname, description) values('qq@qq.com', '1111',
 
 delete from member where email = 'gagbear98@nate.com';
 
+=======
+insert into member values('1234','1234','1234','1234','1234','M',0,sysdate)
+
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 select * from member;
 
 select id from member where email='1234'
@@ -47,6 +52,7 @@ drop table member;
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 create table reply
 (
+<<<<<<< HEAD
 pk number(7) primary key,
 image varchar2(80),
 email varchar2(20) not null,
@@ -60,6 +66,22 @@ foreign key(email) references member(email)
 );
 
 drop table reply;
+=======
+	pk number(7) primary key,
+	email varchar2(20) not null,
+	description varchar2(500),
+	create_date date default sysdate,
+	board_key number(7) not null
+);
+foreign key(board_key) references board(pk),
+foreign key(email) references member(email)
+
+create sequence reply_seq start with 1 increment by 1;
+
+select * from reply;
+
+drop table reply purge;
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 카페 board_cafe
@@ -71,13 +93,23 @@ drop table reply;
 노래방 board_music
 방송국 board_broadcast
 
+<<<<<<< HEAD
 create table board_cafe(
+=======
+create table board_broadcast(
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 pk number(7) primary key,
 title varchar2(50) not null,
 description varchar2(1000) not null,
 image varchar2(80),
 good number(5) DEFAULT 0,
+<<<<<<< HEAD
 bad number(5) DEFAULT 0,
+=======
+good_id varchar2(4000),
+bad number(5) DEFAULT 0,
+bad_id varchar2(4000),
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 hit number(10) DEFAULT 0,
 tag varchar2(60) not null,
 email varchar2(20) not null,
@@ -94,6 +126,7 @@ select * from board_exile;
 select * from board_music;
 select * from board_broadcast;
 
+<<<<<<< HEAD
 
 drop table board_cafe;
 drop table board_bar;
@@ -103,6 +136,18 @@ drop table board_military;
 drop table board_exile;
 drop table board_music;
 drop table board_broadcast;
+=======
+delete from board_cafe where pk=121
+
+drop table board_cafe purge;
+drop table board_bar purge;
+drop table board_school purge;
+drop table board_penthouse purge;
+drop table board_military purge;
+drop table board_exile purge;
+drop table board_music purge;
+drop table board_broadcast purge;
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 
 create sequence board_seq start with 1 increment by 1 ;
 
@@ -123,10 +168,28 @@ select * from board_cafe where tag='emp';
 
 select a.* from (select rownum as rnum, b.* from (select * from board_cafe order by create_date desc)b)a where a.rnum>=1 and a.rnum<=6
 
+<<<<<<< HEAD
+=======
+    	select * from 
+(select * from board_cafe Union 
+	select * from board_bar Union
+	select * from board_school Union 
+	select * from board_penthouse Union 
+	select * from board_military Union 
+	select * from board_exile Union 
+	select * from board_music Union 
+	select * from board_broadcast)
+		where pk=112
+
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 모든 테이블 확인하기
 select * from tab;
 
+<<<<<<< HEAD
 쓰레기통 비우기
+=======
+쓰레기통 비우기, 휴지통 비우기
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 purge recyclebin;

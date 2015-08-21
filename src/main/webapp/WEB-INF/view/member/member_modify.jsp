@@ -10,8 +10,13 @@
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 var check = [true];
+<<<<<<< HEAD
 
 //0-닉네임중복확인
+=======
+//0-닉네임중복확인
+
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 $(document).ready(function(){
 	if("${OneData.image}"!="original_image.jpg"){
 		$('#img2').attr('src', "resources/image/profile/${OneData.image}");
@@ -30,6 +35,7 @@ $(document).ready(function(){
         readURL(this);
     });
     
+<<<<<<< HEAD
     // 수정 취소 후 메인 화면
     $('#cancel').click(function(){
     	alert('취소하였습니다.');
@@ -37,6 +43,8 @@ $(document).ready(function(){
     });
     
     
+=======
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
     //닉네임 중복확인
 	$("#nickname_check").click(function(){
 		if($("#nickname").val()==""){
@@ -86,7 +94,10 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<<<<<<< HEAD
 <a href="../url.jsp">홈으로</a><br><body>
+=======
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 <form action="modifyAction" enctype="multipart/form-data" method="post" onsubmit="return validity_check();">
 <input type="hidden" id="email" name="email" value="${OneData.email}">
 ${pageContext.request.contextPath}
@@ -110,7 +121,11 @@ ${pageContext.request.contextPath}
 		<td>이미지-이미지가 없을 시에 기본이미지 지정</td>
 		<td>
 			<input type="file" name="image" id="image"><br>
+<<<<<<< HEAD
 			<img alt="" src="resources/image/profile/${OneData.image}" id="img" name="img">
+=======
+			<img alt="" src="${pageContext.request.contextPath}/resources/image/profile/${OneData.image}" id="img" name="img">
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 		</td>
 	</tr>
 	<tr>
@@ -137,8 +152,13 @@ ${pageContext.request.contextPath}
 		<td><textarea rows="10" cols="10" name="description"></textarea></td>	
 	</tr>
 	<tr>
+<<<<<<< HEAD
 		<td colspan="2"><input type="submit" value="수정하기"></td>
 		<td colspan="2"><a href="urlviewAction"><input type="button" id="cancel" value="취소하기"></td>
+=======
+		<td><input type="submit" value="수정하기"></td>
+		<td><a href="delete">탈퇴하기</a></td>
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 	</tr>
 </table>
 <br><br><br>

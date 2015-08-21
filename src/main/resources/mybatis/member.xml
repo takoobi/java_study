@@ -41,7 +41,11 @@
 	
 	<!-- 회원 등록 -->
 	<insert id="insert" parameterType="member">
+<<<<<<< HEAD
 		insert into member(email, pw, nickname, description) values(#{email},#{pw},#{nickname},#{description})
+=======
+		insert into member (email,pw,nickname,title) values(#{email},#{pw},#{nickname},#{title})
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 	</insert>
 	
 	<!-- 회원 삭제 -->

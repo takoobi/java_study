@@ -34,6 +34,11 @@ public class MemberController {
 	private MemberDAO memberDao;
 	
 	//회원가입화면
+	@RequestMapping(value="/signupPage")
+	public String signupPage(){
+		return "member/register";
+	}
+	//회원가입화면
 	@RequestMapping(value="/add")
 	public String add(){
 		return "member/member_add";
@@ -75,15 +80,27 @@ public class MemberController {
 
 	//회원추가하기
 	@RequestMapping(value="/addAction")
+<<<<<<< HEAD
 	public String addAction(HttpServletRequest request) throws IllegalStateException, IOException{		
+=======
+	public String addAction(HttpServletRequest request) throws IllegalStateException, IOException{
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 		
 		MemberBean bean = new MemberBean();
 		bean.setEmail(request.getParameter("email"));
 		bean.setPw(request.getParameter("pw"));
 		bean.setNickname(request.getParameter("nickname"));
+<<<<<<< HEAD
 		bean.setDescription(request.getParameter("description"));		
 		memberDao.insert(bean);		
 		return "redirect:/url.jsp";
+=======
+		bean.setTitle(request.getParameter("title"));
+		
+		memberDao.insert(bean);
+		
+		return "redirect:/index.jsp";
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 	}
 	
 	//회원정보수정화면
@@ -142,7 +159,7 @@ public class MemberController {
 		String pw=request.getParameter("pw");
 		
 		if(email==null){
-			return "redirect:/url.jsp";
+			return "redirect:/index.jsp";
 		}
 		try{
 			int check=memberDao.delete(email,pw);
@@ -169,8 +186,14 @@ public class MemberController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+<<<<<<< HEAD
 		}		
 		return "redirect:/url.jsp";		
+=======
+		}
+				
+		return "redirect:/index.jsp";
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 	}
 	
 	//로그인화면
@@ -198,7 +221,7 @@ public class MemberController {
 			String nickname = memberDao.getNickname(email);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:/url.jsp";
+			return "redirect:/board/square";
 		}else if(check==0){
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();
@@ -224,7 +247,7 @@ public class MemberController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:/url.jsp";
+		return "redirect:/index.jsp";
 	}
 	
 	//비밀번호찾기화면
@@ -276,6 +299,7 @@ public class MemberController {
 	        transport.connect(host, username, password);
 	        transport.sendMessage(msg, msg.getAllRecipients());
 	        transport.close();
+<<<<<<< HEAD
 	        
 	        // 발송 확인 팝업창
 	        response.setContentType("text/html; charset=utf-8");
@@ -295,6 +319,9 @@ public class MemberController {
 			System.out.println("리턴 바로 전");
 
 			
+=======
+			return "redirect:/url.jsp";
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 		} else{
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();

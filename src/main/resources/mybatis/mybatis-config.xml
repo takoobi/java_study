@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias type="com.model.BoardBean" alias="board"/>
 		<typeAlias type="com.model.MemberBean" alias="member"/>
+		<typeAlias type="com.model.ReplyBean" alias="reply"/>
 	</typeAliases>
 	
 	<mappers>

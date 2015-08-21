@@ -119,8 +119,12 @@ function validity_check(){
 
 </script>
 </head>
+<<<<<<< HEAD
 <a href="../url.jsp">홈으로</a><br><body>
 
+=======
+<body>
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 <form action="addAction" enctype="application/x-www-form-urlencoded" method="post" onsubmit="return validity_check();">
 <table>
 	<tr>
@@ -147,7 +151,11 @@ function validity_check(){
 	</tr>
 	<tr>
 		<td>자기소개</td>
+<<<<<<< HEAD
 		<td><textarea rows="10" cols="30" name="description" id="description"></textarea></td>	
+=======
+		<td><textarea rows="10" cols="10" name="title"></textarea></td>	
+>>>>>>> 2aa93bff37038693b492a6e459555645f1ab4d0c
 	</tr>
 	<tr>
 		<td colspan="2"><input type="submit" value="가입하기"></td>
