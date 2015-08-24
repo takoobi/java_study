@@ -44,7 +44,7 @@ public class BoardController {
 	
 	//글쓰기 액션
 	@RequestMapping("/writeAction")
-	public String boardWriteAction(MultipartHttpServletRequest request) throws IOException{
+	public String boardWriteAction(MultipartHttpServletRequest request, HttpSession session) throws IOException{
 		
 		MultipartFile multipartFile = request.getFile("image");
 		if(!multipartFile.isEmpty()){
@@ -55,7 +55,7 @@ public class BoardController {
 		BoardBean bean = new BoardBean();
 		bean.setTitle(request.getParameter("title"));
 		bean.setTag(request.getParameter("tag"));
-		bean.setEmail("1234");
+		bean.setEmail((String) session.getAttribute("email"));
 		bean.setImage(multipartFile.getOriginalFilename());
 		bean.setDescription(request.getParameter("description"));
 		bean.setCategory(request.getParameter("category"));
@@ -79,16 +79,20 @@ public class BoardController {
 		String result = request.getParameter("result");
 		category = request.getParameter("category");
 		int num = Integer.parseInt(request.getParameter("num"));
-		int startNum = (num-1)*6+1;
-		int endNum = startNum+5;
+		int startNum = (num-1)*8+1;
+		int endNum = startNum+7;
 		List<BoardBean> list = new ArrayList<BoardBean>();
-        
-        list = boardDao.pagingList(category, result, startNum, endNum);
+		String nickname=null;
 		
+        list = boardDao.pagingList(category, result, startNum, endNum);
 		JSONObject jsonObject = new JSONObject();
 		String json="[";
 		for(int i=0; i<list.size(); i++){
 			BoardBean boardBean = (BoardBean) list.get(i);
+			
+			//닉네임 가져오기
+			nickname = boardDao.getNickname(boardBean.getEmail());
+					
 			json+="{\"pk\":\""+boardBean.getPk()+"\","
 					+ "\"email\":\""+boardBean.getEmail()+"\","
 					+ "\"title\":\""+boardBean.getTitle()+"\","
@@ -96,9 +100,10 @@ public class BoardController {
 					+ "\"tag\":\""+boardBean.getTag()+"\","
 					+ "\"image\":\""+boardBean.getImage()+"\","
 					+ "\"good\":\""+boardBean.getGood()+"\","
-					+ "\"bad\":\""+boardBean.getGood()+"\","
+					+ "\"bad\":\""+boardBean.getBad()+"\","
 					+ "\"hit\":\""+boardBean.getHit()+"\","
 					+ "\"create_date\":\""+boardBean.getCreate_date()+"\","
+					+ "\"nickname\":\""+nickname+"\","
 					+ "\"category\":\""+category+"\"}";
 		    if( i != list.size() -1){
 		        json += ",";
@@ -130,8 +135,13 @@ public class BoardController {
 		ModelAndView mav= new ModelAndView();
 		mav.setViewName("board/board_view");
 		
+		
+		
 		BoardBean boardBean = boardDao.one_board(category, pk);
+		String nickname = boardDao.getNickname(boardBean.getEmail());
 		mav.addObject("boardBean", boardBean);
+		mav.addObject("nickname", nickname);
+		
 		if(email!=null){
 			if(boardBean.getGood_id()!=null){
 				good_id_check=boardBean.getGood_id().contains(email);

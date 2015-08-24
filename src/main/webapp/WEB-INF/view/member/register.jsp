@@ -18,6 +18,13 @@
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/main/css/cs-skin-boxes.css" />
 		<script src="${pageContext.request.contextPath}/resources/main/js/jquery.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/main/js/modernizr.custom.js"></script>
+		
+<!-- JQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+
+
+		
 		<style>
 			h1 {
 				color: #f05f40;
@@ -36,15 +43,15 @@
 						<!--<a class="codrops-icon codrops-icon-info" href="#"><span>This is a demo for a fullscreen form</span></a>-->
 					</div>
 				</div>
-				<form id="myform" class="fs-form fs-form-full" autocomplete="off" method="post" action="addAction">
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off" method="post" action="addAction" onsubmit="return validity_check();">
 					<ol class="fs-fields">
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="nickname">닉네임을 적어주세요.</label>
-							<input class="fs-anim-lower" id="nickname" name="nickname" type="text" placeholder="또 다른 자신입니다." required />
-						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="email" data-info="스팸을 보내지 않습니다.">이메일 주소를 적어주세요.</label>
 							<input class="fs-anim-lower" id="email" name="email" type="email" required autofocus/>
+						</li>
+						<li>
+							<label class="fs-field-label fs-anim-upper" for="nickname">닉네임을 적어주세요.</label>
+							<input class="fs-anim-lower" id="nickname" name="nickname" type="text" placeholder="또 다른 자신입니다." required />
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="pw" data-info="안전하게 설정해주세요.">비밀번호를 입력하세요.</label>

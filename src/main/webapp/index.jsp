@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>따글따글</title>
+    <title>따글 - 따뜻한 글</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/bootstrap.min.css" type="text/css">
@@ -41,7 +41,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/main/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/main/js/flat-ui.min.js"></script>
+    <%-- <script src="${pageContext.request.contextPath}/resources/main/js/flat-ui.min.js"></script> --%>
 
 
     <!-- Plugin JavaScript -->
@@ -52,15 +52,75 @@
     <!-- Custom Theme JavaScript -->
     <script src="${pageContext.request.contextPath}/resources/main/js/creative.js"></script>
     
-    <!-- JQuery -->
-    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+<!-- JQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
 
-	<script type="text/javascript">
-	$(function(){
-		
+<script type="text/javascript">
+$(function(){
+	$("#find").click(function(){
+		alert("잠시만 기다려주세요.");
+	    $.ajax({
+			type:"post",
+			url:"member/findAction",
+			data:{
+				"email" : $('#email_find').val(),
+			},
+			dataType:"json",
+			success:function(data){
+				if(data.result=='ok'){
+					alert("입력하신 이메일 주소로 임시비밀 번호가 발송되었습니다.");
+					window.open('http://www.'+ data.emailResult, 'child', 'width=1000, height=500', true);
+					$(".css_test").css('display','none');
+				}
+				if(data.result=='no'){
+					alert("아이디가 존재하지 않습니다.");
+				}
+			}
+		});	
 	});
-	</script>	
+	
+	//로그인 ajax처리
+	$("#buttonLogin").click(function(){
+		//이메일, 비밀번호 유효성 검사
+		if($("#email").val()==''){
+			alert("아이디를 입력하세요.");
+			return false;
+		}
+		if($("#pw").val()==''){
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
+		//ajax 처리
+	    $.ajax({
+			type:"post",
+			url:"member/loginAction",
+			data:{
+				"email" : $('#email').val(),
+				"pw":$("#pw").val()
+			},
+			dataType:"json",
+			success:function(data){
+				if(data.result=='ok'){
+					location.href="board/square";
+				}
+				if(data.result=='noId'){
+					alert("아이디가 존재하지 않습니다.");
+				}
+				if(data.result=='noPw'){
+					$("#pw").val("");
+					alert("비밀번호가 틀립니다.");	
+				}
+			}
+		});			
+	});
+});
+//로그인창에서 x를 눌렀을 때 이메일, 비밀번호값 초기화시켜주기
+function spanCancle(){
+	$("#email").val("");
+	$("#pw").val("");
+}
+</script>	
 <style>
     .modal-content {
       background-color: #edeff1;
@@ -75,9 +135,17 @@
     h3 {
       font-size: 25px;
     }
+    .css_test {
+         border-radius : 5px;
+         border : 5px solid gray;
+         box-shadow : 0 0 5px silver;
+         padding : 20px;
+         color: black;
+         display: none;
+         font-size: 10pt;
+     }
   </style>
 </head>
-
 <body id="page-top">
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
@@ -149,26 +217,29 @@
           <div class="modal-dialog">
             <div class="modal-content col-lg-8 col-lg-offset-2">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="spanCancle()">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">로그인</h4>
               </div>
               <div class="modal-body">               
                 <div class="login-form  text-center">
-                <form action="member/loginAction" method="post">
                   <div class="form-group">
                     <input type="text" class="form-control login-field" value="" placeholder="Enter your name" id="email" name="email" />
                     <label class="login-field-icon fui-user" for="login-name"></label>
                   </div>
-
                   <div class="form-group">
                     <input type="password" class="form-control login-field" value="" placeholder="Password" id="pw" name="pw" />
                     <label class="login-field-icon fui-lock" for="login-pass"></label>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" >링크 온</button>
-                    <a class="login-link" href="member/find">암호가 기억 안나는겐가...</a>
-                  </div>       
-                  </form>                             
+                  </div>              
+                  <div class="modal-footer">           
+                  	<button class="btn btn-primary btn-lg btn-block" id="buttonLogin">링크 온</button>       
+                    <a class="login-link" href="#" onclick="$('.css_test').toggle()">암호가 기억 안나는겐가...</a>
+                    <br>
+                    <div class="css_test" align="center">
+	                   	가입하신 이메일을 제대로 입력하셔야 찾을 수 있습니다.<br><br>
+	                   	<input type="text" placeholder="아이디(email)" id="email_find" name="email_find"><br><br>
+	                   	<input type="button" value="찾기" id="find">
+ 					</div>
+                  </div>   
                 </div>
               </div>
             </div>
@@ -339,7 +410,7 @@
                     <div class="service-box">
                         <i class="fa fa-3x fa-bookmark wow bounceIn text-primary" data-wow-delay=".3s"></i>
                         <h3>장소</h3>
-                        <p class="text-muted">따글따글의 카테고리 구분은 장소입니다.</p>
+                        <p class="text-muted">따글의 카테고리 구분은 장소입니다.</p>
                     </div>
                 </div>
             </div>
@@ -352,13 +423,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">따글따글</h2>
+                    <h2 class="section-heading">따글 - 따뜻한 글</h2>
                     <hr class="primary">
                     <p>-------------------------------------------------------------------------</p>
                 </div>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
                     <i class="fa fa-phone fa-3x wow bounceIn"></i>
-                    <p>010-5575-7928</p>
+                    <p>
+                    	방유석 010-4967-1129<br>
+                    	권 현 010-8081-1181<br>
+                    	이정민 010-4513-6730<br>
+                    	김군호 010-5575-7928
+                    </p>
                 </div>
                 <div class="col-lg-4 text-center">
                     <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>

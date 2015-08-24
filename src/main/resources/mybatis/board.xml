@@ -180,6 +180,11 @@
     <select id="get_setCount_board" parameterType="HashMap" resultType="board">
         select a.* from (select rownum as rnum, b.* from (select * from	
 		<include refid="table_find" />
-		order by create_date desc)b)a where a.rnum<![CDATA[<=]]>6
+		order by create_date desc)b)a where a.rnum<![CDATA[<=]]>5
+    </select>
+    
+    <!-- 닉네임 가져오기 -->
+    <select id="getNickname" parameterType="String" resultType="String">
+    	select nickname from member where email=#{email}
     </select>
 </mapper>
