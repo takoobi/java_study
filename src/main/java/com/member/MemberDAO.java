@@ -75,17 +75,39 @@ public class MemberDAO {
 
 	//닉네임 가져오기
 	public String getNickname(String email) {
-		return null;
+		return session.selectOne("member.getNickname",email);
+	}
+	
+	//포인트 가져오기
+	public int getPoint(String nickname) {
+		return session.selectOne("member.getPoint",nickname);
+	}
+		
+	//PK 가져오기
+	public int getPk(String email) {
+		return session.selectOne("member.getPk",email);
 	}
 
 	//한 명의 데이터 가져오기
 	public MemberBean getOneData(String email) {
 		return session.selectOne("member.getOneData", email);
 	}
+	
+	public MemberBean memberInfo(String pk){
+		return session.selectOne("member.memberInfo", pk);
+	}
 
 	//회원정보수정하기
 	public void update(MemberBean bean) {
 		session.update("member.update2",bean);
+	}
+	
+	public void updatePoint(String point, String nickname){
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("point", point);
+		hashMap.put("nickname", nickname);
+		session.update("member.updatePoint",hashMap);
+		session.commit();
 	}
 
 	//임시비밀번호 설정

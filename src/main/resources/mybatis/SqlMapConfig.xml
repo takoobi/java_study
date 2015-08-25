@@ -8,6 +8,7 @@
 	<typeAliases>
 	  <typeAlias alias="Board" type="com.model.BoardBean"/>
 	  <typeAlias alias="member" type="com.model.MemberBean"/>
+	  <typeAlias alias="Reply" type="com.model.Reply"/>
 	</typeAliases>
 	
   <environments default="development">

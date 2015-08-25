@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -23,6 +25,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +45,8 @@ public class MemberController {
 	public String add(){
 		return "member/register";
 	}
+	
+	
 
 	//이메일중복확인
 	@SuppressWarnings("unchecked")
@@ -77,16 +82,37 @@ public class MemberController {
 		out.print(ob);
 	}
 	
+	//포인트 검색
+	@RequestMapping(value="/pointCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> pointCheck(@RequestParam("nickname") String nickname){
+		int point = memberDao.getPoint(nickname.trim());
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		if(point < 50){
+			result.put("result", "false");
+		} else {
+			result.put("result", "true");
+		}
+		return result;
+	}
+	
 	//닉네임 검색
 	@RequestMapping(value="/nicknameSearch")
 	@ResponseBody
 	public List<String> nicknameSearch(@RequestParam("nickname") String nickname){		
-		System.out.println(nickname);
 		if(nickname.equals("")){
 			return null;
 		}else {
 			return memberDao.nicknameSearch(nickname);
 		}
+		
+	}
+	
+	//닉네임 검색
+	@RequestMapping(value="/memberInfo")
+	@ResponseBody
+	public MemberBean memberInfo(@RequestParam("pk") String pk){		
+		return memberDao.memberInfo(pk);
 		
 	}
 
@@ -193,9 +219,12 @@ public class MemberController {
 		int check=memberDao.loginCheck(email,pw);
 		if(check==1){
 			String nickname = memberDao.getNickname(email);
+			System.out.println("로그인성공");
+			memberDao.updatePoint("+10",nickname);
+			session.setAttribute("member_pk", memberDao.getPk(email));
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:/url.jsp";
+			return "redirect:../board/square";
 		}else if(check==0){
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();
@@ -221,7 +250,7 @@ public class MemberController {
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:/url.jsp";
+		return "redirect:/";
 	}
 	
 	//비밀번호찾기화면

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.config.YamlProcessor.ResolutionMethod;
 
 import com.config.MybatisInit;
 import com.model.BoardBean;
+import com.model.Reply;
 import com.model.Tag;
 
 
@@ -22,6 +24,12 @@ public class BoardDAO {
 		session.insert("insertBoard", bean);
 		session.commit();
 	}
+	
+	public void replyInsert(Reply reply){
+		session.insert("replyInsert", reply);
+		session.commit();
+	}
+	
 	public int getBoardPk(){
 		return session.selectOne("getBoardPk");
 	}
@@ -33,13 +41,17 @@ public class BoardDAO {
 	public List<BoardBean> boardList(Map obj){		
 		return session.selectList("boardList", obj);
 	}
-	public List<BoardBean> BoardPkOfTag(Map obj){
-		return session.selectList("BoardPkOfTag", obj);
+	public List<BoardBean> boardPkOfTag(Map obj){
+		return session.selectList("boardPkOfTag", obj);
+	}
+	
+	public List<BoardBean> recentBoard(String category){
+		return session.selectList("recentBoard", category);
 	}
 
-	public BoardBean getBoard(Map map) {
+	public BoardBean getBoard(int pk) {
 		// TODO Auto-generated method stub
-		return session.selectOne("getBoard", map);
+		return session.selectOne("getBoard", pk);
 	}
 	public void tagInsert(Tag tag){
 		session.insert("tagInsert", tag);
@@ -49,4 +61,16 @@ public class BoardDAO {
 		//board.xml 에는 resultType을 list가 아닌 제너릭에 해당하는 자료형을 입력해주어야한다.
 		return session.selectList("getTagList", category);
 	}
+	
+	public List<String> getCategory(){
+		return session.selectList("getCategory");
+	}
+	public void updateCount(int pk){
+		session.update("updateCount",pk);
+		session.commit();
+	}
+	public List<Object> getReply(int pk){
+		return session.selectList("getReply", pk);
+	}
+	
 }

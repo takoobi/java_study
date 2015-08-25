@@ -17,7 +17,6 @@
 	<script src="../js/jquery.js"></script>
 	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
 	<script src="../js/modernizr.custom.25376.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/flat-ui.js"></script>
 	
 	<style>
@@ -41,18 +40,12 @@
 	.select{
 		background-color: #fff616;
 	}
-	  
-	.post {
-		border: 1px solid black;
-		height: 300px;
-		margin-bottom: 30px;
-	}
 	.post-dummy, .outer-nav{
 		display: none;
 	}
 	
 	.effect-moveleft{
-		background-image: url('img/wallpaper.jpg');
+		background-image: url('${pageContext.request.contextPath}/img/wallpaper.jpg');
 		background-size: cover;
 	}
 	.effect-moveleft:after { /* add the transparent pattern overlay */ 
@@ -64,21 +57,23 @@
 	right: 0;
 	top: 0;
 	opacity: 0.5;
+	z-index: -1;
 	}
 	.container {
 		width: 100%;
-	}
-	.wrapper {
-		width: 80%;
-		margin: 0 auto;
-		
+		background-color: gray;
+		background-size: cover;
+		opacity: 0.7;
 	}
 	.effect-moveleft .outer-nav a  {
 		font-size: 30px;
 		color: #f05f40;
 	}
-	.outer-nav {
-		z-index: 100;
+	#showMenu {
+		font-size: 25px;
+	}
+	nav {
+		margin-top:10px;
 	}
 	</style>
 
@@ -88,7 +83,7 @@
 		var data =[];
 		var nowpage;
 		
-		getList();		
+		getList();	//해당 카테고리 처음엔 모든 글의 리스트 읽어옴
 		$('#showMenu').click(function(){
 			$('.outer-nav').show();
 		});
@@ -157,25 +152,58 @@
 	<div id="perspective" class="perspective effect-moveleft">
 		<div class="container">
 			<div class="wrapper"><!-- wrapper needed for scroll -->
-				<!-- Top Navigation -->				
-				<header class="navbar">
-					<a href="#" class="fa fa-car fa-2x" id="showMenu">
-						<span>다른 장소로</span>
-					</a>
-					<a href="/LOVE/board/write" class="btn">글쓰기</a>
-					<div class="box" >고민</div>
-					<div class="box" >남자</div>
-					<div class="box" >여자</div>
-					<div class="box" >꿀잼</div>
-					<div class="box" >직장인</div>
-					
-				</header>
+				<!-- Top Navigation -->	
+				<nav class="navbar navbar-default">
+				  <div class="container-fluid">
+				    <!-- Brand and toggle get grouped for better mobile display -->
+				    <div class="navbar-header">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				      </button>
+				      <div class="navbar-header">
+				        <a class="navbar-brand" href="/LOVE">
+				          <!-- <img alt="Brand" src="..."> -->
+				          감성천국
+				        </a>
+				      </div>
+				    </div>
 				
+				    <!-- Collect the nav links, forms, and other content for toggling -->
+				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      <ul class="nav navbar-nav">
+				        <li><a href="#" id="showMenu" class="fa fa-car fa-4x"></a></li>			        			        
+				      </ul>
+				      <form class="navbar-form navbar-left" role="search">
+				        <div class="form-group">
+				          <input type="text" class="form-control" placeholder="검색">
+				        </div>
+				        <button type="submit" class="btn btn-default fa fa-search"></button>
+				      </form>
+				      <ul class="nav navbar-nav navbar-right">
+				      	<li><a href="/LOVE/board/write">글쓰기</a></li>
+				        <li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
+				          <ul class="dropdown-menu" role="menu">
+				            <li><a href="#">프로필</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li class="divider"></li>
+				            <li><a href="/LOVE/member/logout">로그아웃</a></li>
+				          </ul>
+				        </li>
+				      </ul>
+				    </div><!-- /.navbar-collapse -->
+				  </div><!-- /.container-fluid -->
+				</nav>		
+					
 				<div class="row" id="list">
 					
 				</div>
-				<a class="col-md-3 post-dummy" href="#">
-					<div class="post" >
+				<a class="col-md-3 post-dummy " href="#">
+					<div class="well" >
 						<h2 class="title"></h2>
 					</div>
 				</a>				

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.model.BoardBean;
 import com.model.BoardFile;
+import com.model.Reply;
 import com.model.Tag;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -53,47 +55,74 @@ public class BoardMapper {
 		return "board/"+category;
 	}
 	
+	//광장  페이지
+	@RequestMapping(value="square",method=RequestMethod.GET)
+	public String square(Model model){
+		List<String> list = new ArrayList<String>();
+		Map<String, Object> result = new HashMap<String, Object>();
+		list = boardDao.getCategory();
+		
+		//result.put("category", list);
+		for(String item : list){
+			result.put(item, boardDao.recentBoard(item));
+		}
+		model.addAttribute("result",result);
+		
+		return "board/square";
+	}
+	
 	
 	//글쓰기 액션
-	@RequestMapping("doWrite")
-	public String doWrite(MultipartHttpServletRequest request) throws IOException{				
+	@RequestMapping(value="doWrite", method=RequestMethod.POST)
+	public String doWrite(MultipartHttpServletRequest request, HttpSession session) throws IOException{				
 		String[] tags = request.getParameter("tag").replaceAll("\\s", "").split(",");
 		//String category = (String)session.getAttribute("category");
 		boardBean = new BoardBean();	
 		tag = new Tag();
-		System.out.println(category);
 		boardBean.setTitle(request.getParameter("title"));
 		boardBean.setDescription(request.getParameter("description"));
 		boardBean.setCategory(category);
+		boardBean.setMember_pk((Integer) session.getAttribute("member_pk"));
 		
 		boardDao.boardInsert(boardBean);
-
+		
 		for(String item : tags){
 			tag.setBoard_pk(boardDao.getBoardPk());
 			tag.setName(item);
-			tag.setMember_pk(1);
+			tag.setMember_pk((Integer) session.getAttribute("member_pk"));
 			tag.setCategory(category);			
 			boardDao.tagInsert(tag);
 		}
 			
 		return "redirect:list/"+category;		
 	}
-	//내가 쓴 글
-	@RequestMapping("BoardMystory")
-	public ModelAndView boardMystory(){
-		return null;
-	}
-	 
+	
+	//댓글달기
+	@RequestMapping(value="doReply", method=RequestMethod.POST)
+	@ResponseBody
+	public Object doReply(@RequestParam String content, @RequestParam int member_pk,
+			@RequestParam int board_pk){				
+		Reply reply = new Reply();
+		reply.setBoard_pk(board_pk);
+		reply.setMember_pk(member_pk);
+		reply.setContent(content);
+		boardDao.replyInsert(reply);
+		
+		return reply;		
+	}	
+	
 
 	//글 상세보기
-	@RequestMapping(value="/detail/{id}", method=RequestMethod.GET)
-	public String boardView(@PathVariable("id") int id, Model model){
-		Map map = new HashMap<String, Object>();
-		map.put("category", category);
-		map.put("id", id);
-		BoardBean board = boardDao.getBoard(map);
+	@RequestMapping(value="detail/{pk}", method=RequestMethod.GET)
+	public String boardView(@PathVariable("pk") int pk, Model model){
+		List<Object> list = new ArrayList<Object>();
+		boardDao.updateCount(pk);
+		BoardBean board = boardDao.getBoard(pk);
+		
+		list = boardDao.getReply(pk);
 		
 		model.addAttribute("board",board);
+		model.addAttribute("reply",list);
 		
 		return "board/detail";
 	}
@@ -126,7 +155,7 @@ public class BoardMapper {
 			obj.put("category", category);
 			obj.put("page", page);	
 			
-			boardlist = boardDao.BoardPkOfTag(obj);
+			boardlist = boardDao.boardPkOfTag(obj);
 			
 			obj.put("boardlist", boardlist);
 			return obj;

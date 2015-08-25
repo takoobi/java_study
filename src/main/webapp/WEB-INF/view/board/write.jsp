@@ -44,13 +44,13 @@
 	            
 				<!-- <div class="box" value="emp">직장인</div> -->
 			<div class="tagsinput-primary">
-            	<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 남자, 여자, 꿀잼, 직장인" />
-          	</div>
+         <input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 남자, 여자, 꿀잼, 직장인" />
+      </div>
             
 			<textarea  id="description" name="description" class="form-control">
-            </textarea>
+      </textarea>
                
-            <input type="submit" class="form-control"/>
+      <input type="submit" class="form-control"/>
 		</form>                
     </section>
 

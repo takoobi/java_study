@@ -19,6 +19,10 @@
 		select count(*) from member where email=#{email}
 	</select>
 	
+	<select id="getPk" resultType="int">
+		select pk from member where email=#{email}
+	</select>
+	
 	<!-- 회원정보수정 -->
 	<update id="update" parameterType="member">
 		update member set pw=#{pw}, nickname=#{nickname}, image=#{image}, description=#{description}, gender=#{gender} where email=#{email}
@@ -33,9 +37,12 @@
 	<select id="getOneData" parameterType="String" resultType="member">
 		select * from member where email=#{email}
 	</select>
+	<select id="memberInfo" parameterType="String" resultType="member">
+		select * from member where pk=#{pk}
+	</select>
 	
 	<!-- 닉네임 가져오기 -->
-	<select id="getNickname">
+	<select id="getNickname" resultType="string">
 		select nickname from member where email=#{email}
 	</select>
 	
@@ -59,8 +66,17 @@
 		update member set pw=#{temporaryPassword} where email=#{email}
 	</update>
 	
+	<!-- 포인트 업데이트 -->
+	<update id="updatePoint" parameterType="map">
+		update member set point=point${point} where nickname=#{nickname}
+	</update>
+	
 	<!-- 닉네임 검색 -->
 	<select id="nicknameSearch" resultType="string">
 		select nickname from member where nickname like '%'||#{nickname}||'%'
+	</select>
+	
+	<select id="getPoint" resultType="int" parameterType="string">
+		select point from member where nickname=#{nickname}
 	</select>
 </mapper>

@@ -40,7 +40,6 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/flat-ui.min.js"></script>
 
 
     <!-- Plugin JavaScript -->
@@ -90,15 +89,6 @@
                     <li>
                         <a class="page-scroll" href="member/signupPage">회원가입</a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -129,13 +119,13 @@
                 <h4 class="modal-title" id="myModalLabel">로그인</h4>
               </div>
               <div class="modal-body">               
-                <form class="login-form  text-center">
+                <form class="login-form text-center" method="post" action="member/loginAction">
                   <div class="form-group">
                     <input type="text" class="form-control login-field" name="email" placeholder="이메일을 입력하세요." id="email" />
                   </div>
 
                   <div class="form-group">
-                    <input type="password" class="form-control login-field" name="password" placeholder="비밀번호" id="password" />
+                    <input type="password" class="form-control login-field" name="pw" placeholder="비밀번호" id="password" />
                   </div>
                   <div class="modal-footer">
                     <input type="submit" class="btn btn-primary btn-lg btn-block" value="링크온" />
@@ -232,7 +222,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/list/square" class="portfolio-box">
+                    <a href="board/square" class="portfolio-box">
                         <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">

@@ -10,16 +10,23 @@ public class MemberBean {
 	private String description;
 	private String gender;
 	private String title;
+	private int point;
+	private int pk;
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	private int point;
-	private int pk;
+	
 	public int getPk() {
 		return pk;
+	}
+	@Override
+	public String toString() {
+		return "MemberBean [email=" + email + ", pw=" + pw + ", nickname=" + nickname + ", image=" + image
+				+ ", description=" + description + ", gender=" + gender + ", title=" + title + ", point=" + point
+				+ ", pk=" + pk + ", create_date=" + create_date + "]";
 	}
 	public void setPk(int pk) {
 		this.pk = pk;

@@ -11,7 +11,7 @@ public class BoardBean {
 	private int bad;
 	private int hit; 
 	private Date create_date;
-	private String member_pk;
+	private int member_pk;
 	private String category;
 	
 	public String getCategory() {
@@ -20,11 +20,18 @@ public class BoardBean {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getMember_pk() {
+	
+	public int getMember_pk() {
 		return member_pk;
 	}
-	public void setMember_pk(String member_pk) {
+	public void setMember_pk(int member_pk) {
 		this.member_pk = member_pk;
+	}
+	@Override
+	public String toString() {
+		return "BoardBean [pk=" + pk + ", title=" + title + ", description=" + description + ", image=" + image
+				+ ", good=" + good + ", bad=" + bad + ", hit=" + hit + ", create_date=" + create_date + ", member_pk="
+				+ member_pk + ", category=" + category + "]";
 	}
 	public int getPk() {
 		return pk;

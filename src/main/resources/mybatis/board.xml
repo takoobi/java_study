@@ -13,35 +13,52 @@
 		<result column="good" property="good"/>
 		<result column="bad" property="bad"/>
 		<result column="hit" property="hit"/>
+		<result column="category" property="category"/>
 		<result column="member_pk" property="member_pk"/>
+		<result column="create_date" property="create_date"/>		
+	</resultMap>
+	<resultMap type="Reply" id="replyMap">
+		<result column="board_pk" property="board_pk"/>
+		<result column="member_pk" property="member_pk"/>
+		<result column="content" property="content"/>
+		<result column="good" property="good"/>
+		<result column="bad" property="bad"/>		
 		<result column="create_date" property="create_date"/>		
 	</resultMap>
 	
 	
 	<insert id="insertBoard" parameterType="Board">
-		insert into 
-		board_${category}
+		insert into board
 		(pk, title, description, create_date, category) 
 		 values(board_seq.nextval, #{title}, #{description}, sysdate, #{category})	
 	</insert>	
+	
+	<insert id="replyInsert" parameterType="Reply">
+		insert into reply (board_pk, member_pk, content)
+		values(#{board_pk}, #{member_pk}, #{content})
+	</insert>
 	
 	<insert id="tagInsert" parameterType="com.model.Tag">
 		insert into tags values (#{board_pk}, #{member_pk}, #{name}, #{category})
 	</insert>
 	
-	<select  id="BoardPkOfTag" parameterType="map" resultMap="boardMap">		
+	<update id="updateCount" parameterType="int">
+		update board set hit=hit+1 where pk=#{pk}
+	</update>
+	
+	<select  id="boardPkOfTag" parameterType="map" resultMap="boardMap">		
 		<![CDATA[
 		select * from
 		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date from
-		(select * from board_cafe where pk in 
+		(select * from board where pk in 
 		(select board_pk from tags where name in]]> 
 		<foreach item="item" index="index" collection="tags"
       		open="(" separator="," close=")">
        			#{item}
-  		</foreach>
-  		<![CDATA[
+  	</foreach>
+  	<![CDATA[
   		) order by create_date desc))
-		where rnum >= ((#{page}-1)*10+1) and rnum <= (#{page}*10)
+		where rnum >= ((#{page}-1)*20+1) and rnum <= (#{page}*20)
 		]]>	 
 	</select>	
 	
@@ -55,8 +72,8 @@
 	    <![CDATA[
 		select * from
 		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date from
-		(select * from board_${category} order by create_date desc))
-		where rnum >= ((#{page}-1)*10+1) and rnum <= (#{page}*10)
+		(select * from board where category=#{category} order by create_date desc))
+		where rnum >= ((#{page}-1)*20+1) and rnum <= (#{page}*20)
 		]]>	 	
 	</select>
 	
@@ -64,10 +81,27 @@
 	 	select distinct name from tags where category=#{category}
 	</select>
 	
-	<select id="getBoard" resultMap="boardMap" parameterType="map">
-		select * from board_${category} where pk=#{id}
+	<select id="getCategory" resultType="string">
+	 	select distinct category from board
+	</select>
+	
+	<select id="getBoard" resultMap="boardMap" parameterType="int">
+		select * from board where pk=#{pk}
 	</select>	
 	
+	<select id="recentBoard" resultMap="boardMap" parameterType="string" >
+	<![CDATA[
+		select pk,title,create_date from 
+		(select rownum,pk,title, create_date from board where category=#{category} order by create_date desc)
+		where rownum <= 10
+	]]>	
+	</select>
+	
+	<select id="getReply" parameterType="int" resultType="map">
+		select nickname,image,content,good,bad,r.create_date 
+		from reply r,member m 
+		where r.board_pk=#{pk} and r.member_pk=m.pk
+	</select>
 	
 	
 </mapper>
