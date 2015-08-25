@@ -108,8 +108,8 @@ public class MemberController {
 		
 	}
 	
-	//닉네임 검색
-	@RequestMapping(value="/memberInfo")
+	//정보 검색
+	@RequestMapping(value="/Info")
 	@ResponseBody
 	public MemberBean memberInfo(@RequestParam("pk") String pk){		
 		return memberDao.memberInfo(pk);

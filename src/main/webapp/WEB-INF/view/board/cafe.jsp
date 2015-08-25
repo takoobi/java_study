@@ -103,12 +103,17 @@
 	    }
 	    
 	    var bbsAppend = function(data) {
+	    	console.log(data);
             var node = $('.post-dummy').clone();
             $('.title',node).append(data.title);
             $('.nickname',node).append(data.nickname);
             $('.date',node).append(data.create_date);
             $('.hit',node).append(data.hit);
-            node.attr('href', '../detail/' + data.pk)
+            $.get('/LOVE/member/Info',{pk:data.member_pk},function(data){
+            	alert(data);
+            	console.log(data);
+            });
+            node.attr('href', '../detail/' + data.pk);
             node.removeClass('post-dummy');
             $('#list').append(node);
         };   
