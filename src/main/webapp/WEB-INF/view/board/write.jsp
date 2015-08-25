@@ -68,6 +68,9 @@
 		margin-bottom:20px;
 		
 	}
+	#form .write{
+		margin-top: 20px;
+	}
 	</style>
 </head>
 <body>
@@ -125,21 +128,44 @@
 					
 				 <section class="row ">
 					<form action="doWrite" enctype="multipart/form-data" method="post" id="form" class="col-md-8 col-md-offset-2">
-						${param.category}
-						<input type="hidden" value="${param.category}" name="category">
 						<input type="hidden" id="tag" name="tag">
 						
 						<input type="text" id="title" name="title" class="form-control" placeholder="제목"/>
 				            
 							<!-- <div class="box" value="emp">직장인</div> -->
 						<div class="tagsinput-primary">
-			         <input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 남자, 여자, 꿀잼, 직장인" />
+							<c:choose>
+	            <c:when test="${category=='cafe'}">
+		            <input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 남자, 여자, 꿀잼, 직장인" />
+	            </c:when>
+	            <c:when test="${category=='bar'}">
+	            	<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민,아버지,직장인" />
+	            </c:when>
+	            <c:when test="${category=='school'}">
+								<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="고민, 중딩,고딩,대딩,남,여,꿀잼" />
+	            </c:when>
+	            <c:when test="${category=='penthouse'}">
+								<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="자취,독신,뽐내기,레시피" />
+	            </c:when>
+	            <c:when test="${category=='military'}">
+	            	<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="병아리,일병,상병,병장,직업군인" />
+	            </c:when>
+	            <c:when test="${category=='exile'}">
+	            	<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="구속," />
+	            </c:when>
+	            <c:when test="${category=='music'}">
+								<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="최신가요,발라드,힙합" />
+	            </c:when>
+	            <c:when test="${category=='broadcast'}">
+								<input name="tagsinput" class="tagsinput" data-role="tagsinput" value="추천,좋은글,득탬,뉴스" />
+	            </c:when>
+	        </c:choose>
 			      </div>
 			            
 						<textarea  id="description" name="description" class="form-control">
 			      </textarea>
 			               
-			      <input type="submit" class="btn btn-primary" value="글쓰기"/>
+			      <center><input type="submit" class="btn btn-primary write" value="글쓰기"/></center>
 					</form>                
 			    </section>
 			</div><!-- wrapper -->

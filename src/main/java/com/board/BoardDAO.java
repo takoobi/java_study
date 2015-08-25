@@ -73,4 +73,33 @@ public class BoardDAO {
 		return session.selectList("getReply", pk);
 	}
 	
+	public void gbUpdate(Map<String, Object> map){
+		session.update("gbUpdate",map);
+		session.commit();
+	}
+	public void gbReply(Map<String, Object> map){
+		session.update("gbReply",map);
+		session.commit();
+	}
+	public void gbInsert(Map<String, Object> map){
+		session.insert("gbInsert",map);
+		session.commit();
+	}
+	
+	public void badUpdate(Map<String, Object> map){
+		session.update("badUpdate",map);
+		session.commit();
+	}
+	public void goodUpdate(Map<String, Object> map){
+		session.update("goodUpdate",map);
+		session.commit();
+	}
+	public Object getMember_pkGB(Map<String, Object> map){
+		return session.selectOne("getMember_pkGB", map);
+	}
+	
+	public String gbCheck(Map<String, Object> map){
+		return session.selectOne("gbCheck", map);
+	}
+	
 }

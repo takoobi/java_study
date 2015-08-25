@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -11,22 +12,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Creative - Start Bootstrap Theme</title>
+    <title>따글 - 따뜻한 글</title>
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link href="css/flat-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/flat-ui.css">
 
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="resources/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/font-awesome/css/font-awesome.min.css" type="text/css">
 
     <!-- Plugin CSS -->
-    <link rel="stylesheet" href="css/animate.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/animate.min.css" type="text/css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/creative.css" type="text/css">  
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/main/css/creative.css" type="text/css">  
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,20 +37,26 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
      <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/main/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/main/js/bootstrap.min.js"></script>
+    <%-- <script src="${pageContext.request.contextPath}/resources/main/js/flat-ui.min.js"></script> --%>
 
 
     <!-- Plugin JavaScript -->
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/jquery.fittext.js"></script>
-    <script src="js/wow.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/main/js/jquery.easing.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/main/js/jquery.fittext.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/main/js/wow.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="js/creative.js"></script>
-  <script type="text/javascript">
+    <script src="${pageContext.request.contextPath}/resources/main/js/creative.js"></script>
+    
+<!-- JQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+
+<script type="text/javascript">
 $(function(){
 	$("#find").click(function(){
 		alert("잠시만 기다려주세요.");
@@ -75,39 +82,49 @@ $(function(){
 	
 	//로그인 ajax처리
 	$("#buttonLogin").click(function(){
-		//이메일, 비밀번호 유효성 검사
-		if($("#email").val()==''){
-			alert("아이디를 입력하세요.");
-			return false;
-		}
-		if($("#pw").val()==''){
-			alert("비밀번호를 입력하세요.");
-			return false;
-		}
-		//ajax 처리
-	    $.ajax({
-			type:"post",
-			url:"member/loginAction",
-			data:{
-				"email" : $('#email').val(),
-				"pw":$("#pw").val()
-			},
-			dataType:"json",
-			success:function(data){
-				if(data.result=='ok'){
-					location.href="board/square";
-				}
-				if(data.result=='noId'){
-					alert("아이디가 존재하지 않습니다.");
-				}
-				if(data.result=='noPw'){
-					$("#pw").val("");
-					alert("비밀번호가 틀립니다.");	
-				}
-			}
-		});			
+		login();
+	});
+	//로그인 시 엔터를 눌렀을 경우, 비밀번호를 입력한 뒤 비밀번호 input에 커서가 있어야 한다.
+	$("#pw").keypress(function(event) {
+	  if ( event.which == 13 ) {
+	     login();
+	  }
 	});
 });
+//로그인 ajax
+function login(){
+	//이메일, 비밀번호 유효성 검사
+	if($("#email").val()==''){
+		alert("아이디를 입력하세요.");
+		return false;
+	}
+	if($("#pw").val()==''){
+		alert("비밀번호를 입력하세요.");
+		return false;
+	}
+	//ajax 처리
+    $.ajax({
+		type:"post",
+		url:"member/loginAction",
+		data:{
+			"email" : $('#email').val(),
+			"pw":$("#pw").val()
+		},
+		dataType:"json",
+		success:function(data){
+			if(data.result=='ok'){
+				location.href="board/square";
+			}
+			if(data.result=='noId'){
+				alert("아이디가 존재하지 않습니다.");
+			}
+			if(data.result=='noPw'){
+				$("#pw").val("");
+				alert("비밀번호가 틀립니다.");	
+			}
+		}
+	});				
+}
 //로그인창에서 x를 눌렀을 때 이메일, 비밀번호값 초기화시켜주기
 function spanCancle(){
 	$("#email").val("");
@@ -245,8 +262,8 @@ function spanCancle(){
         <div class="container-fluid">
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/cafe" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/cafe/cafe0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/cafe" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/cafe/cafe0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -257,8 +274,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/bar" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/bar/bar0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/bar" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/bar/bar0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -269,8 +286,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/school" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/school/school0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/school" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/school/school0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -281,8 +298,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/square" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/square/square0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/square" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/square/square0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -293,8 +310,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/penthouse" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/penthouse/penthouse0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/penthouse" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/penthouse/penthouse0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -305,8 +322,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/military" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/military/military0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/military" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/military/military0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -317,8 +334,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/exile" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/exile/exile0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/exile" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/exile/exile0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -329,8 +346,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/music" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/music/music0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/music" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/music/music0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -341,8 +358,8 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/broadcast" class="portfolio-box">
-                        <img src="${pageContext.request.contextPath}/resources/image/broadcast/broadcast0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;">
+                    <a href="board/list/broadcast" class="portfolio-box">
+                        <img src="${pageContext.request.contextPath}/resources/image/broadcast/broadcast0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-name">
@@ -390,17 +407,6 @@ function spanCancle(){
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box">
-                        <i class="fa fa-3x fa-pencil wow bounceIn text-primary" data-wow-delay=".2s"></i>
-                        <h3>일기</h3>
-                        <p class="text-muted">당신의 일상을 기록하고 기억하세요.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
                         <i class="fa fa-3x fa-bookmark wow bounceIn text-primary" data-wow-delay=".3s"></i>
                         <h3>장소</h3>
                         <p class="text-muted">따글의 카테고리 구분은 장소입니다.</p>
@@ -436,7 +442,5 @@ function spanCancle(){
             </div>
         </div>
     </section>  
-
 </body>
-
 </html>

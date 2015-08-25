@@ -59,11 +59,15 @@ create table reply(
 create table goodbad(
 	board_pk number(10),
 	member_pk number(10),
-	category varchar2(10),
-	good varchar2(5),
-	bad varchar2()
+	category varchar2(10),	
+	good varchar2(5) default 'false',
+	bad varchar2(5) default 'false'
 );
 
+select * from goodbad;
+select bad from goodbad where member_pk=26;
+select member_pk from goodbad where member_pk=26 and category='reply';
+drop table goodbad;
 select r.board_pk,nickname,image,content,good,bad,r.create_date from reply r,member m where r.board_pk=18 and r.member_pk=m.pk;
 select * from member ;
 select * from reply;
@@ -96,7 +100,7 @@ delete from member where nickname='족발';
 select title,create_date from 
 		(select rownum,title, create_date from board_cafe order by create_date desc)
 		where rownum <= 10
-		
+	select bad from goodbad where member_pk=26;
 
 create sequence board_seq start with 1 increment by 1 ;
 drop sequence board_seq;

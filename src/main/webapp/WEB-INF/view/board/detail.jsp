@@ -235,7 +235,7 @@
 		});
 		
 		$('#reply .submit').click(function(){
-			var tmp = location.pathname.split('/');			
+			var tmp = location.pathname.split('/');			//board pk 얻기
 			var datas = {
 					member_pk:$('#member_pk').text(),
 					board_pk: tmp[tmp.length-1],
@@ -257,6 +257,66 @@
 				}
 			}) */
 		});
+		$('#content .gb').click(function(){
+			var tmp = location.pathname.split('/');
+			var value = $(this).attr('value');
+			var datas = {
+					member_pk:$('#member_pk').text(),
+					board_pk: tmp[tmp.length-1],
+					status: $(this).attr('value'),
+					category: 'board'
+			}
+			$.get('../gbCheck',datas,function(data){
+				if(data === 'true'){
+					alert('한번 이상 못누릅니다.');
+				} else {
+					gbUpdate(datas,value);
+				}
+			})
+			
+		});
+		$('#reply .gb').click(function(){
+			var tmp = location.pathname.split('/');
+			var value = $(this).attr('value');
+			var datas = {
+					member_pk:$('#member_pk').text(),
+					board_pk: tmp[tmp.length-1],
+					status: $(this).attr('value'),
+					category: 'reply'
+			}
+			$.get('../gbCheck',datas,function(data){
+				console.log(data);
+				if(data === 'true'){
+					alert('한번 이상 못누릅니다.');
+				} else {
+					gbReply(datas,value);
+				}
+			})
+		});
+		function gbReply(datas, value){
+			$.get('../gbUpdate',datas,function(data){
+				alert(value);
+				if(value === 'good'){
+					var cnt = $('#reply .good span').text();
+					$('#reply .good span').text(cnt*1+1);
+				}else if(value === 'bad'){
+					var cnt = $('#reply .bad span').text();
+					$('#reply .bad span').text(cnt*1+1);
+				}
+			});
+		}
+		function gbUpdate(datas, value){
+			$.get('../gbUpdate',datas,function(data){
+				alert(value);
+				if(value === 'good'){
+					var cnt = $('#content .good span').text();
+					$('#content .good span').text(cnt*1+1);
+				}else if(value === 'bad'){
+					var cnt = $('#content .bad span').text();
+					$('#content .bad span').text(cnt*1+1);
+				}
+			});
+		}
 	});
 
     </script>
@@ -318,6 +378,8 @@
 						<article id="content" class="well">
 							<h1>${ board.title }</h1>
 							<div>${board.description }</div>
+							<button class="btn btn-info gb good" value="good"><span>${board.good }</span>&nbsp&nbsp공감</button>
+							<button class="btn btn-danger gb bad" value="bad"><span>${board.bad }</span>&nbsp&nbsp비공감</button>
 						</article>	
 							
 						<div id="reply">		
@@ -328,6 +390,8 @@
 									  
 										<p><img class="profile" src="/LOVE/upload/${item.IMAGE }" alt="프사" />${item.NICKNAME } <span>${item.CREATE_DATE }</span></p>
 										<div class="well content">${item.CONTENT }</div>
+										<button class="btn btn-info gb good" value="good"><span>${item.GOOD }</span>&nbsp&nbsp공감</button>
+										<button class="btn btn-danger gb bad" value="bad"><span>${item.BAD }</span>&nbsp&nbsp비공감</button>
 									</div>
 								</c:forEach>
 							</div>

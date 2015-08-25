@@ -208,6 +208,7 @@ public class MemberController {
 			String nickname = memberDao.getNickname(email);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
+			session.setAttribute("member_pk", (Integer)memberDao.getPk(email));
 			map.put("result", "ok");
 		}else if(check==0){
 			map.put("result", "noPw");

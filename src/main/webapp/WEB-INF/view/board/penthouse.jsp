@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
 
-    <meta charset="UTF-8" />
+   <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>카페 - 소통의 공간</title>
@@ -27,18 +28,8 @@
 			font-size: 16px;
 		}
 	
-	.box{
-		width: 70px;
-		height: 30px;
-		background-color: #9cff2f;
-		margin: 0 10px;
-		float: left;
-		line-height: 25px;
-		text-align:s center;
-		font-size: 10px;
-	}
-	.select{
-		background-color: #fff616;
+	.selectTag{
+		background-color: #fff616 !important;
 	}
 	.post-dummy, .outer-nav{
 		display: none;
@@ -63,7 +54,6 @@
 		width: 100%;
 		background-color: gray;
 		background-size: cover;
-		opacity: 0.7;
 	}
 	.effect-moveleft .outer-nav a  {
 		font-size: 30px;
@@ -74,6 +64,11 @@
 	}
 	nav {
 		margin-top:10px;
+	}
+	#list .title{
+		margin-top:-10px;
+		white-space: pre-wrap;
+		word-break:break-all;
 	}
 	</style>
 
@@ -88,14 +83,13 @@
 			$('.outer-nav').show();
 		});
 	    $(".box").click(function(){    	
-	        if($(this).hasClass("select")){
-	            $(this).removeClass("select");
+	        if($(this).hasClass("selectTag")){
+	            $(this).removeClass("selectTag");
 	        } else{
-	            $(this).addClass("select");
+	            $(this).addClass("selectTag");
 	        }
-	    	
 	        $(".box").each(function(){
-	        	if($(this).is(".select")){
+	        	if($(this).is(".selectTag")){
 	        		data.push($(this).text());
 	        	}
 	        });
@@ -114,9 +108,16 @@
 	    }
 	    
 	    var bbsAppend = function(data) {
+	    	console.log(data);
             var node = $('.post-dummy').clone();
             $('.title',node).append(data.title);
-            node.attr('href', '../detail/' + data.pk)
+            $('.nickname',node).append(data.nickname);
+            $('.date',node).append(data.create_date);
+            $('.hit',node).append(data.hit);
+            $.get('/LOVE/member/Info',{pk:data.member_pk},function(data){
+            	$('.nickname',node).append(data.nickname);
+            });
+            node.attr('href', '../detail/' + data.pk);
             node.removeClass('post-dummy');
             $('#list').append(node);
         };   
@@ -130,17 +131,27 @@
     						nowpage=data.page;
     						$.each(data.boardlist, function(index, item){
     							bbsAppend(item);
-    		                });
+    		        });
     						$('div#loadmoreajaxloader').hide();
     					}else{
     						$('div#loadmoreajaxloader').html('<center>더 이상 글이 없습니다.</center>');
     						nowpage = -1;
     					}                    
-        	        },'json');
+        	  },'json');
     			}
     			
     	    }
     	});    
+        //수정해야댐
+      $('#pointCheck').click(function(e){   
+    	  var flag;
+    	  var nickname = $('#nickname').text();
+    	  $.get('/LOVE/member/pointCheck',{nickname:nickname},function(data){
+    		  if(data.result === "true"){
+    			  return false;
+    		  }
+    	  },'json');
+      })
 	});
   
   
@@ -183,9 +194,9 @@
 				        <button type="submit" class="btn btn-default fa fa-search"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
-				      	<li><a href="/LOVE/board/write">글쓰기</a></li>
+				      	<li ><a id="pointCheck" href="/LOVE/board/write" >글쓰기</a></li>
 				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
+				          <a href="#" id="nickname" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
 				          <ul class="dropdown-menu" role="menu">
 				            <li><a href="#">프로필</a></li>
 				            <li><a href="#">Another action</a></li>
@@ -199,12 +210,20 @@
 				  </div><!-- /.container-fluid -->
 				</nav>		
 					
-				<div class="row" id="list">
-					
+				<div class="row" >
+					<div class="col-md-12 well">
+							<c:forEach var="tag" items="${taglist }">								
+								<button class="btn btn-primary box">${tag }</button>
+							</c:forEach>					
+					</div>
+					<div id="list"></div>
 				</div>
 				<a class="col-md-3 post-dummy " href="#">
 					<div class="well" >
 						<h2 class="title"></h2>
+						<p class="nickname"></p>
+						<p class="date"></p>
+						<p class="hit"></p>
 					</div>
 				</a>				
 					
@@ -213,7 +232,7 @@
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
 			<a href="/LOVE" class="icon-home">홈</a>
-			<a href="square" class="icon-news">광장</a>
+			<a href="../square" class="icon-news">광장</a>
 			<a href="cafe" class="icon-image">카페</a>
 			<a href="bar" class="icon-upload">선술집</a>
 			<a href="school" class="icon-star">학교</a>

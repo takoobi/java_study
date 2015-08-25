@@ -41,10 +41,39 @@
 	<insert id="tagInsert" parameterType="com.model.Tag">
 		insert into tags values (#{board_pk}, #{member_pk}, #{name}, #{category})
 	</insert>
+
 	
 	<update id="updateCount" parameterType="int">
-		update board set hit=hit+1 where pk=#{pk}
+		update board set hit=hit+1 where pk=#{board_pk}
 	</update>
+	
+	<!-- 공감 비공감 삽입 -->
+	<insert id="gbInsert" parameterType="map">
+		insert into goodbad (board_pk, member_pk, category) 
+		values (#{board_pk}, #{member_pk}, #{category})
+	</insert>
+	
+	<update id="badUpdate" parameterType="map">
+		update goodbad set bad='true' where member_pk=#{member_pk} and category=#{category}
+	</update>
+	<update id="goodUpdate" parameterType="map">
+		update goodbad set good='true' where member_pk=#{member_pk} and category=#{category}
+	</update>
+	
+	<!-- 공감 비공감 업데이트 -->
+	<update id="gbUpdate" parameterType="map">
+		update board set ${status}=${status}+1 where pk=#{board_pk}
+	</update>
+	<update id="gbReply" parameterType="map">
+		update reply set ${status}=${status}+1 where board_pk=#{board_pk}
+	</update>
+	
+	<select id="gbCheck" parameterType="map" resultType="string">
+		select ${status} from goodbad where member_pk=#{member_pk} and category=#{category}
+	</select>
+	<select  id="getMember_pkGB" parameterType="map" resultType="int">
+		select member_pk from goodbad where member_pk=#{member_pk} and category=#{category}
+	</select>
 	
 	<select  id="boardPkOfTag" parameterType="map" resultMap="boardMap">		
 		<![CDATA[
@@ -67,6 +96,8 @@
 	<select id="getBoardPk" resultType="Integer">
 		select board_seq.currval from dual
 	</select>
+	
+	
 	
 	<select id="boardList"  parameterType="map"  resultMap="boardMap">
 	    <![CDATA[

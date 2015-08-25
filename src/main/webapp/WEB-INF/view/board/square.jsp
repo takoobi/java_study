@@ -6,7 +6,7 @@
 
 <head>
 
-    <meta charset="UTF-8" />
+   <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>카페 - 소통의 공간</title>
@@ -28,20 +28,10 @@
 			font-size: 16px;
 		}
 	
-	.box{
-		width: 70px;
-		height: 30px;
-		background-color: #9cff2f;
-		margin: 0 10px;
-		float: left;
-		line-height: 25px;
-		text-align:s center;
-		font-size: 10px;
+	.selectTag{
+		background-color: #fff616 !important;
 	}
-	.select{
-		background-color: #fff616;
-	}
-	.outer-nav{
+	.post-dummy, .outer-nav{
 		display: none;
 	}
 	
@@ -75,25 +65,93 @@
 	nav {
 		margin-top:10px;
 	}
-	#list .post {
-		margin: 10px;
-	}
-	#list .post  .well{
-		padding: 0;
-	}
-	#list .post  .well p{
-		margin: 10px 19px;
+	#list .title{
+		margin-top:-10px;
+		white-space: pre-wrap;
+		word-break:break-all;
 	}
 	</style>
 
     
   <script>
   $(function(){
+		var data =[];
+		var nowpage;
 		
+		getList();	//해당 카테고리 처음엔 모든 글의 리스트 읽어옴
 		$('#showMenu').click(function(){
 			$('.outer-nav').show();
 		});
-	   
+	    $(".box").click(function(){    	
+	        if($(this).hasClass("selectTag")){
+	            $(this).removeClass("selectTag");
+	        } else{
+	            $(this).addClass("selectTag");
+	        }
+	        $(".box").each(function(){
+	        	if($(this).is(".selectTag")){
+	        		data.push($(this).text());
+	        	}
+	        });
+	        $('#list').html('');
+	        getList();
+	        data=[];
+	    });  
+	    
+	    function getList(){
+	    	$.get("../doList/1", { tags : data.toString()}, function(data){  
+	    		nowpage = data.page;
+                $.each(data.boardlist, function(index, item){
+                  bbsAppend(item);
+                });
+	        },'json');
+	    }
+	    
+	    var bbsAppend = function(data) {
+	    	console.log(data);
+            var node = $('.post-dummy').clone();
+            $('.title',node).append(data.title);
+            $('.nickname',node).append(data.nickname);
+            $('.date',node).append(data.create_date);
+            $('.hit',node).append(data.hit);
+            $.get('/LOVE/member/Info',{pk:data.member_pk},function(data){
+            	$('.nickname',node).append(data.nickname);
+            });
+            node.attr('href', '../detail/' + data.pk);
+            node.removeClass('post-dummy');
+            $('#list').append(node);
+        };   
+	    
+        $(window).scroll(function(){
+    	    if($(window).scrollTop() == $(document).height() - $(window).height()){
+    	    	$('div#loadmoreajaxloader').show();
+    			if(nowpage > 0){
+    				$.get("../doList/"+(nowpage+1)*1 , { tags : data.toString()}, function(data){
+    					if(data.boardlist.length > 0){
+    						nowpage=data.page;
+    						$.each(data.boardlist, function(index, item){
+    							bbsAppend(item);
+    		        });
+    						$('div#loadmoreajaxloader').hide();
+    					}else{
+    						$('div#loadmoreajaxloader').html('<center>더 이상 글이 없습니다.</center>');
+    						nowpage = -1;
+    					}                    
+        	  },'json');
+    			}
+    			
+    	    }
+    	});    
+        //수정해야댐
+      $('#pointCheck').click(function(e){   
+    	  var flag;
+    	  var nickname = $('#nickname').text();
+    	  $.get('/LOVE/member/pointCheck',{nickname:nickname},function(data){
+    		  if(data.result === "true"){
+    			  return false;
+    		  }
+    	  },'json');
+      })
 	});
   
   
@@ -131,15 +189,16 @@
 				      </ul>
 				      <form class="navbar-form navbar-left" role="search">
 				        <div class="form-group">
-				          <input type="text" class="form-control" placeholder="Search">
+				          <input type="text" class="form-control" placeholder="검색">
 				        </div>
 				        <button type="submit" class="btn btn-default fa fa-search"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
+				      	<li ><a id="pointCheck" href="/LOVE/board/write" >글쓰기</a></li>
 				        <li class="dropdown">
-				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
+				          <a href="#" id="nickname" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
 				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="/LOVE/member/modify">프로필</a></li>
+				            <li><a href="#">프로필</a></li>
 				            <li><a href="#">Another action</a></li>
 				            <li><a href="#">Something else here</a></li>
 				            <li class="divider"></li>
@@ -151,44 +210,34 @@
 				  </div><!-- /.container-fluid -->
 				</nav>		
 					
-				<div class="row" id="list">				
-					<c:forEach var="item" items="${result}">
-					<div class="col-md-3 ">
-						<div class="post">
-							<a  href="list/${item.key}">
-								<h3>
-								<c:choose>
-									<c:when test="${item.key == 'cafe' }">카페</c:when>
-									<c:when test="${item.key == 'military' }">군대</c:when>
-									<c:when test="${item.key == 'penthouse' }">옥탑방</c:when>
-									<c:when test="${item.key == 'school' }">학교</c:when>
-									<c:when test="${item.key == 'bar' }">선술집</c:when>
-								</c:choose>
-								</h3>
-							</a>
-							<div class="well" >
-							<c:forEach var="list" items="${item.value }">								
-								<p><a href="detail/${list.pk }">
-									<span class="create">${list.create_date }</span>
-									<span class="title">${list.title}</span>									
-								</a></p>
-							</c:forEach>		
-							</div>												
-						</div>
+				<div class="row" >
+					<div class="col-md-12 well">
+							<c:forEach var="tag" items="${taglist }">								
+								<button class="btn btn-primary box">${tag }</button>
+							</c:forEach>					
 					</div>
-					</c:forEach>									
+					<div id="list"></div>
 				</div>
+				<a class="col-md-3 post-dummy " href="#">
+					<div class="well" >
+						<h2 class="title"></h2>
+						<p class="nickname"></p>
+						<p class="date"></p>
+						<p class="hit"></p>
+					</div>
+				</a>				
+					
 				<div id="loadmoreajaxloader" style="display:none;"><center><img src="../img/ajax-loader.gif" /></center></div>
 			</div><!-- wrapper -->
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
 			<a href="/LOVE" class="icon-home">홈</a>
-			<a href="square" class="icon-news">광장</a>
-			<a href="list/cafe" class="icon-image">카페</a>
-			<a href="list/bar" class="icon-upload">선술집</a>
-			<a href="list/school" class="icon-star">학교</a>
-			<a href="list/penthouse" class="icon-mail">옥탑방</a>
-			<a href="list/military" class="icon-lock">군대</a>
+			<a href="../square" class="icon-news">광장</a>
+			<a href="cafe" class="icon-image">카페</a>
+			<a href="bar" class="icon-upload">선술집</a>
+			<a href="school" class="icon-star">학교</a>
+			<a href="penthouse" class="icon-mail">옥탑방</a>
+			<a href="military" class="icon-lock">군대</a>
 		</nav>
 	</div><!-- /perspective -->
 	<script src="../js/classie.js"></script>

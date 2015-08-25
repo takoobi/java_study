@@ -42,7 +42,8 @@ public class BoardMapper {
 	
 	//글쓰기 페이지
 	@RequestMapping("write")
-	public String writePage(){
+	public String writePage(Model model){
+		model.addAttribute("category", category);
 		return "board/write";
 	}
 	
@@ -111,7 +112,65 @@ public class BoardMapper {
 		return reply;		
 	}	
 	
-
+	@RequestMapping(value="gbUpdate", method=RequestMethod.GET)
+	@ResponseBody
+	public Object gbUpdate(@RequestParam("board_pk") int board_pk,
+			@RequestParam("status") String status,@RequestParam int member_pk,
+			@RequestParam("category") String category ){	
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("board_pk", board_pk);
+		data.put("member_pk", member_pk);
+		data.put("category", category);
+		data.put("status", status);
+		
+		if(boardDao.getMember_pkGB(data) == null){
+			if(category.equals("board")){
+				boardDao.gbUpdate(data);
+			} else {
+				boardDao.gbReply(data);
+			}
+			boardDao.gbInsert(data);
+			if(status.equals("good")){			
+				boardDao.goodUpdate(data);
+			} else {
+				boardDao.badUpdate(data);
+			}
+		} else {
+			if(category.equals("board")){
+				boardDao.gbUpdate(data);
+			} else {
+				boardDao.gbReply(data);
+			}
+			if(status.equals("good")){			
+				boardDao.goodUpdate(data);
+			} else {
+				boardDao.badUpdate(data);
+			}
+		};	
+				
+		
+		return null;
+	}
+	
+	@RequestMapping(value="gbCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public Object gbCheck(@RequestParam("board_pk") int board_pk,
+			@RequestParam("status") String status,@RequestParam int member_pk, 
+			@RequestParam("category") String category ){				
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("board_pk", board_pk);
+		data.put("member_pk", member_pk);
+		data.put("category", category);
+		data.put("status", status);
+		return boardDao.gbCheck(data);
+	}
+/*	create table goodbad(
+			board_pk number(10),
+			member_pk number(10),
+			category varchar2(10),	
+			good varchar2(5),
+			bad varchar2(5)
+		);*/
 	//글 상세보기
 	@RequestMapping(value="detail/{pk}", method=RequestMethod.GET)
 	public String boardView(@PathVariable("pk") int pk, Model model){
