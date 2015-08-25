@@ -184,11 +184,11 @@
 		<nav class="outer-nav right vertical">
 			<a href="/LOVE" class="icon-home">홈</a>
 			<a href="square" class="icon-news">광장</a>
-			<a href="cafe" class="icon-image">카페</a>
-			<a href="bar" class="icon-upload">선술집</a>
-			<a href="school" class="icon-star">학교</a>
-			<a href="penthouse" class="icon-mail">옥탑방</a>
-			<a href="military" class="icon-lock">군대</a>
+			<a href="list/cafe" class="icon-image">카페</a>
+			<a href="list/bar" class="icon-upload">선술집</a>
+			<a href="list/school" class="icon-star">학교</a>
+			<a href="list/penthouse" class="icon-mail">옥탑방</a>
+			<a href="list/military" class="icon-lock">군대</a>
 		</nav>
 	</div><!-- /perspective -->
 	<script src="../js/classie.js"></script>

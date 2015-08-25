@@ -81,8 +81,8 @@ select board_pk as pk from tags where name='고민';
 
 select * from
 		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date from
-		(select * from board where pk in 
-		(select board_pk from tags where name in ('고민')) order by create_date desc))
+		(select * from board b, member m where pk in
+		(select board_pk from tags where name in ('고민')) order by b.create_date desc) )
 		where rnum >= ((1-1)*10+1) and rnum <= (1*10);
 
 select pk,title,create_date from 

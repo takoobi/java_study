@@ -65,6 +65,11 @@
 	nav {
 		margin-top:10px;
 	}
+	#list .title{
+		margin-top:-10px;
+		white-space: pre-wrap;
+		word-break:break-all;
+	}
 	</style>
 
     
@@ -110,8 +115,7 @@
             $('.date',node).append(data.create_date);
             $('.hit',node).append(data.hit);
             $.get('/LOVE/member/Info',{pk:data.member_pk},function(data){
-            	alert(data);
-            	console.log(data);
+            	$('.nickname',node).append(data.nickname);
             });
             node.attr('href', '../detail/' + data.pk);
             node.removeClass('post-dummy');
@@ -144,7 +148,6 @@
     	  var nickname = $('#nickname').text();
     	  $.get('/LOVE/member/pointCheck',{nickname:nickname},function(data){
     		  if(data.result === "true"){
-    			  alert('ee');
     			  return false;
     		  }
     	  },'json');
@@ -191,7 +194,7 @@
 				        <button type="submit" class="btn btn-default fa fa-search"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
-				      	<li ><a id="pointCheck" href="/LOVE/board/write">글쓰기</a></li>
+				      	<li ><a id="pointCheck" href="/LOVE/board/write" >글쓰기</a></li>
 				        <li class="dropdown">
 				          <a href="#" id="nickname" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
 				          <ul class="dropdown-menu" role="menu">
@@ -229,7 +232,7 @@
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
 			<a href="/LOVE" class="icon-home">홈</a>
-			<a href="square" class="icon-news">광장</a>
+			<a href="../square" class="icon-news">광장</a>
 			<a href="cafe" class="icon-image">카페</a>
 			<a href="bar" class="icon-upload">선술집</a>
 			<a href="school" class="icon-star">학교</a>
