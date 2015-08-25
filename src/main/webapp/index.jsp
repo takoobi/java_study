@@ -101,6 +101,9 @@
                 			<a class="page-scroll">ID = ${sessionScope.email}</a>
                 		</li>
                 		<li>
+                			<a class="page-scroll">NICKNAME = ${sessionScope.nickname}</a>
+                		</li>
+                		<li>
                 			<a class="page-scroll" href="member/modify">회원정보수정</a>
                 		</li>
                 		<li>

@@ -188,7 +188,7 @@ public class MemberController {
 			String nickname = memberDao.getNickname(email);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:/board/square";
+			return "redirect:/index.jsp";
 		}else if(check==0){
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();
@@ -266,7 +266,22 @@ public class MemberController {
 	        transport.connect(host, username, password);
 	        transport.sendMessage(msg, msg.getAllRecipients());
 	        transport.close();
-			return "redirect:/url.jsp";
+	        
+	        // 임시 비밀번호 발송 팝업
+	     // 발송 확인 팝업창
+	        response.setContentType("text/html; charset=utf-8");
+	        String[] str = email.split("@");			
+			String emailResult = str[1];
+	        PrintWriter out=response.getWriter();	        
+	        	        
+			out.println("<script>");
+			out.println("alert('입력하신 이메일 주소로 임시비밀 번호가 발송되었습니다.');");
+			out.println("history.go(-2)");
+			out.println("window.open('http://www."+ emailResult +"', 'child', 'width=1000, height=500', true);");
+			out.println("</script>");
+			out.close();			
+	        
+			//return "redirect:/index.jsp";
 		} else{
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out=response.getWriter();

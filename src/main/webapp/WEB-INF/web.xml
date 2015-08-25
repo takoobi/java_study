@@ -8,6 +8,10 @@
 
     <display-name>LOVE</display-name>
     
+    <session-config>
+    	<session-timeout>30</session-timeout>
+    </session-config>
+    
     <!-- encoding filter  -->
     <filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
