@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>함께하는 공간, 힘이되는 공감!</title>
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -50,34 +50,53 @@ function validity_check(){
 </script>
 <style type="text/css">
 	.box{
-		width: 70px;
-		height: 30px;
-		background-color: #9cff2f;
-		margin: 0 10px;
-		float: left;
-		line-height: 25px;
-		text-align: center;
-		font-size: 10px;
+	    height: 70px;
+	    width: 70px;
+	    border-radius: 100%;
+	    margin: 20px auto;
+	    background: #fff;
+	    text-align: center;
+	    box-shadow: inset 0px 0px 15px rgba(0,0,0,0.3);
+	    border: 2px solid #fff;
+	    float: left;
+	    line-height: 65px;
+	    color: black;
 	}
 	.select{
 		background-color: #fff616;
 	}
+body{
+	background-image:url(${pageContext.request.contextPath}/resources/image/etc/etc1.jpg);
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-attachment: scroll;
+	background-position: 0 0; 
+	color: white;
+	font-weight: bold;
+}
+table{
+	margin: 0 auto;
+}
+#divBack{
+	position: absolute;
+	left: 70px;
+	top: 75px;
+}
 </style>
 </head>
 <body>
+<!-- 뒤로가기 -->
+<div id="divBack">
+	<button onclick="javascript:history.back()">뒤로가기</button>
+</div>
 <form action="writeAction" enctype="multipart/form-data" method="post" id="form">
-${param.category}
 <input type="hidden" value="${param.category}" name="category">
 <input type="hidden" id="tag" name="tag">
-
+<br>
 <table>
 	<tr>
-		<td>글쓴이</td>
-		<td><input type="text" name="email" id="email"  value="${sessionScope.email}"></td>
-	</tr>
-	<tr>
 		<td>제목</td>
-		<td><input type="text" name="title" id="title"></td>
+		<td><input type="text" name="title" id="title" placeholder="제목"></td>
 	</tr>
 	<tr>
 		<td>태그</td>
@@ -131,7 +150,7 @@ ${param.category}
 	</tr>
 	<tr>
 		<td>내용</td>
-		<td><textarea rows="25" cols="50" name="description" id="description"></textarea></td>
+		<td><textarea rows="25" cols="50" name="description" id="description" placeholder="내용"></textarea></td>
 	</tr>
 	<tr>
 		<td>이미지</td>

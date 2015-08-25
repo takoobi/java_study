@@ -121,4 +121,9 @@ public class BoardDAO {
 		hashMap.put("category", category);
 		return session.selectList("board.get_setCount_board", hashMap);
 	}
+
+	//닉네임 가져오기
+	public String getNickname(String email) {
+		return session.selectOne("board.getNickname", email);
+	}
 }
