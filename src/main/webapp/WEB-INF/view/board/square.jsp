@@ -139,11 +139,11 @@
 				        <li class="dropdown">
 				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
 				          <ul class="dropdown-menu" role="menu">
-				            <li><a href="#">프로필</a></li>
+				            <li><a href="/LOVE/member/modify">프로필</a></li>
 				            <li><a href="#">Another action</a></li>
 				            <li><a href="#">Something else here</a></li>
 				            <li class="divider"></li>
-				            <li><a href="#">로그아웃</a></li>
+				            <li><a href="/LOVE/member/logout">로그아웃</a></li>
 				          </ul>
 				        </li>
 				      </ul>

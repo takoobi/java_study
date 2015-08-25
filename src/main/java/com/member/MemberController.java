@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,8 +23,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -42,17 +38,20 @@ public class MemberController {
 	
 	//회원가입화면
 	@RequestMapping(value="/signupPage")
-	public String add(){
+	public String signupPage(){
 		return "member/register";
 	}
-	
-	
+	//회원가입화면
+	@RequestMapping(value="/add")
+	public String add(){
+		return "member/member_add";
+	}
 
 	//이메일중복확인
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/emailCheckAction")
 	public void emailCheckAction(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String email = request.getParameter("email");		
+		String email = request.getParameter("email");
 		
 		boolean result = memberDao.emailCheck(email);
 		PrintWriter out=response.getWriter();
@@ -81,44 +80,10 @@ public class MemberController {
 		
 		out.print(ob);
 	}
-	
-	//포인트 검색
-	@RequestMapping(value="/pointCheck", method=RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> pointCheck(@RequestParam("nickname") String nickname){
-		int point = memberDao.getPoint(nickname.trim());
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		if(point < 50){
-			result.put("result", "false");
-		} else {
-			result.put("result", "true");
-		}
-		return result;
-	}
-	
-	//닉네임 검색
-	@RequestMapping(value="/nicknameSearch")
-	@ResponseBody
-	public List<String> nicknameSearch(@RequestParam("nickname") String nickname){		
-		if(nickname.equals("")){
-			return null;
-		}else {
-			return memberDao.nicknameSearch(nickname);
-		}
-		
-	}
-	
-	//정보 검색
-	@RequestMapping(value="/Info")
-	@ResponseBody
-	public MemberBean memberInfo(@RequestParam("pk") String pk){		
-		return memberDao.memberInfo(pk);
-		
-	}
 
 	//회원추가하기
 	@RequestMapping(value="/addAction")
-	public String addAction(HttpServletRequest request) throws IllegalStateException, IOException{
+	public String addAction(HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException{
 		
 		MemberBean bean = new MemberBean();
 		bean.setEmail(request.getParameter("email"));
@@ -128,7 +93,17 @@ public class MemberController {
 		
 		memberDao.insert(bean);
 		
-		return "redirect:/";
+		PrintWriter out=response.getWriter();  
+		
+		response.setContentType("text/html; charset=utf-8");
+        out.println("<script>");
+        out.println("alert('회원가입이 완료되었습니다.');");
+        out.println("location.href='http://localhost:8088/LOVE/index.jsp'");
+        out.println("</script>");
+        out.close();   
+        
+        return null;
+		//return "redirect:/index.jsp";
 	}
 	
 	//회원정보수정화면
@@ -146,29 +121,44 @@ public class MemberController {
 		
 		request.setAttribute("OneData", one_data);
 		
-		return "member/member_modify";
+		return "member/profile";
 	}
 	
 	//회원정보수정하기
 	@RequestMapping(value="/modifyAction")
-	public String modifyAction(MultipartHttpServletRequest request) throws IllegalStateException, IOException{
+	public String modifyAction(MultipartHttpServletRequest request,HttpServletResponse response) throws IllegalStateException, IOException{
+		//선언 및 생성
 		MultipartFile multipartFile = request.getFile("image");
+		MemberBean bean = new MemberBean();
+		String savePath = request.getSession().getServletContext().getRealPath("/")+"resources/image/profile";
+		
+		//조건 처리
 		if(!multipartFile.isEmpty()){
-			File file = new File("C:\\Users\\kimkoonho\\Desktop\\uploadtest", multipartFile.getOriginalFilename());
+			File file = new File(savePath, multipartFile.getOriginalFilename());
 			multipartFile.transferTo(file);
+			bean.setImage(multipartFile.getOriginalFilename());
+		} else{
+			bean.setImage("original_image.jpg");
 		}
 		
-		MemberBean bean = new MemberBean();
+		//값 넣기
 		bean.setEmail(request.getParameter("email"));
 		bean.setPw(request.getParameter("pw"));
 		bean.setNickname(request.getParameter("nickname"));
-		bean.setImage(multipartFile.getOriginalFilename());
 		bean.setDescription(request.getParameter("description"));
 		bean.setGender(request.getParameter("gender"));
 		
+		//db처리
 		memberDao.update(bean);
 		
-		return "redirect:/url.jsp";		
+		//java파일에서 자바스크립트 사용하기
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter out=response.getWriter();	  
+        out.println("<script>");
+        out.println("alert('수정했습니다.');");
+        out.println("location.href='http://localhost:8088/LOVE/index.jsp'");
+        out.println("</script>");
+		return null;		
 	}
 	//회원탈퇴화면
 	@RequestMapping(value="/delete")
@@ -177,32 +167,24 @@ public class MemberController {
 	}
 	//회원탈퇴하기
 	@RequestMapping(value="/deleteAction")
-	public String deleteAction(HttpServletRequest request, HttpServletResponse response,HttpSession session){
+	public @ResponseBody Map<String, String> deleteAction(HttpServletRequest request, HttpServletResponse response,HttpSession session){
+		//선언 및 생성
+		Map<String, String> map = new HashMap<String,String>();
 		String email=(String)session.getAttribute("email");
-		String pw=request.getParameter("pw");
+		String pw=request.getParameter("inputPw");
 		
-		if(email==null){
-			return "redirect:/url.jsp";
-		}
-		try{
-			int check=memberDao.delete(email,pw);
-			
-			if(check==1){
-				session.invalidate();
-			}else{
-				response.setContentType("text/html; charset=euc-kr");
-				PrintWriter out = response.getWriter();
-				out.println("<script>");
-				out.println("alert('비밀번호가 맞지 않습니다.');");
-				out.println("history.go(-1);");
-				out.println("</script>");
-				out.close();
-			}
-		}catch(Exception e){
-			e.printStackTrace();
+		//db처리
+		int check=memberDao.delete(email,pw);
+		
+		//조건 처리
+		if(check==1){
+			session.invalidate();
+			map.put("result", "ok");
+		}else{
+			map.put("result", "no");
 		}
 				
-		return "redirect:/url.jsp";
+		return map;
 	}
 	
 	//로그인화면
@@ -212,45 +194,34 @@ public class MemberController {
 	}
 	//로그인하기
 	@RequestMapping(value="/loginAction")
-	public String loginAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
+	public @ResponseBody Map<String, String> loginAction(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException{
+		//선언 및 생성
+		Map<String, String> map = new HashMap<String, String>();
 		String email=request.getParameter("email");
 		String pw=request.getParameter("pw");
 
+		//db처리
 		int check=memberDao.loginCheck(email,pw);
+		
+		//조건 생성
 		if(check==1){
 			String nickname = memberDao.getNickname(email);
-			System.out.println("로그인성공");
-			memberDao.updatePoint("+10",nickname);
-			session.setAttribute("member_pk", memberDao.getPk(email));
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
-			return "redirect:../board/square";
+			map.put("result", "ok");
 		}else if(check==0){
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out=response.getWriter();
-			out.println("<script>");
-			out.println("alert('비밀번호가 일치하지 않습니다.');");
-			out.println("history.go(-1);");
-			out.println("</script>");
-			out.close();
+			map.put("result", "noPw");
 		}else{
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out=response.getWriter();
-			out.println("<script>");
-			out.println("alert('아이디가 존재하지 않습니다.');");
-			out.println("history.go(-1);");
-			out.println("</script>");
-			out.close();
+			map.put("result", "noId");
 		}
-		return null;
-		
+		return map;
 	}
 	
 	//로그아웃하기
 	@RequestMapping(value="/logout")
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/index.jsp";
 	}
 	
 	//비밀번호찾기화면
@@ -260,11 +231,17 @@ public class MemberController {
 	}
 	//비밀번호찾기
 	@RequestMapping(value="/findAction")
-	public String findAction(HttpServletRequest request, HttpServletResponse response) throws AddressException, MessagingException, IOException{
+	public @ResponseBody Map<String, String> findAction(HttpServletRequest request, HttpServletResponse response) throws AddressException, MessagingException, IOException{
+		//선언 및 생성
+		Map<String, String> map = new HashMap<String, String>();
+		
+		//받을 값
 		String email=request.getParameter("email");
-
+		
+		//db처리
 		String result=memberDao.find(email);
 		
+		//조건 생성
 		if(!result.equals("무존재")){
 	        //난수 발생
 	        int temporaryPassword=0;
@@ -302,16 +279,18 @@ public class MemberController {
 	        transport.connect(host, username, password);
 	        transport.sendMessage(msg, msg.getAllRecipients());
 	        transport.close();
-			return "redirect:/url.jsp";
+	        
+	        // 임시 비밀번호 발송 팝업
+	        String[] str = email.split("@");            
+            String emailResult = str[1];     
+
+	        //보낼 데이터 담기
+	        map.put("result", "ok");
+	        map.put("emailResult", emailResult);
+	        return map;
 		} else{
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out=response.getWriter();
-			out.println("<script>");
-			out.println("alert('등록된 이메일이 없습니다');");
-			out.println("history.go(-1)");
-			out.println("</script>");
-			out.close();
+			map.put("result", "no");
+			return map;
 		}
-		return null;
 	}
 }
