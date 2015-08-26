@@ -2,6 +2,7 @@ package com.board;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.member.MemberDAO;
 import com.model.BoardBean;
 import com.model.BoardFile;
 import com.model.Reply;
@@ -28,6 +30,7 @@ import java.util.Map;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -39,7 +42,8 @@ public class BoardMapper {
 
 	@Autowired
 	private BoardDAO boardDao;
-	
+	@Autowired
+	private MemberDAO memberDao;
 	//글쓰기 페이지
 	@RequestMapping("write")
 	public String writePage(Model model){
@@ -98,18 +102,30 @@ public class BoardMapper {
 		return "redirect:list/"+category;		
 	}
 	
+	
+	
+	@RequestMapping(value="goExile")
+	public String goExile(@RequestParam int board_pk, HttpServletResponse response) throws IOException{
+		boardDao.goExile(board_pk);		
+        return null;
+	}	
+	
 	//댓글달기
 	@RequestMapping(value="doReply", method=RequestMethod.POST)
 	@ResponseBody
 	public Object doReply(@RequestParam String content, @RequestParam int member_pk,
-			@RequestParam int board_pk){				
+			@RequestParam int board_pk, HttpSession session){
+		HashMap<String, Object> result = new HashMap<String, Object>();
 		Reply reply = new Reply();
 		reply.setBoard_pk(board_pk);
 		reply.setMember_pk(member_pk);
 		reply.setContent(content);
 		boardDao.replyInsert(reply);
 		
-		return reply;		
+		int pk = boardDao.getReplyPk();
+		result.put("reply", boardDao.getReplyOne(pk));
+		result.put("member", session.getAttribute("memberInfo"));
+		return result;		
 	}	
 	
 	@RequestMapping(value="gbUpdate", method=RequestMethod.GET)
@@ -122,7 +138,6 @@ public class BoardMapper {
 		data.put("member_pk", member_pk);
 		data.put("category", category);
 		data.put("status", status);
-		
 		if(boardDao.getMember_pkGB(data) == null){
 			if(category.equals("board")){
 				boardDao.gbUpdate(data);
@@ -164,24 +179,18 @@ public class BoardMapper {
 		data.put("status", status);
 		return boardDao.gbCheck(data);
 	}
-/*	create table goodbad(
-			board_pk number(10),
-			member_pk number(10),
-			category varchar2(10),	
-			good varchar2(5),
-			bad varchar2(5)
-		);*/
+
 	//글 상세보기
 	@RequestMapping(value="detail/{pk}", method=RequestMethod.GET)
 	public String boardView(@PathVariable("pk") int pk, Model model){
-		List<Object> list = new ArrayList<Object>();
-		boardDao.updateCount(pk);
-		BoardBean board = boardDao.getBoard(pk);
 		
-		list = boardDao.getReply(pk);
+		boardDao.updateCount(pk);
+		BoardBean board = boardDao.getBoard(pk);			
 		
 		model.addAttribute("board",board);
-		model.addAttribute("reply",list);
+		model.addAttribute("reply",boardDao.getReply(pk));
+		model.addAttribute("tags", boardDao.getDetailTag(pk));
+		model.addAttribute("category", category);
 		
 		return "board/detail";
 	}

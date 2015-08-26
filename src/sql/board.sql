@@ -7,25 +7,8 @@
 노래방 board_music
 방송국 board_broadcast
 
-
-create table board(
-	pk number(10) primary key,
-	title varchar2(50) not null,
-	description varchar2(1000) not null,
-	image varchar2(80),
-	good number(5) DEFAULT 0,
-	bad number(5) DEFAULT 0,
-	hit number(10) DEFAULT 0,
-	member_pk number(10),
-	category varchar2(10),
-	create_date date default sysdate,
-	foreign key(member_pk) references member(pk)
-);
-
-drop table board;
-
 create table member (
-  pk number(10) primary key,
+  pk number(20) primary key,
   email  VARCHAR2(20) not null,
   pw     VARCHAR2(20) not null,  
   nickname VARCHAR2(20) unique not null,
@@ -33,41 +16,65 @@ create table member (
   title VARCHAR2(30),
   description   VARCHAR2(100),
   gender VARCHAR2(1) CHECK (gender IN ('M', 'F')),
-  point number(5) DEFAULT 0,
+  point number(20) DEFAULT 0,
   create_date date default sysdate
 );
-
-
+create table board(
+	pk number(20) primary key,
+	title varchar2(50) not null,
+	description varchar2(1000) not null,
+	image varchar2(30),
+	good number(10) DEFAULT 0,
+	bad number(10) DEFAULT 0,
+	hit number(10) DEFAULT 0,
+	member_pk number(20),
+	category varchar2(10),
+	create_date date default sysdate,
+	foreign key(member_pk) references member(pk)
+);
 
 create table tags(
-	board_pk number(10),
-	member_pk number(10),
+	board_pk number(20),
+	member_pk number(20),
 	name varchar2(20),
 	category varchar2(20),
 	foreign key(member_pk) references member(pk)
 );
 
 create table reply(
-	board_pk number(10),
-	member_pk number(10),
+	pk number(20) primary key,
+	board_pk number(20),
+	member_pk number(20),
 	content varchar2(1000),
-	good number(5) default 0,
-	bad number(5) default 0,
+	good number(10) default 0,
+	bad number(10) default 0,
 	create_date date default sysdate
 );
-
 create table goodbad(
-	board_pk number(10),
-	member_pk number(10),
+	board_pk number(20),
+	member_pk number(20),
 	category varchar2(10),	
 	good varchar2(5) default 'false',
 	bad varchar2(5) default 'false'
 );
 
+
+drop table board;
+drop table tags;
+drop table reply;
+drop table member;
+drop table goodbad;
+
+
+
+select distinct name from tags where board_pk=42;
+
+update member set point=point+120000 where nickname='아이언맨';
+
 select * from goodbad;
 select bad from goodbad where member_pk=26;
 select member_pk from goodbad where member_pk=26 and category='reply';
-drop table goodbad;
+drop table member;
 select r.board_pk,nickname,image,content,good,bad,r.create_date from reply r,member m where r.board_pk=18 and r.member_pk=m.pk;
 select * from member ;
 select * from reply;
@@ -102,6 +109,6 @@ select title,create_date from
 		where rownum <= 10
 	select bad from goodbad where member_pk=26;
 
-create sequence board_seq start with 1 increment by 1 ;
+create sequence reply_seq start with 1 increment by 1 ;
 drop sequence board_seq;
 

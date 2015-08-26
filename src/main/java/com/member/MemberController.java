@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -23,6 +24,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -80,6 +82,40 @@ public class MemberController {
 		
 		out.print(ob);
 	}
+	
+	//포인트 검색
+	@RequestMapping(value="/pointCheck")
+	@ResponseBody
+	public Map<String, Object> pointCheck(@RequestParam("nickname") String nickname) {
+		int point = memberDao.getPoint(nickname.trim());
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		if(point < 50){
+			result.put("result", "false");
+		} else {
+			result.put("result", "true");
+		}
+		return result;
+	}
+	
+	//닉네임 검색
+	@RequestMapping(value="/nicknameSearch")
+	@ResponseBody
+	public List<String> nicknameSearch(@RequestParam("nickname") String nickname) {
+		if(nickname.equals("")){
+			return null;
+		} else {
+			return memberDao.nicknameSearch(nickname);
+		}
+	}
+	
+	//정보 검색
+	@RequestMapping(value="/Info")
+	@ResponseBody
+	public MemberBean memberInfo(@RequestParam("pk") int pk){
+		return memberDao.memberInfo(pk);
+	}
+	
+	
 
 	//회원추가하기
 	@RequestMapping(value="/addAction")
@@ -204,11 +240,16 @@ public class MemberController {
 		int check=memberDao.loginCheck(email,pw);
 		
 		//조건 생성
-		if(check==1){
+		if(check==1){			
+			int pk = (Integer)memberDao.getPk(email);
+			memberDao.updatePoint("+20", pk);
 			String nickname = memberDao.getNickname(email);
+			MemberBean member = new MemberBean();
+			member = memberDao.memberInfo(pk);
 			session.setAttribute("email", email);
 			session.setAttribute("nickname", nickname);
 			session.setAttribute("member_pk", (Integer)memberDao.getPk(email));
+			session.setAttribute("memberInfo", member);
 			map.put("result", "ok");
 		}else if(check==0){
 			map.put("result", "noPw");

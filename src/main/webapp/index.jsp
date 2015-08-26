@@ -298,7 +298,7 @@ function spanCancle(){
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a href="board/list/square" class="portfolio-box">
+                    <a href="board/square" class="portfolio-box">
                         <img src="${pageContext.request.contextPath}/resources/image/square/square0.jpg" class="img-responsive" alt="" style="height: 242px; width: 450px;border-radius:20px;">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">

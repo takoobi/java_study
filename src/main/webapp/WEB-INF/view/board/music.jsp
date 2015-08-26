@@ -57,7 +57,7 @@
 		width: 100%;
 		background-color: gray;
 		background-size: cover;
-		background-image:url('${pageContext.request.contextPath}/resources/image/bar/bar00.jpg');
+		background-image:url('${pageContext.request.contextPath}/resources/image/music/music00.jpg');
 		background-repeat:no-repeat;
 		background-attachment: fixed;
 		background-position: 0 0;

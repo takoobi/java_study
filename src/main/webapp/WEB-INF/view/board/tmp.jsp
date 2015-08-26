@@ -15,7 +15,6 @@
 	<script src="js/jquery.js"></script>
 	<!-- csstransforms3d-shiv-cssclasses-prefixed-teststyles-testprop-testallprops-prefixes-domprefixes-load --> 
 	<script src="js/modernizr.custom.25376.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script src="js/flat-ui.js"></script>
 
 	
@@ -43,13 +42,16 @@
 	left: 0;
 	right: 0;
 	top: 0;
-	opacity: 0.5;
+	opacity: 0.8;
 	z-index: -1;
 	}
 	.container {
 		width: 100%;
-		background-image: url('${pageContext.request.contextPath}/img/wallpaper.jpg');
-		background-size: cover;
+		hright:100%;
+		background-image:url('${pageContext.request.contextPath}/resources/image/etc/etc1.jpg');
+		background-repeat:no-repeat;
+		background-attachment: scroll;
+		background-position: 0 0; 
 	}
 	.effect-moveleft .outer-nav a  {
 		font-size: 30px;
@@ -70,7 +72,6 @@
 	}
 	#form .write{
 		margin-top: 20px;
-		margin-bottom:20px;
 	}
 	.tagbox p {
 		color: #bdc3c7;
@@ -78,10 +79,7 @@
 	}
 	.tagbox {
 		padding:10px;
-		background-color: #fff;
 	}
-	
-	
 	</style>
 </head>
 <body>
@@ -136,7 +134,7 @@
 				  </div><!-- /.container-fluid -->
 				</nav>		
 					
-				 <section class="row ">				 
+				 <section>				 
 				 <center>
 				 <h1>
 				 <c:choose>

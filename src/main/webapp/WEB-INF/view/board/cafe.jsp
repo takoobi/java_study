@@ -21,6 +21,9 @@
 	<script src="../js/flat-ui.js"></script>
 	
 	<style>
+		body{
+			overflow-y:scroll;
+		}
 		#theSidebar {
 			display: none;
 		}
@@ -47,13 +50,17 @@
 	left: 0;
 	right: 0;
 	top: 0;
-	opacity: 0.5;
+	opacity: 0.8;
 	z-index: -1;
 	}
 	.container {
 		width: 100%;
 		background-color: gray;
 		background-size: cover;
+		background-image:url('${pageContext.request.contextPath}/resources/image/cafe/cafe00.jpg');
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-position: 0 0;
 	}
 	.effect-moveleft .outer-nav a  {
 		font-size: 30px;
@@ -69,6 +76,26 @@
 		margin-top:-10px;
 		white-space: pre-wrap;
 		word-break:break-all;
+	}
+	
+	.ghost-button-transition {
+	  display: inline-block;
+	  width: 200px;
+	  padding: 8px;
+	  color: #fff;
+	  border: 2px solid #fff;
+	  text-align: center;
+	  outline: none;
+	  text-decoration: none;
+	  transition: background-color 0.2s ease-out,
+	              color 0.2s ease-out;
+	}
+	.ghost-button-transition:hover,
+	.ghost-button-transition:active {
+	  background-color: #fff;
+	  color: #000;
+	  transition: background-color 0.3s ease-in,
+	              color 0.3s ease-in;
 	}
 	</style>
 
@@ -218,7 +245,7 @@
 					</div>
 					<div id="list"></div>
 				</div>
-				<a class="col-md-3 post-dummy " href="#">
+				<a class="col-md-3 post-dummy bbs" href="#">
 					<div class="well" >
 						<h2 class="title"></h2>
 						<p class="nickname"></p>
@@ -238,6 +265,9 @@
 			<a href="school" class="icon-star">학교</a>
 			<a href="penthouse" class="icon-mail">옥탑방</a>
 			<a href="military" class="icon-lock">군대</a>
+			<a href="broarcast" class="icon-star">방송국</a>
+			<a href="music" class="icon-mail">노래방</a>
+			<a href="exile" class="icon-lock">유배지</a>
 		</nav>
 	</div><!-- /perspective -->
 	<script src="../js/classie.js"></script>

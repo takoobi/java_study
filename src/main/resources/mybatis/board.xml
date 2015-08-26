@@ -17,14 +17,6 @@
 		<result column="member_pk" property="member_pk"/>
 		<result column="create_date" property="create_date"/>		
 	</resultMap>
-	<resultMap type="Reply" id="replyMap">
-		<result column="board_pk" property="board_pk"/>
-		<result column="member_pk" property="member_pk"/>
-		<result column="content" property="content"/>
-		<result column="good" property="good"/>
-		<result column="bad" property="bad"/>		
-		<result column="create_date" property="create_date"/>		
-	</resultMap>
 	
 	
 	<insert id="insertBoard" parameterType="Board">
@@ -34,8 +26,8 @@
 	</insert>	
 	
 	<insert id="replyInsert" parameterType="Reply">
-		insert into reply (board_pk, member_pk, content)
-		values(#{board_pk}, #{member_pk}, #{content})
+		insert into reply (pk, board_pk, member_pk, content)
+		values(reply_seq.nextval, #{board_pk}, #{member_pk}, #{content})
 	</insert>
 	
 	<insert id="tagInsert" parameterType="com.model.Tag">
@@ -68,11 +60,16 @@
 		update reply set ${status}=${status}+1 where board_pk=#{board_pk}
 	</update>
 	
+	<!-- 유배지로 보내기 -->
+	<update id="goExile" parameterType="int">
+		update board set category='exile' where pk=#{pk}
+	</update>
+	
 	<select id="gbCheck" parameterType="map" resultType="string">
-		select ${status} from goodbad where member_pk=#{member_pk} and category=#{category}
+		select ${status} from goodbad where member_pk=#{member_pk} and category=#{category} and board_pk=#{board_pk}
 	</select>
 	<select  id="getMember_pkGB" parameterType="map" resultType="int">
-		select member_pk from goodbad where member_pk=#{member_pk} and category=#{category}
+		select member_pk from goodbad where member_pk=#{member_pk} and category=#{category} and board_pk=#{board_pk}
 	</select>
 	
 	<select  id="boardPkOfTag" parameterType="map" resultMap="boardMap">		
@@ -86,7 +83,7 @@
        			#{item}
   	</foreach>
   	<![CDATA[
-  		) order by create_date desc))
+  		) and category=#{category} order by create_date desc))
 		where rnum >= ((#{page}-1)*20+1) and rnum <= (#{page}*20)
 		]]>	 
 	</select>	
@@ -95,6 +92,9 @@
 	
 	<select id="getBoardPk" resultType="Integer">
 		select board_seq.currval from dual
+	</select>
+	<select id="getReplyPk" resultType="Integer">
+		select reply_seq.currval from dual
 	</select>
 	
 	
@@ -110,6 +110,10 @@
 	
 	<select id="getTagList" resultType="string">
 	 	select distinct name from tags where category=#{category}
+	</select>
+	
+	<select id="getDetailTag" parameterType="int" resultType="string">
+	 	select distinct name from tags where board_pk=#{board_pk}
 	</select>
 	
 	<select id="getCategory" resultType="string">
@@ -132,6 +136,10 @@
 		select nickname,image,content,good,bad,r.create_date 
 		from reply r,member m 
 		where r.board_pk=#{pk} and r.member_pk=m.pk
+	</select>
+	
+	<select id="getReplyOne" parameterType="int" resultType="Reply">
+		select * from reply where pk=#{pk}
 	</select>
 	
 	

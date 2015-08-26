@@ -93,7 +93,7 @@ public class MemberDAO {
 		return session.selectOne("member.getOneData", email);
 	}
 	
-	public MemberBean memberInfo(String pk){
+	public MemberBean memberInfo(int pk){
 		return session.selectOne("member.memberInfo", pk);
 	}
 
@@ -102,10 +102,10 @@ public class MemberDAO {
 		session.update("member.update2",bean);
 	}
 	
-	public void updatePoint(String point, String nickname){
+	public void updatePoint(String point, int pk){
 		HashMap<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put("point", point);
-		hashMap.put("nickname", nickname);
+		hashMap.put("pk", pk);
 		session.update("member.updatePoint",hashMap);
 		session.commit();
 	}

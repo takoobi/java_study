@@ -3,9 +3,16 @@ package com.model;
 import java.util.Date;
 
 public class Reply {
-	private int board_pk,member_pk, good, bad; 
+	private int board_pk,member_pk, good, bad,pk; 
 	private String content;
-	private Date create_date;
+	private String create_date;
+	public int getPk() {
+		return pk;
+	}
+	public void setPk(int pk) {
+		this.pk = pk;
+	}
+	
 	
 	public int getBoard_pk() {
 		return board_pk;
@@ -42,10 +49,10 @@ public class Reply {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getCreate_date() {
+	public String getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(Date create_date) {
+	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
 }

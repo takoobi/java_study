@@ -33,7 +33,17 @@ public class BoardDAO {
 	public int getBoardPk(){
 		return session.selectOne("getBoardPk");
 	}
+	public int getReplyPk(){
+		return session.selectOne("getReplyPk");
+	}
 	
+	public Reply getReplyOne(int pk){
+		return session.selectOne("getReplyOne", pk);
+	}
+	public void goExile(int pk){
+		session.update("goExile",pk);
+		session.commit();
+	}
 	public List<BoardBean> selectAll(){		
 		return session.selectList("selectAll");
 	}
@@ -100,6 +110,9 @@ public class BoardDAO {
 	
 	public String gbCheck(Map<String, Object> map){
 		return session.selectOne("gbCheck", map);
+	}
+	public List<String> getDetailTag(int board_pk){
+		return session.selectList("getDetailTag", board_pk);
 	}
 	
 }

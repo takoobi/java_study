@@ -20,6 +20,98 @@
 	<script src="${pageContext.request.contextPath}/js/modernizr.custom.25376.js"></script>
 	<script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
 	
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var num=0;
+			var backgroundNum=backgroundRandom();
+			switch ("${category}"){
+				case "cafe":
+					if(backgroundNum==1){
+						num=imageRandom(12);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/cafe/white/cafe"+num+".jpg')");
+					} else{
+						num=imageRandom(5);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/cafe/black/cafe"+num+".jpg')");
+					}		
+					break;
+				case "bar":
+					if(backgroundNum==1){
+						num=imageRandom(5);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/bar/white/bar"+num+".jpg')");
+					} else{
+						num=imageRandom(8);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/bar/black/bar"+num+".jpg')");
+					}	
+					break;
+				case "school":
+					if(backgroundNum==1){
+						num=imageRandom(9);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/school/white/school"+num+".jpg')");
+					} else{
+						num=imageRandom(10);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/school/black/school"+num+".jpg')");
+					}	
+					break;
+				case "penthouse":
+					if(backgroundNum==1){
+						num=imageRandom(8);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/penthouse/white/penthouse"+num+".jpg')");
+					} else{
+						num=imageRandom(2);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/penthouse/black/penthouse"+num+".jpg')");
+					}	
+					break;
+				case "military":
+					if(backgroundNum==1){
+						num=imageRandom(11);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/military/white/military"+num+".jpg')");
+					} else{
+						num=imageRandom(6);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/military/black/military"+num+".jpg')");
+					}	
+					break;
+				case "exile":
+					if(backgroundNum==1){
+						num=imageRandom(8);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/exile/white/exile"+num+".jpg')");
+					} else{
+						num=imageRandom(2);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/exile/black/exile"+num+".jpg')");
+					}	
+					break;
+				case "music":
+					if(backgroundNum==1){
+						num=imageRandom(8);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/music/white/music"+num+".jpg')");
+					} else{
+						num=imageRandom(10);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/music/black/music"+num+".jpg')");
+					}	
+					break;
+				case "broadcast":
+					if(backgroundNum==1){
+						num=imageRandom(7);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/broadcast/white/broadcast"+num+".jpg')");
+					} else{
+						num=imageRandom(5);
+						$(".container").css("background-image", "url('${pageContext.request.contextPath}/resources/image/broadcast/black/broadcast"+num+".jpg')");
+					}	
+					break;
+				}
+		});
+		//이미지 랜덤으로 뽑아주기
+		function imageRandom(number){
+			//랜덤함수, 1~number까지, 소수점 잘랐음.
+			return Math.floor(Math.random()*number+1); 
+		}
+		//이미지 랜덤으로 뽑아주는데 어두운 배경이면 폰트 색깔 흰색, 밝은 배경이면 폰트 색깔 검정색으로 하기 위한 함수
+		function backgroundRandom(){
+			//랜덤함수, 1~number까지, 소수점 잘랐음.
+			return Math.floor(Math.random()*2+1); 
+		}
+	</script>
+	
 	<style>
 		#showMenu > span {
 			font-size: 16px;
@@ -83,6 +175,13 @@
 		height:50px;
 		border-radius: 50px;
 		margin-right:10px;
+	}
+	
+	.reply-dummy {
+		display:none;
+	}
+	.tagbox{
+		margin-bottom:14px;
 	}
 	</style>
     <script>    
@@ -241,22 +340,29 @@
 					board_pk: tmp[tmp.length-1],
 					content: $('#reply .input').html() 
 			};
-			$.post('../doReply',datas, function(data){
+			$.post('../doReply',datas, function(data){	
 				console.log(data);
-				$('#reply .input').html(''); 
-				
-			},'json'); 
-			/* $.ajax({
-				type: "POST",
-				url: "doReply",
-				dataType: "json",
-				data: JSON.stringify(datas),
-				contentType: "application/json; charset=UTF-8",
-				success: function(data){
-					console.log(data);
-				}
-			}) */
+				$('#reply .input').html(''); 	
+				replyAppend(data);
+			},'json');
+			
 		});
+		
+		
+		var replyAppend = function(data) {
+        var node = $('.reply-dummy').clone();
+        $('.profile',node).attr('src', '/LOVE/upload/'+data.member.image);
+        $('.nickname',node).append(data.member.nickname);
+        $('.date',node).append(data.reply.create_date);
+        $('.content',node).append(data.reply.content);
+        $('.good .var',node).append(data.reply.good);
+        $('.bad .var',node).append(data.reply.bad);
+        node.removeClass('reply-dummy');
+        $('#reply .reply-content').append(node);
+    };
+		
+		
+		
 		$('#content .gb').click(function(){
 			var tmp = location.pathname.split('/');
 			var value = $(this).attr('value');
@@ -295,7 +401,6 @@
 		});
 		function gbReply(datas, value){
 			$.get('../gbUpdate',datas,function(data){
-				alert(value);
 				if(value === 'good'){
 					var cnt = $('#reply .good span').text();
 					$('#reply .good span').text(cnt*1+1);
@@ -307,13 +412,20 @@
 		}
 		function gbUpdate(datas, value){
 			$.get('../gbUpdate',datas,function(data){
-				alert(value);
 				if(value === 'good'){
 					var cnt = $('#content .good span').text();
 					$('#content .good span').text(cnt*1+1);
 				}else if(value === 'bad'){
 					var cnt = $('#content .bad span').text();
 					$('#content .bad span').text(cnt*1+1);
+					//유배지로 보내기 위한 수치  = 2
+					if($('#content .bad span').text()*1 > 1){
+						var tmp = location.pathname.split('/');
+						$.get('../goExile',{board_pk:tmp[tmp.length-1]}, function(data){
+							alert('이 글은 비공감이 많아 유배지로 보냅니다.');
+							location.href='http://localhost:8088/LOVE/board/square';
+						});
+					}
 				}
 			});
 		}
@@ -340,11 +452,11 @@
 				      <div class="navbar-header">
 				        <a class="navbar-brand" href="/LOVE">
 				          <!-- <img alt="Brand" src="..."> -->
-				          감성천국
+				         	 감성천국
 				        </a>
 				      </div>
 				    </div>
-				
+
 				    <!-- Collect the nav links, forms, and other content for toggling -->
 				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				      <ul class="nav navbar-nav">
@@ -352,11 +464,12 @@
 				      </ul>
 				      <form class="navbar-form navbar-left" role="search">
 				        <div class="form-group">
-				          <input type="text" class="form-control" placeholder="Search">
+				          <input type="text" class="form-control" placeholder="검색">
 				        </div>
 				        <button type="submit" class="btn btn-default fa fa-search"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
+				     		<li ><a id="pointCheck" href="/LOVE/board/write" >글쓰기</a></li>
 				        <li class="dropdown">
 				        	<span id="member_pk">${ sessionScope.member_pk }</span>
 				          <a href="#" class="dropdown-toggle" id="nickname" data-toggle="dropdown" role="button" aria-expanded="false">${sessionScope.nickname} <span class="caret"></span></a>
@@ -377,7 +490,12 @@
 					
 						<article id="content" class="well">
 							<h1>${ board.title }</h1>
-							<div>${board.description }</div>
+							<div class="tagbox">
+								<c:forEach var="tag" items="${ tags }">
+									<div class="btn btn-primary">${tag }</div>
+								</c:forEach>
+							</div>
+							<div class="desc well">${board.description }</div>
 							<button class="btn btn-info gb good" value="good"><span>${board.good }</span>&nbsp&nbsp공감</button>
 							<button class="btn btn-danger gb bad" value="bad"><span>${board.bad }</span>&nbsp&nbsp비공감</button>
 						</article>	
@@ -386,14 +504,25 @@
 						
 							<div class="reply-content">
 								<c:forEach var="item" items="${reply}">									
-									<div class="well">
-									  
+									<div class="well">									  
 										<p><img class="profile" src="/LOVE/upload/${item.IMAGE }" alt="프사" />${item.NICKNAME } <span>${item.CREATE_DATE }</span></p>
 										<div class="well content">${item.CONTENT }</div>
 										<button class="btn btn-info gb good" value="good"><span>${item.GOOD }</span>&nbsp&nbsp공감</button>
 										<button class="btn btn-danger gb bad" value="bad"><span>${item.BAD }</span>&nbsp&nbsp비공감</button>
 									</div>
 								</c:forEach>
+							</div>
+							
+							
+							<div class="well reply-dummy">									  
+								<p>
+									<img class="profile" src="/LOVE/upload/${item.IMAGE }" alt="프사" />
+									<span class="nickname">${item.NICKNAME }</span> 
+									<span class="date">${item.CREATE_DATE }</span>
+								</p>
+								<div class="well content">${item.CONTENT }</div>
+								<button class="btn btn-info gb good" value="good"><span class="var">${item.GOOD }</span>&nbsp&nbsp공감</button>
+								<button class="btn btn-danger gb bad" value="bad"><span class="var">${item.BAD }</span>&nbsp&nbsp비공감</button>
 							</div>
 							
 							
