@@ -58,6 +58,13 @@ create table goodbad(
 	bad varchar2(5) default 'false'
 );
 
+create table notice(
+	board_pk number(20),
+	nickname varchar2(20),
+	content varchar2(1000)
+)
+
+drop table notice;
 
 drop table board;
 drop table tags;
@@ -69,7 +76,7 @@ drop table goodbad;
 
 select distinct name from tags where board_pk=42;
 
-update member set point=point+120000 where nickname='아이언맨';
+update member set image='ironman.jpg' where nickname='아이언맨';
 
 select * from goodbad;
 select bad from goodbad where member_pk=26;

@@ -81,7 +81,10 @@
 		background-color: #fff;
 	}
 	
-	
+	#showMenu,
+	.navbar-default .navbar-brand {
+	 	color:#f05f40;
+	}
 	</style>
 </head>
 <body>

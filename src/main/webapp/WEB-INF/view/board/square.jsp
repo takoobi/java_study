@@ -9,7 +9,7 @@
     <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>카페 - 소통의 공간</title>
+	<title>광장</title>
 	<link rel="stylesheet" href="../css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="../css/flat-ui.css" />
 	<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.3.0/css/font-awesome.min.css" />	
@@ -67,7 +67,7 @@
 		width: 100%;
 		background-color: gray;
 		background-size: cover;
-		background-image:url('${pageContext.request.contextPath}/resources/image/square/square0.jpg');
+		background-image:url('${pageContext.request.contextPath}/resources/image/square/광장.jpg');
 		background-repeat:no-repeat;
 		background-attachment: fixed;
 		background-position: 0 0;
@@ -93,6 +93,45 @@
 	}
 	#list .create{
 		margin-right:10px;
+	}
+	
+	.bbs{
+		background-color: rgba(208, 204, 164, 0.51);
+		color:#34495e;
+		border: 1px solid #f5f5f5;
+		text-align: center;
+	  outline: none;
+	  text-decoration: none;
+	  transition: background-color 0.2s ease-out,
+	              color 0.2s ease-out;
+	}
+		
+	.bbs:hover,
+	.bbs:active {
+	  background-color: rgba(205, 245, 207, 0.7);
+	  color: #f05f40;
+	  transition: background-color 0.3s ease-in,
+	              color 0.3s ease-in;
+	}
+	#showMenu,
+	.navbar-default .navbar-brand {
+	 	color:#f03e28;
+	}
+	.taglist, .searchbtn, .searchform, .navbar-default {
+		background-color: rgba(208, 204, 164, 0.51);
+	}
+	.search input[placeholder],  .search [placeholder], .search *[placeholder]{
+		color:#34495e !important;
+	}
+	.searchbtn:hover{
+		background-color: #48c9b0;
+	}
+	.taglist {
+		width:100%;
+		border:0;
+	}
+	.box {
+		background-color: rgba(72, 201, 176, 0.51);
 	}
 	</style>
 
@@ -139,11 +178,11 @@
 				      <ul class="nav navbar-nav">
 				        <li><a href="#" id="showMenu" class="fa fa-car fa-4x"></a></li>			        			        
 				      </ul>
-				      <form class="navbar-form navbar-left" role="search">
+				      <form class="navbar-form navbar-left search" role="search">
 				        <div class="form-group">
-				          <input type="text" class="form-control" placeholder="검색">
+				          <input type="text" class="form-control searchform" placeholder="검색">
 				        </div>
-				        <button type="submit" class="btn btn-default fa fa-search"></button>
+				        <button type="submit" class="btn btn-default fa fa-search searchbtn"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
 				        <li class="dropdown">

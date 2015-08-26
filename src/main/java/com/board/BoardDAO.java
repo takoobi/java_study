@@ -40,6 +40,11 @@ public class BoardDAO {
 	public Reply getReplyOne(int pk){
 		return session.selectOne("getReplyOne", pk);
 	}
+	
+	public void insertNotice(String nickname){
+		session.insert("insertNotice", nickname);
+		session.commit();
+	}
 	public void goExile(int pk){
 		session.update("goExile",pk);
 		session.commit();

@@ -114,7 +114,7 @@ public class BoardMapper {
 	@RequestMapping(value="doReply", method=RequestMethod.POST)
 	@ResponseBody
 	public Object doReply(@RequestParam String content, @RequestParam int member_pk,
-			@RequestParam int board_pk, HttpSession session){
+			@RequestParam int board_pk,@RequestParam String nicknames, HttpSession session){
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		Reply reply = new Reply();
 		reply.setBoard_pk(board_pk);

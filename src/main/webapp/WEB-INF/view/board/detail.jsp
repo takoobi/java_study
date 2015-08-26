@@ -180,8 +180,29 @@
 	.reply-dummy {
 		display:none;
 	}
-	.tagbox{
+	.taglist{
 		margin-bottom:14px;
+	}
+	
+	#showMenu,
+	.navbar-default .navbar-brand {
+	 	color:#f05f40;
+	}
+	.well, .searchbtn, .searchform, .navbar-default {
+		background-color: rgba(208, 204, 164, 0.51);
+	}
+	.search input[placeholder],  .search [placeholder], .search *[placeholder]{
+		color:#34495e !important;
+	}
+	.searchbtn:hover{
+		background-color: #48c9b0;
+	}
+	.taglist {
+		width:100%;
+		border:0;
+	}
+	.box {
+		background-color: rgba(72, 201, 176, 0.51);
 	}
 	</style>
     <script>    
@@ -219,6 +240,7 @@
     
     'use strict';
 	var datas;
+	var nicknames=[];
 	
 	$(function(){
 		var TRIGGER = '@'
@@ -282,8 +304,11 @@
 					var selectEl = $('a:eq('+SELECT_POS+')', LIST),
 						html = '<a class="editor-link" contenteditable="false" href="#">' + selectEl.text() + '</a> ';
 					initList();
+					
+					nicknames.push(selectEl.text());
+					
 					EDITOR.html(EDITOR.html().replace(TRIGGER + QUERY, html));
-					setEndOfContenteditable(EDITOR.get(0));
+					setEndOfContenteditable(EDITOR.get(0));					
 					return false;
 					// EDITOR.click();
 				}
@@ -335,10 +360,12 @@
 		
 		$('#reply .submit').click(function(){
 			var tmp = location.pathname.split('/');			//board pk 얻기
+			console.log(nicknames);
 			var datas = {
 					member_pk:$('#member_pk').text(),
 					board_pk: tmp[tmp.length-1],
-					content: $('#reply .input').html() 
+					content: $('#reply .input').html(),
+					nicknames:nicknames.toString()
 			};
 			$.post('../doReply',datas, function(data){	
 				console.log(data);
@@ -462,11 +489,11 @@
 				      <ul class="nav navbar-nav">
 				        <li><a href="#" id="showMenu" class="fa fa-car fa-4x"></a></li>			        			        
 				      </ul>
-				      <form class="navbar-form navbar-left" role="search">
+				      <form class="navbar-form navbar-left search" role="search">
 				        <div class="form-group">
-				          <input type="text" class="form-control" placeholder="검색">
+				          <input type="text" class="form-control searchform" placeholder="검색">
 				        </div>
-				        <button type="submit" class="btn btn-default fa fa-search"></button>
+				        <button type="submit" class="btn btn-default fa fa-search searchbtn"></button>
 				      </form>
 				      <ul class="nav navbar-nav navbar-right">
 				     		<li ><a id="pointCheck" href="/LOVE/board/write" >글쓰기</a></li>
@@ -490,9 +517,9 @@
 					
 						<article id="content" class="well">
 							<h1>${ board.title }</h1>
-							<div class="tagbox">
+							<div class="taglist">
 								<c:forEach var="tag" items="${ tags }">
-									<div class="btn btn-primary">${tag }</div>
+									<div class="btn btn-primary box">${tag }</div>
 								</c:forEach>
 							</div>
 							<div class="desc well">${board.description }</div>
@@ -516,13 +543,13 @@
 							
 							<div class="well reply-dummy">									  
 								<p>
-									<img class="profile" src="/LOVE/upload/${item.IMAGE }" alt="프사" />
-									<span class="nickname">${item.NICKNAME }</span> 
-									<span class="date">${item.CREATE_DATE }</span>
+									<img class="profile" src="/LOVE/upload/" alt="프사" />
+									<span class="nickname"></span> 
+									<span class="date"></span>
 								</p>
-								<div class="well content">${item.CONTENT }</div>
-								<button class="btn btn-info gb good" value="good"><span class="var">${item.GOOD }</span>&nbsp&nbsp공감</button>
-								<button class="btn btn-danger gb bad" value="bad"><span class="var">${item.BAD }</span>&nbsp&nbsp비공감</button>
+								<div class="well content"></div>
+								<button class="btn btn-info gb good" value="good"><span class="var"></span>&nbsp&nbsp공감</button>
+								<button class="btn btn-danger gb bad" value="bad"><span class="var"></span>&nbsp&nbsp비공감</button>
 							</div>
 							
 							
@@ -544,13 +571,16 @@
 			</div><!-- wrapper -->
 		</div><!-- /container -->
 		<nav class="outer-nav right vertical">
-			<a href="#" class="icon-home">홈</a>
-			<a href="#" class="icon-news">광장</a>
-			<a href="#" class="icon-image">카페</a>
-			<a href="#" class="icon-upload">선술집</a>
-			<a href="#" class="icon-star">학교</a>
-			<a href="#" class="icon-mail">옥탑방</a>
-			<a href="#" class="icon-lock">군대</a>
+			<a href="/LOVE" class="icon-home">홈</a>
+			<a href="../sqaure" class="icon-news">광장</a>
+			<a href="../list/cafe" class="icon-image">카페</a>
+			<a href="../list/bar" class="icon-upload">선술집</a>
+			<a href="../list/school" class="icon-star">학교</a>
+			<a href="../list/penthouse" class="icon-mail">옥탑방</a>
+			<a href="../list/military" class="icon-lock">군대</a>
+			<a href="../list/broarcast" class="icon-star">방송국</a>
+			<a href="../list/music" class="icon-mail">노래방</a>
+			<a href="../list/exile" class="icon-lock">유배지</a>
 		</nav>
 	</div><!-- /perspective -->
 	<script src="${pageContext.request.contextPath}/js/classie.js"></script>

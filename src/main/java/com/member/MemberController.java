@@ -134,7 +134,7 @@ public class MemberController {
 		response.setContentType("text/html; charset=utf-8");
         out.println("<script>");
         out.println("alert('회원가입이 완료되었습니다.');");
-        out.println("location.href='http://localhost:8088/LOVE/index.jsp'");
+        out.println("location.href='http://192.168.0.7:8088/LOVE/'");
         out.println("</script>");
         out.close();   
         
