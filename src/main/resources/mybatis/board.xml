@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+	
+	<resultMap type="Board" id="boardMap">
+		<result column="pk" property="pk"/>
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="image" property="image"/>
+		<result column="good" property="good"/>
+		<result column="bad" property="bad"/>
+		<result column="hit" property="hit"/>
+		<result column="category" property="category"/>
+		<result column="member_pk" property="member_pk"/>
+		<result column="create_date" property="create_date"/>		
+	</resultMap>
+	
+	
+	<insert id="insertBoard" parameterType="Board">
+		insert into board
+		(pk, title, description, create_date, category, member_pk) 
+		 values(board_seq.nextval, #{title}, #{description}, sysdate, #{category}, #{member_pk})	
+	</insert>	
+	
+	<insert id="replyInsert" parameterType="Reply">
+		insert into reply (pk, board_pk, member_pk, content)
+		values(reply_seq.nextval, #{board_pk}, #{member_pk}, #{content})
+	</insert>
+	
+	<insert id="tagInsert" parameterType="com.model.Tag">
+		insert into tags values (#{board_pk}, #{member_pk}, #{name}, #{category})
+	</insert>
+
+	
+	<update id="updateCount" parameterType="int">
+		update board set hit=hit+1 where pk=#{board_pk}
+	</update>
+	
+	<!-- 공감 비공감 삽입 -->
+	<insert id="gbInsert" parameterType="map">
+		insert into goodbad (board_pk, member_pk, category) 
+		values (#{board_pk}, #{member_pk}, #{category})
+	</insert>
+	
+	<update id="badUpdate" parameterType="map">
+		update goodbad set bad='true' where member_pk=#{member_pk} and category=#{category}
+	</update>
+	<update id="goodUpdate" parameterType="map">
+		update goodbad set good='true' where member_pk=#{member_pk} and category=#{category}
+	</update>
+	
+	<!-- 공감 비공감 업데이트 -->
+	<update id="gbUpdate" parameterType="map">
+		update board set ${status}=${status}+1 where pk=#{board_pk}
+	</update>
+	<update id="gbReply" parameterType="map">
+		update reply set ${status}=${status}+1 where board_pk=#{board_pk}
+	</update>
+	
+	<!-- 유배지로 보내기 -->
+	<update id="goExile" parameterType="int">
+		update board set category='exile' where pk=#{pk}
+	</update>
+	
+	<select id="gbCheck" parameterType="map" resultType="string">
+		select ${status} from goodbad where member_pk=#{member_pk} and category=#{category} and board_pk=#{board_pk}
+	</select>
+	<select  id="getMember_pkGB" parameterType="map" resultType="int">
+		select member_pk from goodbad where member_pk=#{member_pk} and category=#{category} and board_pk=#{board_pk}
+	</select>
+	
+	<select  id="boardPkOfTag" parameterType="map" resultMap="boardMap">		
+		<![CDATA[
+		select * from
+		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date,member_pk from
+		(select * from board where pk in 
+		(select board_pk from tags where name in]]> 
+		<foreach item="item" index="index" collection="tags"
+      		open="(" separator="," close=")">
+       			#{item}
+  	</foreach>
+  	<![CDATA[
+  		) and category=#{category} order by create_date desc))
+		where rnum >= ((#{page}-1)*20+1) and rnum <= (#{page}*20)
+		]]>	 
+	</select>	
+	
+	
+	
+	<select id="getBoardPk" resultType="Integer">
+		select board_seq.currval from dual
+	</select>
+	<select id="getReplyPk" resultType="Integer">
+		select reply_seq.currval from dual
+	</select>
+	
+	
+	
+	<select id="boardList"  parameterType="map"  resultMap="boardMap">
+	    <![CDATA[
+		select * from
+		(select rownum rnum,pk,title,description,image,good,bad,hit,create_date,member_pk from
+		(select * from board where category=#{category} order by create_date desc))
+		where rnum >= ((#{page}-1)*20+1) and rnum <= (#{page}*20)
+		]]>	 	
+	</select>
+	
+	<select id="getTagList" resultType="string">
+	 	select distinct name from tags where category=#{category}
+	</select>
+	
+	<select id="getDetailTag" parameterType="int" resultType="string">
+	 	select distinct name from tags where board_pk=#{board_pk}
+	</select>
+	
+	<select id="getCategory" resultType="string">
+	 	select distinct category from board
+	</select>
+	
+	<select id="getBoard" resultMap="boardMap" parameterType="int">
+		select * from board where pk=#{pk}
+	</select>	
+	
+	<select id="recentBoard" resultMap="boardMap" parameterType="string" >
+	<![CDATA[
+		select pk,title,create_date from 
+		(select rownum,pk,title, create_date from board where category=#{category} order by create_date desc)
+		where rownum <= 10
+	]]>	
+	</select>
+	
+	<select id="getReply" parameterType="int" resultType="map">
+		select nickname,image,content,good,bad,r.create_date 
+		from reply r,member m 
+		where r.board_pk=#{pk} and r.member_pk=m.pk
+	</select>
+	
+	<select id="getReplyOne" parameterType="int" resultType="Reply">
+		select * from reply where pk=#{pk}
+	</select>
+	
+	
+</mapper>

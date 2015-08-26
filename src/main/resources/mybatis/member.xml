@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	<!-- 이메일중복확인 -->
+	<select id="emailCheck" parameterType="String" resultType="int">
+		select count(*) from member where email=#{email}
+	</select>
+	
+	<!-- 닉네임중복확인 -->
+	<select id="nicknameCheck" parameterType="String" resultType="int">
+		select count(*) from member where nickname=#{nickname}
+	</select>
+	
+	<!-- 비밀번호찾기 -->
+	<select id="find" parameterType="String" resultType="int">
+		select count(*) from member where email=#{email}
+	</select>
+	
+	<select id="getPk" resultType="int">
+		select pk from member where email=#{email}
+	</select>
+	
+	<!-- 회원정보수정 -->
+	<update id="update" parameterType="member">
+		update member set pw=#{pw}, nickname=#{nickname}, image=#{image}, description=#{description}, gender=#{gender} where email=#{email}
+	</update>
+	
+	
+	<!-- 로그인체크 -->
+	<select id="loginCheck" parameterType="String" resultType="String"> 
+		select pw from member where email=#{email}
+	</select>
+	
+	<!-- 한 명의 데이터 -->
+	<select id="getOneData" parameterType="String" resultType="member">
+		select * from member where email=#{email}
+	</select>
+	<select id="memberInfo" parameterType="int" resultType="member">
+		select * from member where pk=#{pk}
+	</select>
+	
+	<!-- 닉네임 가져오기 -->
+	<select id="getNickname" resultType="string">
+		select nickname from member where email=#{email}
+	</select>
+	
+	<!-- 회원 등록 -->
+	<insert id="insert" parameterType="member">
+		insert into member (pk,email,pw,nickname,title) values(member_seq.nextval,#{email},#{pw},#{nickname},#{title})
+	</insert>
+	
+	<!-- 회원 삭제 -->
+	<delete id="delete" parameterType="String">
+		delete from member where email=#{email}
+	</delete>
+	
+	<!-- 회원정보수정하기 -->
+	<update id="update2" parameterType="member">
+		update member set pw=#{pw}, nickname=#{nickname}, image=#{image}, description=#{description}, gender=#{gender}  where email=#{email}
+	</update>
+	
+	<!-- 임시비밀번호 설정 -->
+	<update id="temporaryPassword" parameterType="HashMap">
+		update member set pw=#{temporaryPassword} where email=#{email}
+	</update>
+	
+	<!-- 포인트 업데이트 -->
+	<update id="updatePoint" parameterType="map">
+		update member set point=point${point} where pk=#{pk}
+	</update>
+	
+	<!-- 닉네임 검색 -->
+	<select id="nicknameSearch" resultType="string">
+		select nickname from member where nickname like '%'||#{nickname}||'%'
+	</select>
+	
+	<select id="getPoint" resultType="int" parameterType="string">
+		select point from member where nickname=#{nickname}
+	</select>
+</mapper>
